@@ -1,0 +1,339 @@
+.races-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a2e 100%);
+    padding: 32px var(--grid);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.races-header {
+    background: linear-gradient(135deg, var(--secondary-light) 0%, var(--bg-light) 100%);
+    border: 2px solid var(--primary);
+    border-radius: 12px;
+    padding: 48px 40px;
+    margin-bottom: 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.races-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--primary), transparent); }
+
+.header-content h1 {
+    font-size: 48px;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, var(--primary), var(--accent-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.header-subtitle { color: var(--text-secondary); font-size: 16px; letter-spacing: 1px; }
+
+.races-section {
+    background: linear-gradient(135deg, var(--secondary-light) 0%, var(--bg-light) 100%);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 32px;
+    animation: slideDown 0.6s ease-out;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.event-selector { display: flex; align-items: center; gap: 16px; }
+
+.event-selector label {
+    font-weight: 600;
+    color: var(--primary);
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.event-dropdown {
+    flex: 1;
+    max-width: 400px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.event-dropdown:hover { border-color: var(--primary); background: rgba(255, 255, 255, 0.08); }
+
+.event-dropdown:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1); }
+
+.event-dropdown option { background: var(--secondary-light); color: var(--text-primary); }
+
+.event-info-panel { border: 2px solid var(--primary); }
+
+.event-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+}
+
+.event-info-header h2 {
+    font-size: 32px;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, var(--primary), var(--accent-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.event-dates { color: var(--text-secondary); font-size: 13px; }
+
+.event-meta { display: flex; gap: 32px; text-align: right; }
+
+.meta-item { display: flex; flex-direction: column; gap: 4px; }
+
+.meta-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.meta-value { font-size: 18px; font-weight: 700; color: var(--primary); }
+
+.prizes-section h3 {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.prizes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+
+.prize-card {
+    background: rgba(212, 175, 55, 0.05);
+    border: 1px solid var(--primary);
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.prize-card:hover { background: rgba(212, 175, 55, 0.1); transform: translateY(-4px); box-shadow: 0 12px 24px rgba(212, 175, 55, 0.2); }
+
+.prize-rank { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 12px; }
+
+.prize-amount { font-size: 24px; font-weight: 700; color: var(--accent-light); }
+
+.tabs-container {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+    border-bottom: 2px solid var(--border);
+}
+
+.tab-button {
+    padding: 14px 24px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.tab-button:hover { color: var(--primary); }
+
+.tab-button.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+.tab-content { display: none; animation: fadeInScale 0.4s ease-out; }
+
+.tab-content.active { display: block; }
+
+.standings-display { overflow-x: auto; }
+
+.standings-table-wrapper {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 32px;
+}
+
+.standings-table { width: 100%; border-collapse: collapse; }
+
+.standings-table thead { background: linear-gradient(90deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05)); border-bottom: 2px solid var(--primary); }
+
+.standings-table th {
+    padding: 18px 16px;
+    text-align: left;
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.standings-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.standings-table tbody tr {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.standings-table tbody tr:hover { background: rgba(212, 175, 55, 0.05); }
+
+.standings-table tbody tr:nth-child(1) { background: rgba(212, 175, 55, 0.1); border-left: 4px solid var(--primary); }
+
+.standings-table tbody tr:nth-child(2) { border-left: 4px solid #c0c0c0; }
+
+.standings-table tbody tr:nth-child(3) { border-left: 4px solid #cd7f32; }
+
+.standings-rank {
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--primary);
+    width: 50px;
+}
+
+.standings-table tbody tr:nth-child(2) .standings-rank { color: #c0c0c0; }
+
+.standings-table tbody tr:nth-child(3) .standings-rank { color: #cd7f32; }
+
+.standings-name { color: var(--text-primary); font-weight: 600; }
+
+.standings-score { color: var(--primary); font-weight: 700; text-align: center; }
+
+.standings-race-score { text-align: center; color: var(--accent-light); font-weight: 600; }
+
+.standings-race-score.dnf { color: var(--danger); }
+
+.team-members-inline { font-size: 12px; color: var(--text-secondary); }
+
+.races-results-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 24px; margin-top: 20px; }
+
+.race-result-card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.race-result-card:hover { border-color: var(--primary); background: rgba(212, 175, 55, 0.05); transform: translateY(-4px); }
+
+.race-result-header {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(255, 23, 68, 0.05));
+    border-bottom: 2px solid var(--primary);
+    padding: 20px;
+}
+
+.race-result-title { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+
+.race-result-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.race-result-body { padding: 20px; }
+
+.race-result-list { display: flex; flex-direction: column; gap: 12px; }
+
+.race-result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 4px;
+    border-left: 3px solid var(--border);
+    transition: all 0.3s ease;
+}
+
+.race-result-item:hover { background: rgba(212, 175, 55, 0.1); border-left-color: var(--primary); }
+
+.race-result-item.top3 { background: rgba(212, 175, 55, 0.1); border-left-color: var(--primary); }
+
+.result-position { font-weight: 800; font-size: 18px; color: var(--primary); width: 35px; text-align: center; }
+
+.result-detail {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin: 0 12px;
+}
+
+.result-driver { font-weight: 600; color: var(--text-primary); font-size: 13px; }
+
+.result-time { font-size: 11px; color: var(--text-secondary); }
+
+.result-points { font-weight: 700; font-size: 16px; color: var(--accent-light); text-align: right; min-width: 50px; }
+
+.empty-state {
+    text-align: center;
+    padding: 80px 32px;
+    background: linear-gradient(135deg, var(--secondary-light) 0%, var(--bg-light) 100%);
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    margin-top: 48px;
+}
+
+.empty-state h2 { font-size: 32px; margin-bottom: 16px; color: var(--primary); }
+
+.empty-state p { color: var(--text-secondary); font-size: 16px; }
+
+@media (max-width: 1024px) {
+    .event-info-header { flex-direction: column; gap: 24px; }
+    .event-meta { text-align: left; flex-direction: row; }
+    .races-results-container { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+    .races-container { padding: 16px 12px; }
+    .races-header { padding: 32px 24px; margin-bottom: 24px; }
+    .header-content h1 { font-size: 32px; }
+    .races-section { padding: 20px; margin-bottom: 20px; }
+    .event-selector { flex-direction: column; align-items: stretch; }
+    .event-dropdown { max-width: 100%; }
+    .prizes-grid { grid-template-columns: 1fr; }
+    .tab-button { padding: 12px 16px; font-size: 12px; }
+    .standings-table th, .standings-table td { padding: 12px 8px; font-size: 12px; }
+    .standings-rank { font-size: 16px; }
+    .standings-score { font-size: 14px; }
+}
+
+@media (max-width: 480px) {
+    .races-header { padding: 24px 16px; }
+    .header-content h1 { font-size: 24px; }
+    .races-section { padding: 16px; }
+    .standings-table { font-size: 12px; }
+    .standings-table th, .standings-table td { padding: 10px 6px; }
+    .standings-table th { font-size: 11px; }
+}
