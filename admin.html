@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grand Prix Admin Setup</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/deviyl/icon/refs/heads/main/devicon-modified.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <div id="adminPanel" class="admin-panel" style="display: none;">
+            <div class="admin-header">
+                <div>
+                    <h1>🏁 KFC Grand Prix Event Manager</h1>
+                    <p class="admin-subtitle" id="currentEventName">No active event</p>
+                </div>
+                <div class="admin-controls">
+                    <button id="clearApiBtn" class="btn btn-secondary">Clear API Key</button>
+                    <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+                </div>
+            </div>
+
+            <div class="admin-content">
+                    <div id="eventFormContainer" class="form-container" style="display: none;">
+                        <h3 id="eventFormTitle">Create New Event</h3>
+                        
+                        <form id="eventForm" class="event-form">
+                            <div class="form-group">
+                                <label for="eventName">Event Name</label>
+                                <input 
+                                    type="text" 
+                                    id="eventName" 
+                                    placeholder="e.g., KFC Grand Prix"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="numRaces">Number of Races</label>
+                                <input 
+                                    type="number" 
+                                    id="numRaces" 
+                                    min="1" 
+                                    max="20"
+                                    value="1"
+                                    required
+                                >
+                            </div>
+
+                            <div id="raceNamesContainer" class="race-names-grid">
+                    <div id="activeEventDisplay" class="event-display" style="display: none;">
+                        <h3>Active Event</h3>
+                        <div class="event-info">
+                            <div class="info-row">
+                                <span class="label">Event Name:</span>
+                                <span id="displayEventName" class="value"></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Status:</span>
+                                <select id="eventStatus" class="status-select">
+                                    <option value="setup">Setup</option>
+                                    <option value="in_progress">In Progress</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                            </div>
+                            <div class="info-row">
+                                <span class="label">Races:</span>
+                                <span id="displayNumRaces" class="value"></span>
+                            </div>
+                        </div>
+                        <div class="event-actions">
+                            <button id="editEventBtn" class="btn btn-secondary">Edit Event</button>
+                            <button id="deleteEventBtn" class="btn btn-danger">Delete Event</button>
+                        </div>
+                    </div>
+                </section>
+
+                    </div>
+
+                    <div id="playerError" class="error-message" style="display: none;"></div>
+                </section>
+
+                    </div>
+                </section>
+
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
