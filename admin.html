@@ -3,12 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grand Prix Admin Setup</title>
+    <title>KFC Grand Prix Admin Setup</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/deviyl/icon/refs/heads/main/devicon-modified.png">
     <link rel="stylesheet" href="admin.css">
 </head>
 <body>
     <div class="admin-container">
+        <div id="authPanel" class="auth-panel">
+            <div class="auth-card">
+                <h1>🏁 KFC Grand Prix Admin</h1>
+                <p class="auth-subtitle">Credentials Required</p>
+                
+                <form id="authForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="apiKey">Torn API Key (Minimal)</label>
+                        <input 
+                            type="password" 
+                            id="apiKey" 
+                            placeholder="Enter your minimal API key"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adminPassword">Admin Password</label>
+                        <input 
+                            type="password" 
+                            id="adminPassword" 
+                            placeholder="Enter admin password"
+                            required
+                        >
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Access Admin Panel</button>
+                    <div id="authError" class="error-message" style="display: none;"></div>
+                </form>
+            </div>
+        </div>
+
         <div id="adminPanel" class="admin-panel" style="display: none;">
             <div class="admin-header">
                 <div>
@@ -22,6 +54,14 @@
             </div>
 
             <div class="admin-content">
+                <section class="admin-section">
+                    <h2>Event Management</h2>
+                    
+                    <div class="event-controls">
+                        <button id="newEventBtn" class="btn btn-primary">Create New Event</button>
+                        <button id="loadEventBtn" class="btn btn-secondary">Load Existing Event</button>
+                    </div>
+
                     <div id="eventFormContainer" class="form-container" style="display: none;">
                         <h3 id="eventFormTitle">Create New Event</h3>
                         
@@ -48,7 +88,67 @@
                                 >
                             </div>
 
-                            <div id="raceNamesContainer" class="race-names-grid">
+                            <div id="raceNamesContainer" class="race-names-grid"></div>
+
+                            <fieldset class="form-section">
+                                <legend>Team Configuration</legend>
+                                <div class="form-group">
+                                    <label>
+                                        <input type="radio" name="teamMode" value="individual" checked>
+                                        Individual Players (No Teams)
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="teamMode" value="teams">
+                                        Team-Based Event
+                                    </label>
+                                </div>
+
+                                <div id="teamsContainer" style="display: none;">
+                                    <div class="form-group">
+                                        <label>Teams</label>
+                                        <div id="teamsList" class="teams-list"></div>
+                                        <button type="button" id="addTeamBtn" class="btn btn-secondary">+ Add Team</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-section">
+                                <legend>Prizes</legend>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="prize1st">1st Place Prize</label>
+                                        <input 
+                                            type="text" 
+                                            id="prize1st" 
+                                            placeholder="e.g., $1,000"
+                                        >
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prize2nd">2nd Place Prize</label>
+                                        <input 
+                                            type="text" 
+                                            id="prize2nd" 
+                                            placeholder="e.g., $500"
+                                        >
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="prize3rd">3rd Place Prize</label>
+                                        <input 
+                                            type="text" 
+                                            id="prize3rd" 
+                                            placeholder="e.g., $250"
+                                        >
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Save Event</button>
+                                <button type="button" id="cancelEventBtn" class="btn btn-secondary">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+
                     <div id="activeEventDisplay" class="event-display" style="display: none;">
                         <h3>Active Event</h3>
                         <div class="event-info">
@@ -76,15 +176,38 @@
                     </div>
                 </section>
 
+                <section class="admin-section">
+                    <h2>Players Management</h2>
+                    
+                    <div class="player-input-group">
+                        <input 
+                            type="number" 
+                            id="playerIdInput" 
+                            placeholder="Enter Torn Player ID"
+                            min="1"
+                        >
+                        <button id="addPlayerBtn" class="btn btn-primary">+ Add Player</button>
                     </div>
+
+                    <div id="playersContainer" class="players-grid"></div>
 
                     <div id="playerError" class="error-message" style="display: none;"></div>
                 </section>
 
+                <section class="admin-section">
+                    <h2>Race Results</h2>
+                    
+                    <div class="race-controls">
+                        <button id="fetchResultsBtn" class="btn btn-primary">🔄 Fetch Race Results</button>
+                        <span id="fetchStatus" class="status-text"></span>
                     </div>
+
+                    <div id="racesDisplay" class="races-display"></div>
                 </section>
 
-                    </div>
+                <section class="admin-section">
+                    <h2>Current Standings</h2>
+                    <div id="standingsDisplay" class="standings-display"></div>
                 </section>
             </div>
         </div>
