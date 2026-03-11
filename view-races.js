@@ -100,6 +100,26 @@ eventSelect.addEventListener('change', async (e) => {
     }
 });
 
+document.getElementById('refreshBtn').addEventListener('click', async () => {
+    const refreshBtn = document.getElementById('refreshBtn');
+    const originalText = refreshBtn.textContent;
+    refreshBtn.disabled = true;
+    refreshBtn.textContent = 'Refreshing...';
+    
+    try {
+        const selectedEvent = document.getElementById('eventSelect').value;
+        if (selectedEvent) {
+            const eventData = await fetchEventFromGitHub(selectedEvent);
+            displayEvent(eventData);
+        }
+    } catch (error) {
+        console.error('Error refreshing:', error);
+    } finally {
+        refreshBtn.disabled = false;
+        refreshBtn.textContent = originalText;
+    }
+});
+
 
 function displayEvent(eventData) {
     currentEventData = eventData;
