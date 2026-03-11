@@ -118,20 +118,21 @@ function applyManualScores(manualScores) {
     if (!eventManager.eventData) return;
 
     Object.entries(manualScores).forEach(([raceIndex, playerScores]) => {
-        const race = eventManager.eventData.races[parseInt(raceIndex)];
+        const raceIdx = parseInt(raceIndex);
+        const race = eventManager.eventData.races[raceIdx];
         if (!race) return;
 
-        playerScores.forEach(({ playerId, score }) => {
+        playerScores.forEach(({ playerId, score, position }) => {
             const player = eventManager.eventData.players.find(p => p.id === playerId);
             if (!player) return;
 
-            const existingResult = race.results.find(r => r.driver_id === playerId);
-            if (existingResult) {
-                existingResult.position = race.results.length + 1;
-            } else {
-                race.results.push({
-                    driver_id: playerId,
-                    position: race.results.length + 1,
+            const standing = eventManager.eventData.standings.individual.find(p => p.id === playerId);
+            if (standing) {
+                standing.totalScore += score;
+                standing.raceScores.push({
+                    race: raceIdx,
+                    position: position || playerScores.findIndex(p => p.playerId === playerId) + 1,
+                    score: score,
                 });
             }
         });
@@ -724,6 +725,7 @@ function setupEventManagement() {
                 playerScoreRow.style.alignItems = 'center';
                 playerScoreRow.innerHTML = `
                     <input type="number" placeholder="Player ID" class="player-id-input" style="flex:1;padding:8px;border:1px solid #d4af37;background:#1a1a1a;color:#fff;border-radius:4px;">
+                    <input type="number" placeholder="Position" class="player-position-input" style="flex:1;padding:8px;border:1px solid #d4af37;background:#1a1a1a;color:#fff;border-radius:4px;">
                     <input type="number" placeholder="Score" class="player-score-input" style="flex:1;padding:8px;border:1px solid #d4af37;background:#1a1a1a;color:#fff;border-radius:4px;">
                     <button type="button" class="btn btn-danger remove-score-btn" style="padding:6px 12px;font-size:12px;">✕</button>
                 `;
@@ -786,12 +788,21 @@ function setupEventManagement() {
             const raceIndex = parseInt(checkbox.dataset.raceIndex);
             const playerScores = [];
             const container = document.getElementById(`playerScoresContainer${raceIndex}`);
-            const rows = container.querySelectorAll('[style*="flex"]');
-            rows.forEach(row => {
-                const playerId = parseInt(row.querySelector('.player-id-input').value);
-                const score = parseInt(row.querySelector('.player-score-input').value);
-                if (playerId && score) {
-                    playerScores.push({ playerId, score });
+            if (!container) return;
+            
+            const rows = container.querySelectorAll('div > input.player-id-input');
+            rows.forEach(playerIdInput => {
+                const row = playerIdInput.parentElement;
+                const positionInput = row.querySelector('.player-position-input');
+                const scoreInput = row.querySelector('.player-score-input');
+                
+                if (playerIdInput && positionInput && scoreInput) {
+                    const playerId = parseInt(playerIdInput.value);
+                    const position = parseInt(positionInput.value);
+                    const score = parseInt(scoreInput.value);
+                    if (playerId && !isNaN(playerId) && position && !isNaN(position) && score && !isNaN(score)) {
+                        playerScores.push({ playerId, position, score });
+                    }
                 }
             });
             if (playerScores.length > 0) {
