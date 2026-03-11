@@ -702,11 +702,13 @@ function setupEventManagement() {
         eventFormContainer.style.display = 'none';
         activeEventDisplay.style.display = 'block';
 
+        document.getElementById('playerManagementSection').style.display = 'block';
+        document.getElementById('raceResultsSection').style.display = 'block';
+        document.getElementById('standingsSection').style.display = 'block';
+
         displayStandings();
-        
-        setTimeout(() => {
-            window.refreshPlayerDisplay && window.refreshPlayerDisplay();
-        }, 100);
+        displayPlayers();
+        displayRaces();
     }
 }
 
@@ -919,97 +921,43 @@ function setupPlayerManagement() {
     }
 }
 
-function setupRaceResults() {
-    const fetchResultsBtn = document.getElementById('fetchResultsBtn');
-    const fetchStatus = document.getElementById('fetchStatus');
+function displayRaces() {
+    if (!eventManager.eventData) return;
+
     const racesDisplay = document.getElementById('racesDisplay');
+    racesDisplay.innerHTML = '';
 
-    fetchResultsBtn.addEventListener('click', async () => {
-        if (!eventManager.eventData) {
-            alert('No event loaded');
-            return;
-        }
-
-        fetchResultsBtn.disabled = true;
-        fetchStatus.textContent = 'Fetching...';
-        fetchStatus.className = 'status-text loading';
-
-        try {
-            let fetchedCount = 0;
-            let notFoundCount = 0;
-
-            for (let i = 0; i < eventManager.eventData.races.length; i++) {
-                const result = await eventManager.fetchRaceResults(i);
-                if (result) {
-                    fetchedCount++;
-                } else {
-                    notFoundCount++;
-                }
-            }
-
-            let message = `${fetchedCount} race(s) fetched successfully`;
-            if (notFoundCount > 0) {
-                message += ` (${notFoundCount} not found - races may not have started yet)`;
-            }
-
-            fetchStatus.textContent = message;
-            fetchStatus.className = 'status-text success';
-            
-            await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
-
-            setTimeout(() => {
-                fetchStatus.textContent = '';
-                fetchStatus.className = 'status-text';
-            }, 4000);
-
-            displayRaces();
-            displayStandings();
-
-        } catch (error) {
-            fetchStatus.textContent = 'Error: ' + error.message;
-            fetchStatus.className = 'status-text error';
-        } finally {
-            fetchResultsBtn.disabled = false;
-        }
+    eventManager.eventData.races.forEach((race, index) => {
+        const card = document.createElement('div');
+        card.className = 'race-card';
+        card.innerHTML = `
+            <div class="race-title">Race ${index + 1}: ${race.name}</div>
+            <div class="race-info">
+                <div class="race-info-item">
+                    <span>Status:</span>
+                    <span>${race.status || 'pending'}</span>
+                </div>
+                <div class="race-info-item">
+                    <span>Finishers:</span>
+                    <span>${race.results.length}</span>
+                </div>
+            </div>
+            <div class="race-results">
+                ${race.results.length ? race.results.slice(0, 10).map(result => {
+                    const player = eventManager.eventData.players.find(p => p.id === result.driver_id);
+                    const points = race.results.length - (result.position - 1);
+                    return `
+                        <div class="result-row">
+                            <span class="result-position">#${result.position}</span>
+                            <span class="result-name">${player ? player.name : `Driver ${result.driver_id}`}</span>
+                            <span class="result-score">${points}pts</span>
+                        </div>
+                    `;
+                }).join('') : '<p style="color: var(--text-secondary); font-size: 12px;">No results yet</p>'}
+            </div>
+        `;
+        racesDisplay.appendChild(card);
     });
-
-    function displayRaces() {
-        if (!eventManager.eventData) return;
-
-        racesDisplay.innerHTML = '';
-
-        eventManager.eventData.races.forEach((race, index) => {
-            const card = document.createElement('div');
-            card.className = 'race-card';
-            card.innerHTML = `
-                <div class="race-title">Race ${index + 1}: ${race.name}</div>
-                <div class="race-info">
-                    <div class="race-info-item">
-                        <span>Status:</span>
-                        <span>${race.status || 'pending'}</span>
-                    </div>
-                    <div class="race-info-item">
-                        <span>Finishers:</span>
-                        <span>${race.results.length}</span>
-                    </div>
-                </div>
-                <div class="race-results">
-                    ${race.results.length ? race.results.slice(0, 10).map(result => {
-                        const player = eventManager.eventData.players.find(p => p.id === result.driver_id);
-                        const points = race.results.length - (result.position - 1);
-                        return `
-                            <div class="result-row">
-                                <span class="result-position">#${result.position}</span>
-                                <span class="result-name">${player ? player.name : `Driver ${result.driver_id}`}</span>
-                                <span class="result-score">${points}pts</span>
-                            </div>
-                        `;
-                    }).join('') : '<p style="color: var(--text-secondary); font-size: 12px;">No results yet</p>'}
-                </div>
-            `;
-            racesDisplay.appendChild(card);
-        });
-    }
 }
 
 function displayStandings() {
@@ -1061,6 +1009,63 @@ function displayStandings() {
 
     standingsDisplay.innerHTML = html;
 }
+
+function setupRaceResults() {
+    const fetchResultsBtn = document.getElementById('fetchResultsBtn');
+    const fetchStatus = document.getElementById('fetchStatus');
+
+    fetchResultsBtn.addEventListener('click', async () => {
+        if (!eventManager.eventData) {
+            alert('No event loaded');
+            return;
+        }
+
+        fetchResultsBtn.disabled = true;
+        fetchStatus.textContent = 'Fetching...';
+        fetchStatus.className = 'status-text loading';
+
+        try {
+            let fetchedCount = 0;
+            let notFoundCount = 0;
+
+            for (let i = 0; i < eventManager.eventData.races.length; i++) {
+                const result = await eventManager.fetchRaceResults(i);
+                if (result) {
+                    fetchedCount++;
+                } else {
+                    notFoundCount++;
+                }
+            }
+
+            let message = `${fetchedCount} race(s) fetched successfully`;
+            if (notFoundCount > 0) {
+                message += ` (${notFoundCount} not found - races may not have started yet)`;
+            }
+
+            fetchStatus.textContent = message;
+            fetchStatus.className = 'status-text success';
+            
+            await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
+
+            setTimeout(() => {
+                fetchStatus.textContent = '';
+                fetchStatus.className = 'status-text';
+            }, 4000);
+
+            displayRaces();
+            displayStandings();
+
+        } catch (error) {
+            fetchStatus.textContent = 'Error: ' + error.message;
+            fetchStatus.className = 'status-text error';
+        } finally {
+            fetchResultsBtn.disabled = false;
+        }
+    });
+
+    }
+}
+
 
 if (getCookie('tornApiKey')) {
     apiKey = getCookie('tornApiKey');
