@@ -703,6 +703,10 @@ function setupEventManagement() {
         activeEventDisplay.style.display = 'block';
 
         displayStandings();
+        
+        setTimeout(() => {
+            window.refreshPlayerDisplay && window.refreshPlayerDisplay();
+        }, 100);
     }
 }
 
@@ -758,6 +762,8 @@ function setupPlayerManagement() {
         if (!eventManager.eventData) return;
 
         playersContainer.innerHTML = '';
+    
+    window.refreshPlayerDisplay = displayPlayers;
 
         if (eventManager.eventData.teams) {
             const teamsHTML = eventManager.eventData.teams.map(team => {
