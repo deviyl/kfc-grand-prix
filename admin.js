@@ -304,7 +304,18 @@ class EventManager {
 
         race.tornRaceId = raceResults.id;
         race.status = raceResults.status;
-        race.results = raceResults.results;
+        
+        const knownPlayerIds = new Set(this.eventData.players.map(p => p.id));
+        
+        const filteredResults = raceResults.results
+            .filter(result => knownPlayerIds.has(result.driver_id))
+            .sort((a, b) => a.position - b.position)
+            .map((result, index) => ({
+                ...result,
+                position: index + 1
+            }));
+        
+        race.results = filteredResults;
 
         this.calculateStandings();
         this.saveEvent();
