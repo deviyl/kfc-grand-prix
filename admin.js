@@ -131,8 +131,6 @@ class EventManager {
 
     loadEvent(eventName) {
         try {
-            localStorage.removeItem(`event_${eventName}`);
-            
             const stored = localStorage.getItem(`event_${eventName}`);
             if (stored) {
                 this.eventData = JSON.parse(stored);
