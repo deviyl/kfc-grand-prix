@@ -512,8 +512,22 @@ function setupEventManagement() {
             loadEventBtn.disabled = true;
             loadEventBtn.textContent = 'Fetching events...';
             
-            // For now, we'll create a manual list. In the future, you could maintain a manifest file
-            const knownEvents = ['KFC Grand Prix'];
+            const response = await fetch(CLOUDFLARE_WORKER, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    action: 'list-events',
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch event list');
+            }
+
+            const data = await response.json();
+            const knownEvents = data.events || [];
             
             if (knownEvents.length === 0) {
                 alert('No events found');
