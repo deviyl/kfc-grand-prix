@@ -711,6 +711,24 @@ function setupPlayerManagement() {
     const addPlayerBtn = document.getElementById('addPlayerBtn');
     const playersContainer = document.getElementById('playersContainer');
     const playerError = document.getElementById('playerError');
+    const savePlayersBtn = document.getElementById('savePlayersBtn');
+
+    savePlayersBtn.addEventListener('click', async () => {
+        try {
+            savePlayersBtn.disabled = true;
+            savePlayersBtn.textContent = 'Saving...';
+
+            await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
+            alert('Players and teams saved successfully!');
+
+            savePlayersBtn.disabled = false;
+            savePlayersBtn.textContent = 'Save Players & Teams';
+        } catch (error) {
+            alert('Error saving: ' + error.message);
+            savePlayersBtn.disabled = false;
+            savePlayersBtn.textContent = 'Save Players & Teams';
+        }
+    });
 
     addPlayerBtn.addEventListener('click', async () => {
         const playerId = parseInt(playerIdInput.value);
@@ -831,7 +849,7 @@ function setupPlayerManagement() {
                 zone.style.background = zone.id === 'unassigned-drop-zone' ? 'transparent' : 'rgba(0,0,0,0.3)';
             });
 
-            zone.addEventListener('drop', async (e) => {
+            zone.addEventListener('drop', (e) => {
                 e.preventDefault();
                 const playerId = parseInt(e.dataTransfer.getData('playerId'));
                 const teamName = zone.dataset.team;
@@ -845,22 +863,19 @@ function setupPlayerManagement() {
                 zone.style.background = zone.id === 'unassigned-drop-zone' ? 'transparent' : 'rgba(0,0,0,0.3)';
                 displayPlayers();
                 displayStandings();
-
-                await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
             });
         });
     }
 
     function setupTeamEditing() {
         document.querySelectorAll('.edit-team-btn').forEach(btn => {
-            btn.addEventListener('click', async () => {
+            btn.addEventListener('click', () => {
                 const teamName = btn.dataset.team;
                 const newName = prompt(`Edit team name:`, teamName);
                 if (newName && newName !== teamName) {
                     eventManager.updateTeamName(teamName, newName);
                     displayPlayers();
                     displayStandings();
-                    await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
                 }
             });
         });
@@ -868,13 +883,12 @@ function setupPlayerManagement() {
 
     function setupTeamDeletion() {
         document.querySelectorAll('.delete-team-btn').forEach(btn => {
-            btn.addEventListener('click', async () => {
+            btn.addEventListener('click', () => {
                 const teamName = btn.dataset.team;
                 if (confirm(`Delete team "${teamName}"? Players will be unassigned.`)) {
                     eventManager.removeTeam(teamName);
                     displayPlayers();
                     displayStandings();
-                    await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
                 }
             });
         });
@@ -882,14 +896,13 @@ function setupPlayerManagement() {
 
     function setupPlayerRemoval() {
         document.querySelectorAll('.delete-player-btn').forEach(btn => {
-            btn.addEventListener('click', async () => {
+            btn.addEventListener('click', () => {
                 const playerId = parseInt(btn.dataset.playerId);
                 const player = eventManager.eventData.players.find(p => p.id === playerId);
                 if (confirm(`Remove player "${player.name}"?`)) {
                     eventManager.removePlayer(playerId);
                     displayPlayers();
                     displayStandings();
-                    await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
                 }
             });
         });
