@@ -205,27 +205,13 @@ class EventManager {
 
     async loadEvent(eventName) {
         try {
-            let eventData = null;
-            
-            try {
-                console.log(`Fetching ${eventName} from GitHub...`);
-                eventData = await fetchEventFromGitHub(eventName);
-                console.log('GitHub data loaded:', eventData);
-            } catch (err) {
-                console.log('Could not fetch from GitHub, falling back to localStorage', err);
-                const stored = localStorage.getItem(`event_${eventName}`);
-                if (stored) {
-                    eventData = JSON.parse(stored);
-                    console.log('localStorage data loaded:', eventData);
-                }
-            }
+            console.log(`Loading event ${eventName}...`);
+            const eventData = await fetchEventFromGitHub(eventName);
+            console.log('Event loaded:', eventData);
             
             if (eventData) {
-                console.log(`Event ${eventName} loaded with ${eventData.races.length} races`);
-                console.log('Race 4 data:', eventData.races[3]);
                 this.eventData = eventData;
                 this.currentEvent = eventName;
-                localStorage.setItem(`event_${eventName}`, JSON.stringify(eventData));
                 return this.eventData;
             }
             
@@ -905,7 +891,9 @@ function setupEventManagement() {
             }
             
             eventFormContainer.style.display = 'none';
-            await displayActiveEvent();
+            displayActiveEvent();
+            
+            await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
             alert('Event saved successfully!');
 
             submitBtn.disabled = false;
@@ -1024,8 +1012,6 @@ function setupEventManagement() {
         displayStandings();
         displayPlayers();
         displayRaces();
-        
-        await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
     }
 }
 
