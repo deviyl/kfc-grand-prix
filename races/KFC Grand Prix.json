@@ -30,7 +30,14 @@
       "members": []
     }
   ],
-  "players": [],
+  "players": [
+    {
+      "id": 3722358,
+      "name": "Deviyl",
+      "team": null,
+      "races": []
+    }
+  ],
   "prizes": {
     "first": "1xFHC + 1xE-DVD Each",
     "second": "1xBCT + 1xE-DVD Each",
