@@ -254,7 +254,7 @@ function displayRaceResults(eventData) {
             </div>
             <div class="race-result-body">
                 <div class="race-result-list">
-                    ${results.length > 0 ? results.slice(0, 15).map((result, idx) => {
+                    ${results.length > 0 ? results.map((result, idx) => {
                         const totalParticipants = results.length;
                         const points = totalParticipants - (result.position - 1);
                         const isTop3 = result.position <= 3;
@@ -274,7 +274,6 @@ function displayRaceResults(eventData) {
                         `;
                     }).join('') : '<p style="color: var(--text-secondary);">No results available</p>'}
                 </div>
-                ${results.length > 15 ? `<p style="text-align: center; color: var(--text-secondary); margin-top: 16px; font-size: 12px;">... and ${results.length - 15} more</p>` : ''}
             </div>
         `;
 
