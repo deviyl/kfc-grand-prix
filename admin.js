@@ -1031,7 +1031,9 @@ function displayRaces() {
             <div class="race-results">
                 ${race.results.length ? race.results.slice(0, 10).map(result => {
                     const player = eventManager.eventData.players.find(p => p.id === result.driver_id);
-                    const points = race.results.length - (result.position - 1);
+                    const playerStanding = eventManager.eventData.standings.individual.find(p => p.id === result.driver_id);
+                    const raceScore = playerStanding?.raceScores?.find(rs => rs.race === index);
+                    const points = raceScore?.score || 0;
                     return `
                         <div class="result-row">
                             <span class="result-position">#${result.position}</span>
