@@ -741,12 +741,12 @@
       "status": "manual",
       "results": [
         {
-          "driver_id": 3157644,
-          "position": 1
-        },
-        {
           "driver_id": 1978647,
           "position": 2
+        },
+        {
+          "driver_id": 3157644,
+          "position": 1
         }
       ]
     }
