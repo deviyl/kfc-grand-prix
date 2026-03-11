@@ -914,8 +914,6 @@ function setupPlayerManagement() {
         }
     });
 
-    }
-
     if (eventManager.eventData) {
         displayPlayers();
     }
