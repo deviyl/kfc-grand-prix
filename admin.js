@@ -1062,8 +1062,6 @@ function setupRaceResults() {
             fetchResultsBtn.disabled = false;
         }
     });
-
-    }
 }
 
 
