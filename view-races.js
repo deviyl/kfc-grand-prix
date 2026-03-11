@@ -106,7 +106,6 @@ function displayEvent(eventData) {
     eventInfoPanel.style.display = 'block';
 
     document.getElementById('eventTitle').textContent = eventData.name;
-    document.getElementById('eventStatusDisplay').textContent = eventData.status.toUpperCase();
     document.getElementById('eventRaceCount').textContent = eventData.races.length;
 
     const createdDate = new Date(eventData.createdAt).toLocaleDateString('en-US', {
@@ -137,32 +136,35 @@ function displayStandings(eventData) {
     const teamContainer = document.getElementById('teamStandingsContainer');
     const teamDisplay = document.getElementById('teamStandingsDisplay');
 
+    if (!individualDisplay || !teamDisplay) return;
+
     individualDisplay.innerHTML = '';
     teamDisplay.innerHTML = '';
 
-    const standings = eventData.standings || { individual: [], team: [] };
+    const standings = eventData?.standings || { individual: [], team: [] };
 
     if (standings.individual && standings.individual.length > 0) {
         let tableHtml = '<div class="standings-table-wrapper"><table class="standings-table"><thead><tr>';
         tableHtml += '<th>Rank</th><th>Name</th>';
 
-        eventData.races.forEach((race, index) => {
+        (eventData?.races || []).forEach((race, index) => {
             tableHtml += `<th>R${index + 1}</th>`;
         });
 
         tableHtml += '<th>Total</th></tr></thead><tbody>';
 
         standings.individual.forEach((player, index) => {
+            if (!player) return;
             tableHtml += `<tr>
                 <td class="standings-rank">${index + 1}</td>
-                <td class="standings-name">${player.name}</td>`;
+                <td class="standings-name">${player.name || 'Unknown'}</td>`;
 
-            eventData.races.forEach((_, raceIndex) => {
+            (eventData?.races || []).forEach((_, raceIndex) => {
                 const raceScore = player.raceScores?.find(rs => rs.race === raceIndex);
                 tableHtml += `<td class="standings-race-score ${raceScore ? '' : 'dnf'}">${raceScore ? raceScore.score : '—'}</td>`;
             });
 
-            tableHtml += `<td class="standings-score">${player.totalScore}</td></tr>`;
+            tableHtml += `<td class="standings-score">${player.totalScore || 0}</td></tr>`;
         });
 
         tableHtml += '</tbody></table></div>';
@@ -175,29 +177,30 @@ function displayStandings(eventData) {
         teamContainer.style.display = 'block';
 
         let teamHtml = '<div class="standings-table-wrapper"><table class="standings-table"><thead><tr>';
-        tableHtml += '<th>Rank</th><th>Team</th><th>Members</th>';
+        teamHtml += '<th>Rank</th><th>Team</th><th>Members</th>';
 
-        eventData.races.forEach((race, index) => {
-            tableHtml += `<th>R${index + 1}</th>`;
+        (eventData?.races || []).forEach((race, index) => {
+            teamHtml += `<th>R${index + 1}</th>`;
         });
 
         teamHtml += '<th>Total</th></tr></thead><tbody>';
 
         standings.team.forEach((team, index) => {
+            if (!team) return;
             teamHtml += `<tr>
                 <td class="standings-rank">${index + 1}</td>
-                <td class="standings-name">${team.name}</td>
-                <td class="team-members-inline">${team.members.length} players</td>`;
+                <td class="standings-name">${team.name || 'Unknown Team'}</td>
+                <td class="team-members-inline">${(team.members || []).length} players</td>`;
 
-            eventData.races.forEach((_, raceIndex) => {
-                const raceTeamScore = team.members.reduce((sum, member) => {
-                    const memberRaceScore = member.raceScores?.find(rs => rs.race === raceIndex);
+            (eventData?.races || []).forEach((_, raceIndex) => {
+                const raceTeamScore = (team.members || []).reduce((sum, member) => {
+                    const memberRaceScore = member?.raceScores?.find(rs => rs.race === raceIndex);
                     return sum + (memberRaceScore ? memberRaceScore.score : 0);
                 }, 0);
                 teamHtml += `<td class="standings-race-score">${raceTeamScore || '—'}</td>`;
             });
 
-            teamHtml += `<td class="standings-score">${team.totalScore}</td></tr>`;
+            teamHtml += `<td class="standings-score">${team.totalScore || 0}</td></tr>`;
         });
 
         teamHtml += '</tbody></table></div>';
@@ -212,30 +215,33 @@ function displayRaceResults(eventData) {
     const racesDisplay = document.getElementById('racesResultsDisplay');
     racesDisplay.innerHTML = '';
 
-    if (!eventData.races || eventData.races.length === 0) {
+    if (!eventData || !eventData.races || eventData.races.length === 0) {
         racesDisplay.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 32px;">No races in this event</p>';
         return;
     }
 
     eventData.races.forEach((race, raceIndex) => {
+        if (!race) return;
+        
         const card = document.createElement('div');
         card.className = 'race-result-card';
 
-        const statusColor = race.status === 'finished' ? 'var(--success)' : 'var(--warning)';
-        const statusText = race.status || 'pending';
+        const status = race.status || 'pending';
+        const statusColor = status === 'finished' ? 'var(--success)' : 'var(--warning)';
+        const results = race.results || [];
 
         card.innerHTML = `
             <div class="race-result-header">
-                <div class="race-result-title">Race ${raceIndex + 1}: ${race.name}</div>
+                <div class="race-result-title">Race ${raceIndex + 1}: ${race.name || 'Unnamed Race'}</div>
                 <div class="race-result-meta">
-                    <span>Status: <strong style="color: ${statusColor};">${statusText.toUpperCase()}</strong></span>
-                    <span>${race.results.length} Finishers</span>
+                    <span>Status: <strong style="color: ${statusColor};">${status.toUpperCase()}</strong></span>
+                    <span>${results.length} Finishers</span>
                 </div>
             </div>
             <div class="race-result-body">
                 <div class="race-result-list">
-                    ${race.results.length > 0 ? race.results.slice(0, 15).map((result, idx) => {
-                        const totalParticipants = race.results.length;
+                    ${results.length > 0 ? results.slice(0, 15).map((result, idx) => {
+                        const totalParticipants = results.length;
                         const points = totalParticipants - (result.position - 1);
                         const isTop3 = result.position <= 3;
 
@@ -254,7 +260,7 @@ function displayRaceResults(eventData) {
                         `;
                     }).join('') : '<p style="color: var(--text-secondary);">No results available</p>'}
                 </div>
-                ${race.results.length > 15 ? `<p style="text-align: center; color: var(--text-secondary); margin-top: 16px; font-size: 12px;">... and ${race.results.length - 15} more</p>` : ''}
+                ${results.length > 15 ? `<p style="text-align: center; color: var(--text-secondary); margin-top: 16px; font-size: 12px;">... and ${results.length - 15} more</p>` : ''}
             </div>
         `;
 
