@@ -332,6 +332,7 @@ class EventManager {
         };
 
         const playerScores = {};
+        const totalRegisteredPlayers = this.eventData.players.length;
 
         this.eventData.players.forEach(player => {
             playerScores[player.id] = {
@@ -344,12 +345,10 @@ class EventManager {
         });
 
         this.eventData.races.forEach((race, raceIndex) => {
-            const totalParticipants = race.results.length;
-
             race.results.forEach(result => {
                 const playerId = result.driver_id;
                 if (playerScores[playerId]) {
-                    const score = totalParticipants - (result.position - 1);
+                    const score = totalRegisteredPlayers - (result.position - 1);
                     playerScores[playerId].totalScore += score;
                     playerScores[playerId].raceScores.push({
                         race: raceIndex,
