@@ -9,7 +9,8 @@ const GITHUB_WORKER = 'https://kfcrace.deviyl.workers.dev/save-event';
 
 async function fetchEventFromGitHub(eventName) {
     try {
-        const rawUrl = `https://raw.githubusercontent.com/deviyl/kfc-grand-prix/main/races/${encodeURIComponent(eventName)}.json`;
+        const timestamp = Date.now();
+        const rawUrl = `https://raw.githubusercontent.com/deviyl/kfc-grand-prix/main/races/${encodeURIComponent(eventName)}.json?t=${timestamp}`;
         const response = await fetch(rawUrl);
         
         if (!response.ok) {
