@@ -5,22 +5,62 @@ const tabButtons = document.querySelectorAll('.tab-button');
 const tabContents = document.querySelectorAll('.tab-content');
 
 let currentEventData = null;
+const GITHUB_WORKER = 'https://kfcrace.deviyl.workers.dev/save-event';
 
-
-function loadAllEvents() {
-    const events = [];
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key.startsWith('event_')) {
-            const data = JSON.parse(localStorage.getItem(key));
-            events.push(data);
+async function fetchEventFromGitHub(eventName) {
+    try {
+        const rawUrl = `https://raw.githubusercontent.com/deviyl/kfc-grand-prix/main/races/${encodeURIComponent(eventName)}.json`;
+        const response = await fetch(rawUrl);
+        
+        if (!response.ok) {
+            throw new Error('Event not found');
         }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching from GitHub:', error);
+        throw error;
     }
-    return events;
 }
 
-function populateEventSelector() {
-    const events = loadAllEvents();
+async function loadAllEvents() {
+    try {
+        const response = await fetch(GITHUB_WORKER, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                action: 'list-events',
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch event list');
+        }
+
+        const data = await response.json();
+        const eventNames = data.events || [];
+        
+        const events = [];
+        for (const name of eventNames) {
+            try {
+                const eventData = await fetchEventFromGitHub(name);
+                events.push(eventData);
+            } catch (error) {
+                console.error(`Failed to load event ${name}:`, error);
+            }
+        }
+        
+        return events;
+    } catch (error) {
+        console.error('Error loading events:', error);
+        return [];
+    }
+}
+
+async function populateEventSelector() {
+    const events = await loadAllEvents();
 
     if (events.length === 0) {
         eventInfoPanel.style.display = 'none';
@@ -49,13 +89,14 @@ function populateEventSelector() {
     }
 }
 
-eventSelect.addEventListener('change', (e) => {
+eventSelect.addEventListener('change', async (e) => {
     if (!e.target.value) return;
 
-    const events = loadAllEvents();
-    const event = events.find(ev => ev.name === e.target.value);
-    if (event) {
-        displayEvent(event);
+    try {
+        const eventData = await fetchEventFromGitHub(e.target.value);
+        displayEvent(eventData);
+    } catch (error) {
+        console.error('Error loading event:', error);
     }
 });
 
@@ -238,14 +279,15 @@ tabButtons.forEach(button => {
 let autoRefreshEnabled = true;
 const REFRESH_INTERVAL = 30000; // 30 seconds
 
-function autoRefresh() {
+async function autoRefresh() {
     if (autoRefreshEnabled && currentEventData) {
-        const events = loadAllEvents();
-        const updated = events.find(ev => ev.name === currentEventData.name);
-        if (updated) {
+        try {
+            const updated = await fetchEventFromGitHub(currentEventData.name);
             currentEventData = updated;
             displayStandings(updated);
             displayRaceResults(updated);
+        } catch (error) {
+            console.error('Auto-refresh failed:', error);
         }
     }
 }
