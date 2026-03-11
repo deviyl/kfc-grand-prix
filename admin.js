@@ -577,7 +577,7 @@ function setupEventManagement() {
                     
                     await fetchEventFromGitHub(eventName);
                     eventManager.loadEvent(eventName);
-                    displayActiveEvent();
+                    await displayActiveEvent();
                     modal.remove();
                 } catch (error) {
                     alert('Error loading event: ' + error.message);
@@ -764,7 +764,7 @@ function setupEventManagement() {
         }
     });
 
-    function displayActiveEvent() {
+    async function displayActiveEvent() {
         if (!eventManager.eventData) return;
 
         document.getElementById('displayEventName').textContent = eventManager.eventData.name;
@@ -782,6 +782,8 @@ function setupEventManagement() {
         displayStandings();
         displayPlayers();
         displayRaces();
+        
+        await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
     }
 }
 
