@@ -78,7 +78,26 @@ async function getRaceResults(raceName) {
     }
 }
 
-async function saveEventToGitHub(eventName, eventData) {
+async function fetchEventFromGitHub(eventName) {
+    try {
+        const rawUrl = `https://raw.githubusercontent.com/deviyl/kfc-grand-prix/main/races/${encodeURIComponent(eventName)}.json`;
+        const response = await fetch(rawUrl);
+        
+        if (!response.ok) {
+            throw new Error('Event not found on GitHub');
+        }
+        
+        const eventData = await response.json();
+        localStorage.setItem(`event_${eventName}`, JSON.stringify(eventData));
+        
+        return eventData;
+    } catch (error) {
+        console.error('Error fetching from GitHub:', error);
+        throw error;
+    }
+}
+
+
     try {
         const response = await fetch(CLOUDFLARE_WORKER, {
             method: 'POST',
@@ -112,6 +131,8 @@ class EventManager {
 
     loadEvent(eventName) {
         try {
+            localStorage.removeItem(`event_${eventName}`);
+            
             const stored = localStorage.getItem(`event_${eventName}`);
             if (stored) {
                 this.eventData = JSON.parse(stored);
@@ -512,9 +533,10 @@ function setupEventManagement() {
         modal.appendChild(content);
         document.body.appendChild(modal);
 
-        document.getElementById('confirmLoad').addEventListener('click', () => {
+        document.getElementById('confirmLoad').addEventListener('click', async () => {
             const eventName = document.getElementById('eventDropdown').value;
             try {
+                await fetchEventFromGitHub(eventName);
                 eventManager.loadEvent(eventName);
                 displayActiveEvent();
                 modal.remove();
