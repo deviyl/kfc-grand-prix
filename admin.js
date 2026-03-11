@@ -712,6 +712,79 @@ function setupEventManagement() {
     }
 }
 
+function displayPlayers() {
+    if (!eventManager.eventData) return;
+
+    const playersContainer = document.getElementById('playersContainer');
+    playersContainer.innerHTML = '';
+
+    if (eventManager.eventData.teams) {
+        const teamsHTML = eventManager.eventData.teams.map(team => {
+            const teamPlayers = eventManager.eventData.players.filter(p => p.team === team.name);
+            
+            return `
+                <div style="border:1px solid #d4af37;border-radius:6px;padding:16px;margin-bottom:16px;background:rgba(212,175,55,0.05);">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                        <h4 style="color:#d4af37;margin:0;">${team.name}</h4>
+                        <div style="display:flex;gap:8px;">
+                            <button class="edit-team-btn btn btn-secondary" data-team="${team.name}" style="padding:6px 12px;font-size:12px;">Edit</button>
+                            <button class="delete-team-btn btn btn-danger" data-team="${team.name}" style="padding:6px 12px;font-size:12px;">Delete</button>
+                        </div>
+                    </div>
+                    <div class="team-drop-zone" data-team="${team.name}" style="background:rgba(0,0,0,0.3);border:2px dashed #d4af37;border-radius:4px;padding:12px;min-height:40px;margin-bottom:12px;">
+                        ${teamPlayers.map(p => `
+                            <div class="player-card" draggable="true" data-player-id="${p.id}" style="display:inline-block;margin:4px;">
+                                <span style="background:#d4af37;color:#1a1a1a;padding:6px 12px;border-radius:4px;font-weight:600;display:inline-block;">
+                                    ${p.name}
+                                    <button class="remove-from-team" data-player-id="${p.id}" style="background:transparent;border:none;color:#1a1a1a;cursor:pointer;margin-left:6px;font-weight:bold;">✕</button>
+                                </span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        const unassignedHTML = `
+            <div style="border:1px solid #666;border-radius:6px;padding:16px;background:rgba(0,0,0,0.2);">
+                <h4 style="color:#b0b0b0;margin:0 0 12px 0;">Unassigned Players</h4>
+                <div id="unassigned-drop-zone" style="display:flex;flex-wrap:wrap;gap:8px;min-height:40px;">
+                    ${eventManager.eventData.players.filter(p => !p.team).map(p => `
+                        <div class="player-card" draggable="true" data-player-id="${p.id}">
+                            <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:4px;">
+                                <span style="color:#fff;font-weight:600;">${p.name}</span>
+                                <button class="delete-player-btn" data-player-id="${p.id}" style="background:transparent;border:none;color:#ff1744;cursor:pointer;margin-left:8px;font-weight:bold;">✕</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+
+        playersContainer.innerHTML = teamsHTML + unassignedHTML;
+
+        setupDragDrop();
+        setupTeamEditing();
+        setupTeamDeletion();
+        setupPlayerRemoval();
+    } else {
+        eventManager.eventData.players.forEach(player => {
+            const card = document.createElement('div');
+            card.className = 'player-card';
+            card.innerHTML = `
+                <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,0.3);padding:12px;border-radius:6px;border:1px solid #d4af37;">
+                    <span style="color:#fff;font-weight:600;">${player.name}</span>
+                    <span style="color:#b0b0b0;font-size:12px;margin:0 12px;">ID: ${player.id}</span>
+                    <button class="delete-player-btn btn btn-danger" data-player-id="${player.id}" style="padding:6px 12px;">✕</button>
+                </div>
+            `;
+            playersContainer.appendChild(card);
+        });
+
+        setupPlayerRemoval();
+    }
+}
+
 function setupPlayerManagement() {
     const playerIdInput = document.getElementById('playerIdInput');
     const addPlayerBtn = document.getElementById('addPlayerBtn');
@@ -760,79 +833,6 @@ function setupPlayerManagement() {
         }
     });
 
-    function displayPlayers() {
-        if (!eventManager.eventData) return;
-
-        playersContainer.innerHTML = '';
-    
-    window.refreshPlayerDisplay = displayPlayers;
-
-        if (eventManager.eventData.teams) {
-            const teamsHTML = eventManager.eventData.teams.map(team => {
-                const teamPlayers = eventManager.eventData.players.filter(p => p.team === team.name);
-                const unassignedPlayers = eventManager.eventData.players.filter(p => !p.team);
-                
-                return `
-                    <div style="border:1px solid #d4af37;border-radius:6px;padding:16px;margin-bottom:16px;background:rgba(212,175,55,0.05);">
-                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                            <h4 style="color:#d4af37;margin:0;">${team.name}</h4>
-                            <div style="display:flex;gap:8px;">
-                                <button class="edit-team-btn btn btn-secondary" data-team="${team.name}" style="padding:6px 12px;font-size:12px;">Edit</button>
-                                <button class="delete-team-btn btn btn-danger" data-team="${team.name}" style="padding:6px 12px;font-size:12px;">Delete</button>
-                            </div>
-                        </div>
-                        <div class="team-drop-zone" data-team="${team.name}" style="background:rgba(0,0,0,0.3);border:2px dashed #d4af37;border-radius:4px;padding:12px;min-height:40px;margin-bottom:12px;">
-                            ${teamPlayers.map(p => `
-                                <div class="player-card" draggable="true" data-player-id="${p.id}" style="display:inline-block;margin:4px;">
-                                    <span style="background:#d4af37;color:#1a1a1a;padding:6px 12px;border-radius:4px;font-weight:600;display:inline-block;">
-                                        ${p.name}
-                                        <button class="remove-from-team" data-player-id="${p.id}" style="background:transparent;border:none;color:#1a1a1a;cursor:pointer;margin-left:6px;font-weight:bold;">✕</button>
-                                    </span>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            const unassignedHTML = `
-                <div style="border:1px solid #666;border-radius:6px;padding:16px;background:rgba(0,0,0,0.2);">
-                    <h4 style="color:#b0b0b0;margin:0 0 12px 0;">Unassigned Players</h4>
-                    <div id="unassigned-drop-zone" style="display:flex;flex-wrap:wrap;gap:8px;min-height:40px;">
-                        ${eventManager.eventData.players.filter(p => !p.team).map(p => `
-                            <div class="player-card" draggable="true" data-player-id="${p.id}">
-                                <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:4px;">
-                                    <span style="color:#fff;font-weight:600;">${p.name}</span>
-                                    <button class="delete-player-btn" data-player-id="${p.id}" style="background:transparent;border:none;color:#ff1744;cursor:pointer;margin-left:8px;font-weight:bold;">✕</button>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-
-            playersContainer.innerHTML = teamsHTML + unassignedHTML;
-
-            setupDragDrop();
-            setupTeamEditing();
-            setupTeamDeletion();
-            setupPlayerRemoval();
-        } else {
-            eventManager.eventData.players.forEach(player => {
-                const card = document.createElement('div');
-                card.className = 'player-card';
-                card.innerHTML = `
-                    <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,0.3);padding:12px;border-radius:6px;border:1px solid #d4af37;">
-                        <span style="color:#fff;font-weight:600;">${player.name}</span>
-                        <span style="color:#b0b0b0;font-size:12px;margin:0 12px;">ID: ${player.id}</span>
-                        <button class="delete-player-btn btn btn-danger" data-player-id="${player.id}" style="padding:6px 12px;">✕</button>
-                    </div>
-                `;
-                playersContainer.appendChild(card);
-            });
-
-            setupPlayerRemoval();
-        }
     }
 
     function setupDragDrop() {
