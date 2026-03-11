@@ -201,14 +201,27 @@ class EventManager {
         this.eventData = null;
     }
 
-    loadEvent(eventName) {
+    async loadEvent(eventName) {
         try {
-            const stored = localStorage.getItem(`event_${eventName}`);
-            if (stored) {
-                this.eventData = JSON.parse(stored);
+            let eventData = null;
+            
+            try {
+                eventData = await fetchEventFromGitHub(eventName);
+            } catch (err) {
+                console.log('Could not fetch from GitHub, falling back to localStorage');
+                const stored = localStorage.getItem(`event_${eventName}`);
+                if (stored) {
+                    eventData = JSON.parse(stored);
+                }
+            }
+            
+            if (eventData) {
+                this.eventData = eventData;
                 this.currentEvent = eventName;
+                localStorage.setItem(`event_${eventName}`, JSON.stringify(eventData));
                 return this.eventData;
             }
+            
             throw new Error(`Event "${eventName}" not found`);
         } catch (error) {
             console.error('Error loading event:', error);
@@ -652,7 +665,7 @@ function setupEventManagement() {
                     confirmBtn.textContent = 'Loading...';
                     
                     await fetchEventFromGitHub(eventName);
-                    eventManager.loadEvent(eventName);
+                    await eventManager.loadEvent(eventName);
                     await displayActiveEvent();
                     modal.remove();
                 } catch (error) {
@@ -1337,8 +1350,15 @@ function setupRaceResults() {
         try {
             let fetchedCount = 0;
             let notFoundCount = 0;
+            let manualCount = 0;
 
             for (let i = 0; i < eventManager.eventData.races.length; i++) {
+                const race = eventManager.eventData.races[i];
+                if (race.tornRaceId === 'manual') {
+                    manualCount++;
+                    continue;
+                }
+                
                 const result = await eventManager.fetchRaceResults(i);
                 if (result) {
                     fetchedCount++;
@@ -1348,6 +1368,9 @@ function setupRaceResults() {
             }
 
             let message = `${fetchedCount} race(s) fetched successfully`;
+            if (manualCount > 0) {
+                message += ` (${manualCount} manual - skipped)`;
+            }
             if (notFoundCount > 0) {
                 message += ` (${notFoundCount} not found - races may not have started yet)`;
             }
