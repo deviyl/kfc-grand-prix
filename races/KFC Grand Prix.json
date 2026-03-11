@@ -905,7 +905,7 @@
       {
         "id": 1978647,
         "name": "Delldax",
-        "totalScore": 65,
+        "totalScore": 61,
         "raceScores": [
           {
             "race": 0,
@@ -925,7 +925,7 @@
           {
             "race": 3,
             "position": 2,
-            "score": 19
+            "score": 15
           }
         ],
         "team": "DaxWolf"
@@ -1433,7 +1433,7 @@
           {
             "id": 1978647,
             "name": "Delldax",
-            "totalScore": 65,
+            "totalScore": 61,
             "raceScores": [
               {
                 "race": 0,
@@ -1453,7 +1453,7 @@
               {
                 "race": 3,
                 "position": 2,
-                "score": 19
+                "score": 15
               }
             ],
             "team": "DaxWolf"
