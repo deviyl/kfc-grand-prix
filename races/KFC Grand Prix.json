@@ -501,9 +501,238 @@
     {
       "index": 2,
       "name": "KFC Grand Prix - Race 3",
-      "tornRaceId": null,
-      "status": "pending",
-      "results": []
+      "tornRaceId": 18285284,
+      "status": "finished",
+      "results": [
+        {
+          "driver_id": 3844859,
+          "position": 1,
+          "car_id": 1220966,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 97.54,
+          "race_time": 844.79,
+          "time_ended": 1773252912
+        },
+        {
+          "driver_id": 1978647,
+          "position": 2,
+          "car_id": 1221630,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 98.19,
+          "race_time": 849.72,
+          "time_ended": 1773252917
+        },
+        {
+          "driver_id": 3513090,
+          "position": 3,
+          "car_id": 1221016,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 100.32,
+          "race_time": 850.81,
+          "time_ended": 1773252918
+        },
+        {
+          "driver_id": 2792892,
+          "position": 4,
+          "car_id": 1220851,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 97.45,
+          "race_time": 851.45,
+          "time_ended": 1773252918
+        },
+        {
+          "driver_id": 3163147,
+          "position": 5,
+          "car_id": 1028762,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 99.74,
+          "race_time": 855.21,
+          "time_ended": 1773252922
+        },
+        {
+          "driver_id": 3157644,
+          "position": 6,
+          "car_id": 1223043,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 98.49,
+          "race_time": 855.55,
+          "time_ended": 1773252923
+        },
+        {
+          "driver_id": 3599627,
+          "position": 7,
+          "car_id": 1168726,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 100.46,
+          "race_time": 855.93,
+          "time_ended": 1773252923
+        },
+        {
+          "driver_id": 3251423,
+          "position": 8,
+          "car_id": 1174775,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 102.89,
+          "race_time": 858.38,
+          "time_ended": 1773252925
+        },
+        {
+          "driver_id": 2939779,
+          "position": 9,
+          "car_id": 1221126,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 102.09,
+          "race_time": 858.89,
+          "time_ended": 1773252926
+        },
+        {
+          "driver_id": 3796175,
+          "position": 10,
+          "car_id": 1220867,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 102.98,
+          "race_time": 862.23,
+          "time_ended": 1773252929
+        },
+        {
+          "driver_id": 3913421,
+          "position": 11,
+          "car_id": 1220717,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 103.71,
+          "race_time": 862.27,
+          "time_ended": 1773252929
+        },
+        {
+          "driver_id": 3562619,
+          "position": 12,
+          "car_id": 1168675,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 103.75,
+          "race_time": 865.43,
+          "time_ended": 1773252932
+        },
+        {
+          "driver_id": 3993903,
+          "position": 13,
+          "car_id": 1220857,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 101.05,
+          "race_time": 866.51,
+          "time_ended": 1773252934
+        },
+        {
+          "driver_id": 2802730,
+          "position": 14,
+          "car_id": 1220945,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 98.19,
+          "race_time": 866.68,
+          "time_ended": 1773252934
+        },
+        {
+          "driver_id": 3163171,
+          "position": 15,
+          "car_id": 1220868,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 100.87,
+          "race_time": 868.18,
+          "time_ended": 1773252935
+        },
+        {
+          "driver_id": 2967439,
+          "position": 16,
+          "car_id": 765194,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 101.55,
+          "race_time": 868.22,
+          "time_ended": 1773252935
+        },
+        {
+          "driver_id": 3171413,
+          "position": 17,
+          "car_id": 1222370,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 104.25,
+          "race_time": 869.01,
+          "time_ended": 1773252936
+        },
+        {
+          "driver_id": 3722358,
+          "position": 18,
+          "car_id": 1221270,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 103.63,
+          "race_time": 870.79,
+          "time_ended": 1773252938
+        },
+        {
+          "driver_id": 3774090,
+          "position": 19,
+          "car_id": 1168720,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 103.57,
+          "race_time": 875.76,
+          "time_ended": 1773252943
+        }
+      ]
     }
   ],
   "teams": [
@@ -648,6 +877,98 @@
   "standings": {
     "individual": [
       {
+        "id": 1978647,
+        "name": "Delldax",
+        "totalScore": 45,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 5,
+            "score": 16
+          },
+          {
+            "race": 1,
+            "position": 10,
+            "score": 11
+          },
+          {
+            "race": 2,
+            "position": 2,
+            "score": 18
+          }
+        ],
+        "team": "DaxWolf"
+      },
+      {
+        "id": 3163147,
+        "name": "bitek",
+        "totalScore": 45,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 4,
+            "score": 17
+          },
+          {
+            "race": 1,
+            "position": 8,
+            "score": 13
+          },
+          {
+            "race": 2,
+            "position": 5,
+            "score": 15
+          }
+        ],
+        "team": "J-Bit Protocol"
+      },
+      {
+        "id": 2939779,
+        "name": "JaydusStrokka",
+        "totalScore": 43,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 6,
+            "score": 15
+          },
+          {
+            "race": 1,
+            "position": 4,
+            "score": 17
+          },
+          {
+            "race": 2,
+            "position": 9,
+            "score": 11
+          }
+        ],
+        "team": "Stroke & Slice"
+      },
+      {
+        "id": 3157644,
+        "name": "SirJimboSliceSr",
+        "totalScore": 41,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 3,
+            "score": 18
+          },
+          {
+            "race": 1,
+            "position": 12,
+            "score": 9
+          },
+          {
+            "race": 2,
+            "position": 6,
+            "score": 14
+          }
+        ],
+        "team": "Stroke & Slice"
+      },
+      {
         "id": 3627681,
         "name": "ZeTwilighTwizz",
         "totalScore": 40,
@@ -666,135 +987,9 @@
         "team": "Midnight Delivery"
       },
       {
-        "id": 2939779,
-        "name": "JaydusStrokka",
-        "totalScore": 32,
-        "raceScores": [
-          {
-            "race": 0,
-            "position": 6,
-            "score": 15
-          },
-          {
-            "race": 1,
-            "position": 4,
-            "score": 17
-          }
-        ],
-        "team": "Stroke & Slice"
-      },
-      {
-        "id": 3163147,
-        "name": "bitek",
-        "totalScore": 30,
-        "raceScores": [
-          {
-            "race": 0,
-            "position": 4,
-            "score": 17
-          },
-          {
-            "race": 1,
-            "position": 8,
-            "score": 13
-          }
-        ],
-        "team": "J-Bit Protocol"
-      },
-      {
-        "id": 3913421,
-        "name": "Wolfylein",
-        "totalScore": 30,
-        "raceScores": [
-          {
-            "race": 0,
-            "position": 9,
-            "score": 12
-          },
-          {
-            "race": 1,
-            "position": 3,
-            "score": 18
-          }
-        ],
-        "team": "DaxWolf"
-      },
-      {
-        "id": 1978647,
-        "name": "Delldax",
-        "totalScore": 27,
-        "raceScores": [
-          {
-            "race": 0,
-            "position": 5,
-            "score": 16
-          },
-          {
-            "race": 1,
-            "position": 10,
-            "score": 11
-          }
-        ],
-        "team": "DaxWolf"
-      },
-      {
-        "id": 3157644,
-        "name": "SirJimboSliceSr",
-        "totalScore": 27,
-        "raceScores": [
-          {
-            "race": 0,
-            "position": 3,
-            "score": 18
-          },
-          {
-            "race": 1,
-            "position": 12,
-            "score": 9
-          }
-        ],
-        "team": "Stroke & Slice"
-      },
-      {
-        "id": 3171413,
-        "name": "xKittehxKatx",
-        "totalScore": 25,
-        "raceScores": [
-          {
-            "race": 0,
-            "position": 15,
-            "score": 6
-          },
-          {
-            "race": 1,
-            "position": 2,
-            "score": 19
-          }
-        ],
-        "team": "Latecomers"
-      },
-      {
-        "id": 3722358,
-        "name": "Deviyl",
-        "totalScore": 25,
-        "raceScores": [
-          {
-            "race": 0,
-            "position": 2,
-            "score": 19
-          },
-          {
-            "race": 1,
-            "position": 15,
-            "score": 6
-          }
-        ],
-        "team": "Devil's Crackers"
-      },
-      {
         "id": 2792892,
         "name": "Xevi",
-        "totalScore": 23,
+        "totalScore": 39,
         "raceScores": [
           {
             "race": 0,
@@ -805,68 +1000,42 @@
             "race": 1,
             "position": 11,
             "score": 10
+          },
+          {
+            "race": 2,
+            "position": 4,
+            "score": 16
           }
         ],
         "team": "Turbo Whisker"
       },
       {
-        "id": 3774090,
-        "name": "Jereos",
-        "totalScore": 22,
+        "id": 3913421,
+        "name": "Wolfylein",
+        "totalScore": 39,
         "raceScores": [
           {
             "race": 0,
-            "position": 14,
-            "score": 7
+            "position": 9,
+            "score": 12
           },
           {
             "race": 1,
-            "position": 6,
-            "score": 15
-          }
-        ],
-        "team": "J-Bit Protocol"
-      },
-      {
-        "id": 3562619,
-        "name": "Postman_",
-        "totalScore": 19,
-        "raceScores": [
-          {
-            "race": 0,
-            "position": 18,
-            "score": 3
+            "position": 3,
+            "score": 18
           },
           {
-            "race": 1,
-            "position": 5,
-            "score": 16
+            "race": 2,
+            "position": 11,
+            "score": 9
           }
         ],
-        "team": "Midnight Delivery"
-      },
-      {
-        "id": 3599627,
-        "name": "CaptainRinny",
-        "totalScore": 18,
-        "raceScores": [
-          {
-            "race": 0,
-            "position": 7,
-            "score": 14
-          },
-          {
-            "race": 1,
-            "position": 17,
-            "score": 4
-          }
-        ],
-        "team": "Caprider"
+        "team": "DaxWolf"
       },
       {
         "id": 3844859,
         "name": "Mr_Lynch_Ryder",
-        "totalScore": 17,
+        "totalScore": 36,
         "raceScores": [
           {
             "race": 0,
@@ -877,14 +1046,203 @@
             "race": 1,
             "position": 9,
             "score": 12
+          },
+          {
+            "race": 2,
+            "position": 1,
+            "score": 19
           }
         ],
         "team": "Caprider"
       },
       {
+        "id": 3599627,
+        "name": "CaptainRinny",
+        "totalScore": 31,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 7,
+            "score": 14
+          },
+          {
+            "race": 1,
+            "position": 17,
+            "score": 4
+          },
+          {
+            "race": 2,
+            "position": 7,
+            "score": 13
+          }
+        ],
+        "team": "Caprider"
+      },
+      {
+        "id": 3171413,
+        "name": "xKittehxKatx",
+        "totalScore": 28,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 15,
+            "score": 6
+          },
+          {
+            "race": 1,
+            "position": 2,
+            "score": 19
+          },
+          {
+            "race": 2,
+            "position": 17,
+            "score": 3
+          }
+        ],
+        "team": "Latecomers"
+      },
+      {
+        "id": 3562619,
+        "name": "Postman_",
+        "totalScore": 27,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 18,
+            "score": 3
+          },
+          {
+            "race": 1,
+            "position": 5,
+            "score": 16
+          },
+          {
+            "race": 2,
+            "position": 12,
+            "score": 8
+          }
+        ],
+        "team": "Midnight Delivery"
+      },
+      {
+        "id": 3722358,
+        "name": "Deviyl",
+        "totalScore": 27,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 2,
+            "score": 19
+          },
+          {
+            "race": 1,
+            "position": 15,
+            "score": 6
+          },
+          {
+            "race": 2,
+            "position": 18,
+            "score": 2
+          }
+        ],
+        "team": "Devil's Crackers"
+      },
+      {
+        "id": 3513090,
+        "name": "Squith",
+        "totalScore": 25,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 20,
+            "score": 1
+          },
+          {
+            "race": 1,
+            "position": 14,
+            "score": 7
+          },
+          {
+            "race": 2,
+            "position": 3,
+            "score": 17
+          }
+        ],
+        "team": "Litany of Teeth"
+      },
+      {
+        "id": 3251423,
+        "name": "err0r418125",
+        "totalScore": 24,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 17,
+            "score": 4
+          },
+          {
+            "race": 1,
+            "position": 13,
+            "score": 8
+          },
+          {
+            "race": 2,
+            "position": 8,
+            "score": 12
+          }
+        ],
+        "team": "Latecomers"
+      },
+      {
+        "id": 3796175,
+        "name": "PowerMax",
+        "totalScore": 24,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 12,
+            "score": 9
+          },
+          {
+            "race": 1,
+            "position": 16,
+            "score": 5
+          },
+          {
+            "race": 2,
+            "position": 10,
+            "score": 10
+          }
+        ],
+        "team": "Powercritters"
+      },
+      {
+        "id": 3774090,
+        "name": "Jereos",
+        "totalScore": 23,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 14,
+            "score": 7
+          },
+          {
+            "race": 1,
+            "position": 6,
+            "score": 15
+          },
+          {
+            "race": 2,
+            "position": 19,
+            "score": 1
+          }
+        ],
+        "team": "J-Bit Protocol"
+      },
+      {
         "id": 3993903,
         "name": "PeachesCat",
-        "totalScore": 16,
+        "totalScore": 23,
         "raceScores": [
           {
             "race": 0,
@@ -895,6 +1253,11 @@
             "race": 1,
             "position": 7,
             "score": 14
+          },
+          {
+            "race": 2,
+            "position": 13,
+            "score": 7
           }
         ],
         "team": "Turbo Whisker"
@@ -902,7 +1265,7 @@
       {
         "id": 3163171,
         "name": "Kaleciatko",
-        "totalScore": 14,
+        "totalScore": 19,
         "raceScores": [
           {
             "race": 0,
@@ -913,23 +1276,10 @@
             "race": 1,
             "position": 18,
             "score": 3
-          }
-        ],
-        "team": "Powercritters"
-      },
-      {
-        "id": 3796175,
-        "name": "PowerMax",
-        "totalScore": 14,
-        "raceScores": [
-          {
-            "race": 0,
-            "position": 12,
-            "score": 9
           },
           {
-            "race": 1,
-            "position": 16,
+            "race": 2,
+            "position": 15,
             "score": 5
           }
         ],
@@ -938,7 +1288,7 @@
       {
         "id": 2967439,
         "name": "VictoriaCicile",
-        "totalScore": 12,
+        "totalScore": 16,
         "raceScores": [
           {
             "race": 0,
@@ -949,32 +1299,19 @@
             "race": 1,
             "position": 19,
             "score": 2
+          },
+          {
+            "race": 2,
+            "position": 16,
+            "score": 4
           }
         ],
         "team": "Litany of Teeth"
-      },
-      {
-        "id": 3251423,
-        "name": "err0r418125",
-        "totalScore": 12,
-        "raceScores": [
-          {
-            "race": 0,
-            "position": 17,
-            "score": 4
-          },
-          {
-            "race": 1,
-            "position": 13,
-            "score": 8
-          }
-        ],
-        "team": "Latecomers"
       },
       {
         "id": 2802730,
         "name": "datcracker420",
-        "totalScore": 9,
+        "totalScore": 15,
         "raceScores": [
           {
             "race": 0,
@@ -985,33 +1322,228 @@
             "race": 1,
             "position": 20,
             "score": 1
+          },
+          {
+            "race": 2,
+            "position": 14,
+            "score": 6
           }
         ],
         "team": "Devil's Crackers"
-      },
-      {
-        "id": 3513090,
-        "name": "Squith",
-        "totalScore": 8,
-        "raceScores": [
-          {
-            "race": 0,
-            "position": 20,
-            "score": 1
-          },
-          {
-            "race": 1,
-            "position": 14,
-            "score": 7
-          }
-        ],
-        "team": "Litany of Teeth"
       }
     ],
     "team": [
       {
+        "name": "DaxWolf",
+        "totalScore": 84,
+        "members": [
+          {
+            "id": 1978647,
+            "name": "Delldax",
+            "totalScore": 45,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 5,
+                "score": 16
+              },
+              {
+                "race": 1,
+                "position": 10,
+                "score": 11
+              },
+              {
+                "race": 2,
+                "position": 2,
+                "score": 18
+              }
+            ],
+            "team": "DaxWolf"
+          },
+          {
+            "id": 3913421,
+            "name": "Wolfylein",
+            "totalScore": 39,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 9,
+                "score": 12
+              },
+              {
+                "race": 1,
+                "position": 3,
+                "score": 18
+              },
+              {
+                "race": 2,
+                "position": 11,
+                "score": 9
+              }
+            ],
+            "team": "DaxWolf"
+          }
+        ]
+      },
+      {
+        "name": "Stroke & Slice",
+        "totalScore": 84,
+        "members": [
+          {
+            "id": 2939779,
+            "name": "JaydusStrokka",
+            "totalScore": 43,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 6,
+                "score": 15
+              },
+              {
+                "race": 1,
+                "position": 4,
+                "score": 17
+              },
+              {
+                "race": 2,
+                "position": 9,
+                "score": 11
+              }
+            ],
+            "team": "Stroke & Slice"
+          },
+          {
+            "id": 3157644,
+            "name": "SirJimboSliceSr",
+            "totalScore": 41,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 3,
+                "score": 18
+              },
+              {
+                "race": 1,
+                "position": 12,
+                "score": 9
+              },
+              {
+                "race": 2,
+                "position": 6,
+                "score": 14
+              }
+            ],
+            "team": "Stroke & Slice"
+          }
+        ]
+      },
+      {
+        "name": "J-Bit Protocol",
+        "totalScore": 68,
+        "members": [
+          {
+            "id": 3163147,
+            "name": "bitek",
+            "totalScore": 45,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 4,
+                "score": 17
+              },
+              {
+                "race": 1,
+                "position": 8,
+                "score": 13
+              },
+              {
+                "race": 2,
+                "position": 5,
+                "score": 15
+              }
+            ],
+            "team": "J-Bit Protocol"
+          },
+          {
+            "id": 3774090,
+            "name": "Jereos",
+            "totalScore": 23,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 14,
+                "score": 7
+              },
+              {
+                "race": 1,
+                "position": 6,
+                "score": 15
+              },
+              {
+                "race": 2,
+                "position": 19,
+                "score": 1
+              }
+            ],
+            "team": "J-Bit Protocol"
+          }
+        ]
+      },
+      {
+        "name": "Caprider",
+        "totalScore": 67,
+        "members": [
+          {
+            "id": 3844859,
+            "name": "Mr_Lynch_Ryder",
+            "totalScore": 36,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 16,
+                "score": 5
+              },
+              {
+                "race": 1,
+                "position": 9,
+                "score": 12
+              },
+              {
+                "race": 2,
+                "position": 1,
+                "score": 19
+              }
+            ],
+            "team": "Caprider"
+          },
+          {
+            "id": 3599627,
+            "name": "CaptainRinny",
+            "totalScore": 31,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 7,
+                "score": 14
+              },
+              {
+                "race": 1,
+                "position": 17,
+                "score": 4
+              },
+              {
+                "race": 2,
+                "position": 7,
+                "score": 13
+              }
+            ],
+            "team": "Caprider"
+          }
+        ]
+      },
+      {
         "name": "Midnight Delivery",
-        "totalScore": 59,
+        "totalScore": 67,
         "members": [
           {
             "id": 3627681,
@@ -1034,7 +1566,7 @@
           {
             "id": 3562619,
             "name": "Postman_",
-            "totalScore": 19,
+            "totalScore": 27,
             "raceScores": [
               {
                 "race": 0,
@@ -1045,6 +1577,11 @@
                 "race": 1,
                 "position": 5,
                 "score": 16
+              },
+              {
+                "race": 2,
+                "position": 12,
+                "score": 8
               }
             ],
             "team": "Midnight Delivery"
@@ -1052,139 +1589,13 @@
         ]
       },
       {
-        "name": "Stroke & Slice",
-        "totalScore": 59,
-        "members": [
-          {
-            "id": 2939779,
-            "name": "JaydusStrokka",
-            "totalScore": 32,
-            "raceScores": [
-              {
-                "race": 0,
-                "position": 6,
-                "score": 15
-              },
-              {
-                "race": 1,
-                "position": 4,
-                "score": 17
-              }
-            ],
-            "team": "Stroke & Slice"
-          },
-          {
-            "id": 3157644,
-            "name": "SirJimboSliceSr",
-            "totalScore": 27,
-            "raceScores": [
-              {
-                "race": 0,
-                "position": 3,
-                "score": 18
-              },
-              {
-                "race": 1,
-                "position": 12,
-                "score": 9
-              }
-            ],
-            "team": "Stroke & Slice"
-          }
-        ]
-      },
-      {
-        "name": "DaxWolf",
-        "totalScore": 57,
-        "members": [
-          {
-            "id": 3913421,
-            "name": "Wolfylein",
-            "totalScore": 30,
-            "raceScores": [
-              {
-                "race": 0,
-                "position": 9,
-                "score": 12
-              },
-              {
-                "race": 1,
-                "position": 3,
-                "score": 18
-              }
-            ],
-            "team": "DaxWolf"
-          },
-          {
-            "id": 1978647,
-            "name": "Delldax",
-            "totalScore": 27,
-            "raceScores": [
-              {
-                "race": 0,
-                "position": 5,
-                "score": 16
-              },
-              {
-                "race": 1,
-                "position": 10,
-                "score": 11
-              }
-            ],
-            "team": "DaxWolf"
-          }
-        ]
-      },
-      {
-        "name": "J-Bit Protocol",
-        "totalScore": 52,
-        "members": [
-          {
-            "id": 3163147,
-            "name": "bitek",
-            "totalScore": 30,
-            "raceScores": [
-              {
-                "race": 0,
-                "position": 4,
-                "score": 17
-              },
-              {
-                "race": 1,
-                "position": 8,
-                "score": 13
-              }
-            ],
-            "team": "J-Bit Protocol"
-          },
-          {
-            "id": 3774090,
-            "name": "Jereos",
-            "totalScore": 22,
-            "raceScores": [
-              {
-                "race": 0,
-                "position": 14,
-                "score": 7
-              },
-              {
-                "race": 1,
-                "position": 6,
-                "score": 15
-              }
-            ],
-            "team": "J-Bit Protocol"
-          }
-        ]
-      },
-      {
         "name": "Turbo Whisker",
-        "totalScore": 39,
+        "totalScore": 62,
         "members": [
           {
             "id": 2792892,
             "name": "Xevi",
-            "totalScore": 23,
+            "totalScore": 39,
             "raceScores": [
               {
                 "race": 0,
@@ -1195,6 +1606,11 @@
                 "race": 1,
                 "position": 11,
                 "score": 10
+              },
+              {
+                "race": 2,
+                "position": 4,
+                "score": 16
               }
             ],
             "team": "Turbo Whisker"
@@ -1202,7 +1618,7 @@
           {
             "id": 3993903,
             "name": "PeachesCat",
-            "totalScore": 16,
+            "totalScore": 23,
             "raceScores": [
               {
                 "race": 0,
@@ -1213,6 +1629,11 @@
                 "race": 1,
                 "position": 7,
                 "score": 14
+              },
+              {
+                "race": 2,
+                "position": 13,
+                "score": 7
               }
             ],
             "team": "Turbo Whisker"
@@ -1221,12 +1642,12 @@
       },
       {
         "name": "Latecomers",
-        "totalScore": 37,
+        "totalScore": 52,
         "members": [
           {
             "id": 3171413,
             "name": "xKittehxKatx",
-            "totalScore": 25,
+            "totalScore": 28,
             "raceScores": [
               {
                 "race": 0,
@@ -1237,6 +1658,11 @@
                 "race": 1,
                 "position": 2,
                 "score": 19
+              },
+              {
+                "race": 2,
+                "position": 17,
+                "score": 3
               }
             ],
             "team": "Latecomers"
@@ -1244,7 +1670,7 @@
           {
             "id": 3251423,
             "name": "err0r418125",
-            "totalScore": 12,
+            "totalScore": 24,
             "raceScores": [
               {
                 "race": 0,
@@ -1255,6 +1681,11 @@
                 "race": 1,
                 "position": 13,
                 "score": 8
+              },
+              {
+                "race": 2,
+                "position": 8,
+                "score": 12
               }
             ],
             "team": "Latecomers"
@@ -1262,115 +1693,13 @@
         ]
       },
       {
-        "name": "Caprider",
-        "totalScore": 35,
-        "members": [
-          {
-            "id": 3599627,
-            "name": "CaptainRinny",
-            "totalScore": 18,
-            "raceScores": [
-              {
-                "race": 0,
-                "position": 7,
-                "score": 14
-              },
-              {
-                "race": 1,
-                "position": 17,
-                "score": 4
-              }
-            ],
-            "team": "Caprider"
-          },
-          {
-            "id": 3844859,
-            "name": "Mr_Lynch_Ryder",
-            "totalScore": 17,
-            "raceScores": [
-              {
-                "race": 0,
-                "position": 16,
-                "score": 5
-              },
-              {
-                "race": 1,
-                "position": 9,
-                "score": 12
-              }
-            ],
-            "team": "Caprider"
-          }
-        ]
-      },
-      {
-        "name": "Devil's Crackers",
-        "totalScore": 34,
-        "members": [
-          {
-            "id": 3722358,
-            "name": "Deviyl",
-            "totalScore": 25,
-            "raceScores": [
-              {
-                "race": 0,
-                "position": 2,
-                "score": 19
-              },
-              {
-                "race": 1,
-                "position": 15,
-                "score": 6
-              }
-            ],
-            "team": "Devil's Crackers"
-          },
-          {
-            "id": 2802730,
-            "name": "datcracker420",
-            "totalScore": 9,
-            "raceScores": [
-              {
-                "race": 0,
-                "position": 13,
-                "score": 8
-              },
-              {
-                "race": 1,
-                "position": 20,
-                "score": 1
-              }
-            ],
-            "team": "Devil's Crackers"
-          }
-        ]
-      },
-      {
         "name": "Powercritters",
-        "totalScore": 28,
+        "totalScore": 43,
         "members": [
-          {
-            "id": 3163171,
-            "name": "Kaleciatko",
-            "totalScore": 14,
-            "raceScores": [
-              {
-                "race": 0,
-                "position": 10,
-                "score": 11
-              },
-              {
-                "race": 1,
-                "position": 18,
-                "score": 3
-              }
-            ],
-            "team": "Powercritters"
-          },
           {
             "id": 3796175,
             "name": "PowerMax",
-            "totalScore": 14,
+            "totalScore": 24,
             "raceScores": [
               {
                 "race": 0,
@@ -1381,6 +1710,34 @@
                 "race": 1,
                 "position": 16,
                 "score": 5
+              },
+              {
+                "race": 2,
+                "position": 10,
+                "score": 10
+              }
+            ],
+            "team": "Powercritters"
+          },
+          {
+            "id": 3163171,
+            "name": "Kaleciatko",
+            "totalScore": 19,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 10,
+                "score": 11
+              },
+              {
+                "race": 1,
+                "position": 18,
+                "score": 3
+              },
+              {
+                "race": 2,
+                "position": 15,
+                "score": 5
               }
             ],
             "team": "Powercritters"
@@ -1388,31 +1745,65 @@
         ]
       },
       {
-        "name": "Litany of Teeth",
-        "totalScore": 20,
+        "name": "Devil's Crackers",
+        "totalScore": 42,
         "members": [
           {
-            "id": 2967439,
-            "name": "VictoriaCicile",
-            "totalScore": 12,
+            "id": 3722358,
+            "name": "Deviyl",
+            "totalScore": 27,
             "raceScores": [
               {
                 "race": 0,
-                "position": 11,
-                "score": 10
+                "position": 2,
+                "score": 19
               },
               {
                 "race": 1,
-                "position": 19,
+                "position": 15,
+                "score": 6
+              },
+              {
+                "race": 2,
+                "position": 18,
                 "score": 2
               }
             ],
-            "team": "Litany of Teeth"
+            "team": "Devil's Crackers"
           },
+          {
+            "id": 2802730,
+            "name": "datcracker420",
+            "totalScore": 15,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 13,
+                "score": 8
+              },
+              {
+                "race": 1,
+                "position": 20,
+                "score": 1
+              },
+              {
+                "race": 2,
+                "position": 14,
+                "score": 6
+              }
+            ],
+            "team": "Devil's Crackers"
+          }
+        ]
+      },
+      {
+        "name": "Litany of Teeth",
+        "totalScore": 41,
+        "members": [
           {
             "id": 3513090,
             "name": "Squith",
-            "totalScore": 8,
+            "totalScore": 25,
             "raceScores": [
               {
                 "race": 0,
@@ -1423,6 +1814,34 @@
                 "race": 1,
                 "position": 14,
                 "score": 7
+              },
+              {
+                "race": 2,
+                "position": 3,
+                "score": 17
+              }
+            ],
+            "team": "Litany of Teeth"
+          },
+          {
+            "id": 2967439,
+            "name": "VictoriaCicile",
+            "totalScore": 16,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 11,
+                "score": 10
+              },
+              {
+                "race": 1,
+                "position": 19,
+                "score": 2
+              },
+              {
+                "race": 2,
+                "position": 16,
+                "score": 4
               }
             ],
             "team": "Litany of Teeth"
