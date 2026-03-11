@@ -118,9 +118,21 @@ function displayEvent(eventData) {
 
     if (eventData.prizes && (eventData.prizes.first || eventData.prizes.second || eventData.prizes.third)) {
         document.getElementById('prizesSection').style.display = 'block';
-        document.getElementById('prize1Display').textContent = eventData.prizes.first || '—';
-        document.getElementById('prize2Display').textContent = eventData.prizes.second || '—';
-        document.getElementById('prize3Display').textContent = eventData.prizes.third || '—';
+        
+        const standings = eventData?.standings || { individual: [], team: [] };
+        const hasTeams = standings.team && standings.team.length > 0;
+        
+        const firstWinner = hasTeams ? standings.team[0] : standings.individual[0];
+        const secondWinner = hasTeams ? standings.team[1] : standings.individual[1];
+        const thirdWinner = hasTeams ? standings.team[2] : standings.individual[2];
+        
+        const firstName = firstWinner ? firstWinner.name : 'TBD';
+        const secondName = secondWinner ? secondWinner.name : 'TBD';
+        const thirdName = thirdWinner ? thirdWinner.name : 'TBD';
+        
+        document.getElementById('prize1Display').innerHTML = `<strong>${firstName}</strong><br>${eventData.prizes.first || '—'}`;
+        document.getElementById('prize2Display').innerHTML = `<strong>${secondName}</strong><br>${eventData.prizes.second || '—'}`;
+        document.getElementById('prize3Display').innerHTML = `<strong>${thirdName}</strong><br>${eventData.prizes.third || '—'}`;
     } else {
         document.getElementById('prizesSection').style.display = 'none';
     }
