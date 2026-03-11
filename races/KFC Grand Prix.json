@@ -100,7 +100,7 @@
     {
       "id": 3251423,
       "name": "err0r418125",
-      "team": null,
+      "team": "Latecomers",
       "races": []
     },
     {
@@ -118,29 +118,77 @@
     {
       "id": 3163147,
       "name": "bitek",
-      "team": null,
+      "team": "J-Bit Protocol",
       "races": []
     },
     {
       "id": 3163171,
       "name": "Kaleciatko",
-      "team": null,
+      "team": "Powercritters",
       "races": []
     },
     {
       "id": 2792892,
       "name": "Xevi",
-      "team": null,
+      "team": "Turbo Whisker",
       "races": []
     },
     {
       "id": 3774090,
       "name": "Jereos",
-      "team": null,
+      "team": "J-Bit Protocol",
       "races": []
     },
     {
       "team": null,
+      "races": []
+    },
+    {
+      "id": 3913421,
+      "name": "Wolfylein",
+      "team": "DaxWolf",
+      "races": []
+    },
+    {
+      "id": 3627681,
+      "name": "ZeTwilighTwizz",
+      "team": "Midnight Delivery",
+      "races": []
+    },
+    {
+      "id": 3796175,
+      "name": "PowerMax",
+      "team": "Powercritters",
+      "races": []
+    },
+    {
+      "id": 3513090,
+      "name": "Squith",
+      "team": "Litany of Teeth",
+      "races": []
+    },
+    {
+      "id": 3844859,
+      "name": "Mr_Lynch_Ryder",
+      "team": "Caprider",
+      "races": []
+    },
+    {
+      "id": 3993903,
+      "name": "PeachesCat",
+      "team": "Turbo Whisker",
+      "races": []
+    },
+    {
+      "id": 2967439,
+      "name": "VictoriaCicile",
+      "team": "Litany of Teeth",
+      "races": []
+    },
+    {
+      "id": 3171413,
+      "name": "xKittehxKatx",
+      "team": "Latecomers",
       "races": []
     }
   ],
