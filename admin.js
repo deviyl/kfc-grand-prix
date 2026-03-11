@@ -768,6 +768,7 @@ function setupEventManagement() {
         document.getElementById('raceResultsSection').style.display = 'block';
         document.getElementById('standingsSection').style.display = 'block';
 
+        eventManager.calculateStandings();
         displayStandings();
         displayPlayers();
         displayRaces();
@@ -1125,6 +1126,7 @@ function setupRaceResults() {
                 fetchStatus.className = 'status-text';
             }, 4000);
 
+            eventManager.calculateStandings();
             displayRaces();
             displayStandings();
 
