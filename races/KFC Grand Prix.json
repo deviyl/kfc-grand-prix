@@ -70,6 +70,12 @@
     {
       "id": 3722358,
       "name": "Deviyl",
+      "team": "Devil's Crackers",
+      "races": []
+    },
+    {
+      "id": 2802730,
+      "name": "datcracker420",
       "team": null,
       "races": []
     }
