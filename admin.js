@@ -504,56 +504,77 @@ function setupEventManagement() {
         generateRaceNameInputs(1);
     });
 
-    loadEventBtn.addEventListener('click', () => {
-        const events = eventManager.listEvents();
-        if (events.length === 0) {
-            alert('No events found');
-            return;
-        }
-
-        const modal = document.createElement('div');
-        modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:9999;';
+    loadEventBtn.addEventListener('click', async () => {
+        const loadEventBtn = document.getElementById('loadEventBtn');
+        const originalText = loadEventBtn.textContent;
         
-        const content = document.createElement('div');
-        content.style.cssText = 'background:#2d2d2d;border:2px solid #d4af37;border-radius:8px;padding:24px;max-width:400px;color:#fff;';
-        
-        content.innerHTML = `
-            <h3 style="margin-bottom:16px;color:#d4af37;">Select Event to Load</h3>
-            <select id="eventDropdown" style="width:100%;padding:8px;margin-bottom:16px;background:#1a1a1a;color:#fff;border:1px solid #d4af37;border-radius:4px;">
-                ${events.map(e => `<option value="${e.name}">${e.name}</option>`).join('')}
-            </select>
-            <div style="display:flex;gap:8px;">
-                <button id="confirmLoad" style="flex:1;padding:8px;background:#d4af37;color:#1a1a1a;border:none;border-radius:4px;cursor:pointer;font-weight:600;">Load</button>
-                <button id="cancelLoad" style="flex:1;padding:8px;background:#444;color:#fff;border:none;border-radius:4px;cursor:pointer;">Cancel</button>
-            </div>
-        `;
-        
-        modal.appendChild(content);
-        document.body.appendChild(modal);
-
-        document.getElementById('confirmLoad').addEventListener('click', async () => {
-            const eventName = document.getElementById('eventDropdown').value;
-            const confirmBtn = document.getElementById('confirmLoad');
-            const originalText = confirmBtn.textContent;
+        try {
+            loadEventBtn.disabled = true;
+            loadEventBtn.textContent = 'Fetching events...';
             
-            try {
-                confirmBtn.disabled = true;
-                confirmBtn.textContent = 'Loading...';
-                
-                await fetchEventFromGitHub(eventName);
-                eventManager.loadEvent(eventName);
-                displayActiveEvent();
-                modal.remove();
-            } catch (error) {
-                alert('Error loading event: ' + error.message);
-                confirmBtn.disabled = false;
-                confirmBtn.textContent = originalText;
+            // For now, we'll create a manual list. In the future, you could maintain a manifest file
+            const knownEvents = ['KFC Grand Prix'];
+            
+            if (knownEvents.length === 0) {
+                alert('No events found');
+                loadEventBtn.disabled = false;
+                loadEventBtn.textContent = originalText;
+                return;
             }
-        });
 
-        document.getElementById('cancelLoad').addEventListener('click', () => {
-            modal.remove();
-        });
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:9999;';
+            
+            const content = document.createElement('div');
+            content.style.cssText = 'background:#2d2d2d;border:2px solid #d4af37;border-radius:8px;padding:24px;max-width:400px;color:#fff;';
+            
+            content.innerHTML = `
+                <h3 style="margin-bottom:16px;color:#d4af37;">Select Event to Load</h3>
+                <select id="eventDropdown" style="width:100%;padding:8px;margin-bottom:16px;background:#1a1a1a;color:#fff;border:1px solid #d4af37;border-radius:4px;">
+                    ${knownEvents.map(e => `<option value="${e}">${e}</option>`).join('')}
+                </select>
+                <div style="display:flex;gap:8px;">
+                    <button id="confirmLoad" style="flex:1;padding:8px;background:#d4af37;color:#1a1a1a;border:none;border-radius:4px;cursor:pointer;font-weight:600;">Load</button>
+                    <button id="cancelLoad" style="flex:1;padding:8px;background:#444;color:#fff;border:none;border-radius:4px;cursor:pointer;">Cancel</button>
+                </div>
+            `;
+            
+            modal.appendChild(content);
+            document.body.appendChild(modal);
+
+            document.getElementById('confirmLoad').addEventListener('click', async () => {
+                const eventName = document.getElementById('eventDropdown').value;
+                const confirmBtn = document.getElementById('confirmLoad');
+                const confirmOriginalText = confirmBtn.textContent;
+                
+                try {
+                    confirmBtn.disabled = true;
+                    confirmBtn.textContent = 'Loading...';
+                    
+                    await fetchEventFromGitHub(eventName);
+                    eventManager.loadEvent(eventName);
+                    displayActiveEvent();
+                    modal.remove();
+                } catch (error) {
+                    alert('Error loading event: ' + error.message);
+                    confirmBtn.disabled = false;
+                    confirmBtn.textContent = confirmOriginalText;
+                }
+            });
+
+            document.getElementById('cancelLoad').addEventListener('click', () => {
+                modal.remove();
+                loadEventBtn.disabled = false;
+                loadEventBtn.textContent = originalText;
+            });
+            
+            loadEventBtn.disabled = false;
+            loadEventBtn.textContent = originalText;
+        } catch (error) {
+            alert('Error: ' + error.message);
+            loadEventBtn.disabled = false;
+            loadEventBtn.textContent = originalText;
+        }
     });
 
     numRaces.addEventListener('change', (e) => {
