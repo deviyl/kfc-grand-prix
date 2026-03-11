@@ -737,9 +737,18 @@
     {
       "index": 3,
       "name": "KFC Grand Prix - Race 4",
-      "tornRaceId": null,
-      "status": "pending",
-      "results": []
+      "tornRaceId": "manual",
+      "status": "manual",
+      "results": [
+        {
+          "driver_id": 1978647,
+          "position": 1
+        },
+        {
+          "driver_id": 3157644,
+          "position": 2
+        }
+      ]
     }
   ],
   "teams": [
@@ -896,7 +905,7 @@
       {
         "id": 1978647,
         "name": "Delldax",
-        "totalScore": 46,
+        "totalScore": 66,
         "raceScores": [
           {
             "race": 0,
@@ -912,9 +921,42 @@
             "race": 2,
             "position": 2,
             "score": 19
+          },
+          {
+            "race": 3,
+            "position": 1,
+            "score": 20
           }
         ],
         "team": "DaxWolf"
+      },
+      {
+        "id": 3157644,
+        "name": "SirJimboSliceSr",
+        "totalScore": 61,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 3,
+            "score": 18
+          },
+          {
+            "race": 1,
+            "position": 12,
+            "score": 9
+          },
+          {
+            "race": 2,
+            "position": 6,
+            "score": 15
+          },
+          {
+            "race": 3,
+            "position": 2,
+            "score": 19
+          }
+        ],
+        "team": "Stroke & Slice"
       },
       {
         "id": 3163147,
@@ -958,29 +1000,6 @@
             "race": 2,
             "position": 9,
             "score": 12
-          }
-        ],
-        "team": "Stroke & Slice"
-      },
-      {
-        "id": 3157644,
-        "name": "SirJimboSliceSr",
-        "totalScore": 42,
-        "raceScores": [
-          {
-            "race": 0,
-            "position": 3,
-            "score": 18
-          },
-          {
-            "race": 1,
-            "position": 12,
-            "score": 9
-          },
-          {
-            "race": 2,
-            "position": 6,
-            "score": 15
           }
         ],
         "team": "Stroke & Slice"
@@ -1352,12 +1371,12 @@
     "team": [
       {
         "name": "DaxWolf",
-        "totalScore": 86,
+        "totalScore": 106,
         "members": [
           {
             "id": 1978647,
             "name": "Delldax",
-            "totalScore": 46,
+            "totalScore": 66,
             "raceScores": [
               {
                 "race": 0,
@@ -1373,6 +1392,11 @@
                 "race": 2,
                 "position": 2,
                 "score": 19
+              },
+              {
+                "race": 3,
+                "position": 1,
+                "score": 20
               }
             ],
             "team": "DaxWolf"
@@ -1404,8 +1428,36 @@
       },
       {
         "name": "Stroke & Slice",
-        "totalScore": 86,
+        "totalScore": 105,
         "members": [
+          {
+            "id": 3157644,
+            "name": "SirJimboSliceSr",
+            "totalScore": 61,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 3,
+                "score": 18
+              },
+              {
+                "race": 1,
+                "position": 12,
+                "score": 9
+              },
+              {
+                "race": 2,
+                "position": 6,
+                "score": 15
+              },
+              {
+                "race": 3,
+                "position": 2,
+                "score": 19
+              }
+            ],
+            "team": "Stroke & Slice"
+          },
           {
             "id": 2939779,
             "name": "JaydusStrokka",
@@ -1425,29 +1477,6 @@
                 "race": 2,
                 "position": 9,
                 "score": 12
-              }
-            ],
-            "team": "Stroke & Slice"
-          },
-          {
-            "id": 3157644,
-            "name": "SirJimboSliceSr",
-            "totalScore": 42,
-            "raceScores": [
-              {
-                "race": 0,
-                "position": 3,
-                "score": 18
-              },
-              {
-                "race": 1,
-                "position": 12,
-                "score": 9
-              },
-              {
-                "race": 2,
-                "position": 6,
-                "score": 15
               }
             ],
             "team": "Stroke & Slice"
