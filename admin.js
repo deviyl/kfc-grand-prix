@@ -97,6 +97,49 @@ async function fetchEventFromGitHub(eventName) {
     }
 }
 
+async function fetchEventFromGitHub(eventName) {
+    try {
+        const timestamp = Date.now();
+        const rawUrl = `https://raw.githubusercontent.com/deviyl/kfc-grand-prix/main/races/${encodeURIComponent(eventName)}.json?t=${timestamp}`;
+        const response = await fetch(rawUrl);
+        
+        if (!response.ok) {
+            throw new Error('Event not found on GitHub');
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching from GitHub:', error);
+        throw error;
+    }
+}
+
+function applyManualScores(manualScores) {
+    if (!eventManager.eventData) return;
+
+    Object.entries(manualScores).forEach(([raceIndex, playerScores]) => {
+        const race = eventManager.eventData.races[parseInt(raceIndex)];
+        if (!race) return;
+
+        playerScores.forEach(({ playerId, score }) => {
+            const player = eventManager.eventData.players.find(p => p.id === playerId);
+            if (!player) return;
+
+            const existingResult = race.results.find(r => r.driver_id === playerId);
+            if (existingResult) {
+                existingResult.position = race.results.length + 1;
+            } else {
+                race.results.push({
+                    driver_id: playerId,
+                    position: race.results.length + 1,
+                });
+            }
+        });
+
+        eventManager.calculateStandings();
+    });
+}
+
 async function saveEventToGitHub(eventName, eventData) {
     try {
         const response = await fetch(CLOUDFLARE_WORKER, {
@@ -608,6 +651,9 @@ function setupEventManagement() {
 
     function generateRaceNameInputs(count) {
         raceNamesContainer.innerHTML = '';
+        const manualScoresContainer = document.getElementById('manualScoresContainer');
+        manualScoresContainer.innerHTML = '';
+        
         for (let i = 0; i < count; i++) {
             const group = document.createElement('div');
             group.className = 'race-name-input-group';
@@ -622,9 +668,72 @@ function setupEventManagement() {
                         required
                     >
                 </div>
+                <div class="form-group" style="display:flex;align-items:center;gap:8px;">
+                    <input 
+                        type="checkbox" 
+                        id="manualScore${i}" 
+                        class="manual-score-checkbox"
+                        data-race-index="${i}"
+                    >
+                    <label for="manualScore${i}" style="margin:0;">Manual Scoring</label>
+                </div>
             `;
             raceNamesContainer.appendChild(group);
+            
+            const scoreDiv = document.createElement('div');
+            scoreDiv.id = `manualScoresContainer${i}`;
+            scoreDiv.style.display = 'none';
+            scoreDiv.style.marginBottom = '16px';
+            scoreDiv.style.padding = '12px';
+            scoreDiv.style.background = 'rgba(0,0,0,0.2)';
+            scoreDiv.style.borderRadius = '4px';
+            scoreDiv.innerHTML = `
+                <h4 style="color:#d4af37;margin-top:0;font-size:14px;">Race ${i + 1}: <span id="raceName${i}Display"></span></h4>
+                <div id="playerScoresContainer${i}" style="display:flex;flex-direction:column;gap:8px;"></div>
+                <button type="button" class="btn btn-secondary add-player-score-btn" data-race-index="${i}" style="margin-top:8px;">+ Add Player Score</button>
+            `;
+            manualScoresContainer.appendChild(scoreDiv);
         }
+        
+        document.querySelectorAll('.manual-score-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                const raceIndex = parseInt(e.target.dataset.raceIndex);
+                const raceName = document.getElementById(`raceName${raceIndex}`).value;
+                document.getElementById(`raceName${raceIndex}Display`).textContent = raceName;
+                const container = document.getElementById(`manualScoresContainer${raceIndex}`);
+                const section = document.getElementById('manualScoresSection');
+                
+                if (e.target.checked) {
+                    container.style.display = 'block';
+                } else {
+                    container.style.display = 'none';
+                }
+                
+                const anyChecked = document.querySelector('.manual-score-checkbox:checked');
+                section.style.display = anyChecked ? 'block' : 'none';
+            });
+        });
+        
+        document.querySelectorAll('.add-player-score-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const raceIndex = parseInt(e.target.dataset.raceIndex);
+                const container = document.getElementById(`playerScoresContainer${raceIndex}`);
+                const playerScoreRow = document.createElement('div');
+                playerScoreRow.style.display = 'flex';
+                playerScoreRow.style.gap = '8px';
+                playerScoreRow.style.alignItems = 'center';
+                playerScoreRow.innerHTML = `
+                    <input type="number" placeholder="Player ID" class="player-id-input" style="flex:1;padding:8px;border:1px solid #d4af37;background:#1a1a1a;color:#fff;border-radius:4px;">
+                    <input type="number" placeholder="Score" class="player-score-input" style="flex:1;padding:8px;border:1px solid #d4af37;background:#1a1a1a;color:#fff;border-radius:4px;">
+                    <button type="button" class="btn btn-danger remove-score-btn" style="padding:6px 12px;font-size:12px;">✕</button>
+                `;
+                container.appendChild(playerScoreRow);
+                
+                playerScoreRow.querySelector('.remove-score-btn').addEventListener('click', () => {
+                    playerScoreRow.remove();
+                });
+            });
+        });
     }
 
     teamModeRadios.forEach(radio => {
@@ -672,6 +781,24 @@ function setupEventManagement() {
                 members: [],
             }));
 
+        const manualScores = {};
+        document.querySelectorAll('.manual-score-checkbox:checked').forEach(checkbox => {
+            const raceIndex = parseInt(checkbox.dataset.raceIndex);
+            const playerScores = [];
+            const container = document.getElementById(`playerScoresContainer${raceIndex}`);
+            const rows = container.querySelectorAll('[style*="flex"]');
+            rows.forEach(row => {
+                const playerId = parseInt(row.querySelector('.player-id-input').value);
+                const score = parseInt(row.querySelector('.player-score-input').value);
+                if (playerId && score) {
+                    playerScores.push({ playerId, score });
+                }
+            });
+            if (playerScores.length > 0) {
+                manualScores[raceIndex] = playerScores;
+            }
+        });
+
         const eventConfig = {
             eventName: document.getElementById('eventName').value,
             raceNames: raceNames,
@@ -680,6 +807,7 @@ function setupEventManagement() {
             prize1st: document.getElementById('prize1st').value,
             prize2nd: document.getElementById('prize2nd').value,
             prize3rd: document.getElementById('prize3rd').value,
+            manualScores: manualScores,
         };
 
         try {
@@ -692,8 +820,13 @@ function setupEventManagement() {
             } else {
                 await eventManager.createEvent(eventConfig);
             }
+            
+            if (Object.keys(manualScores).length > 0) {
+                applyManualScores(manualScores);
+            }
+            
             eventFormContainer.style.display = 'none';
-            displayActiveEvent();
+            await displayActiveEvent();
             alert('Event saved successfully!');
 
             submitBtn.disabled = false;
