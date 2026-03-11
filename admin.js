@@ -165,9 +165,13 @@ function applyManualScores(manualScores) {
                 console.log(`Updated ${standing.name}: added race ${raceIdx} with ${score} points, total=${standing.totalScore}`);
             }
         });
+        
+        console.log(`Race ${raceIdx} results after apply:`, race.results);
     });
 
+    console.log('Before calculateStandings, checking race 3:', eventManager.eventData.races[3]);
     eventManager.calculateStandings();
+    console.log('After calculateStandings, standings:', eventManager.eventData.standings.individual.filter(s => s.id === 3157644));
     console.log('Manual scores applied and standings recalculated');
 }
 
@@ -891,9 +895,12 @@ function setupEventManagement() {
             }
             
             eventFormContainer.style.display = 'none';
-            displayActiveEvent();
             
+            console.log('Saving event to GitHub...');
             await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
+            console.log('Event saved to GitHub');
+            
+            displayActiveEvent();
             alert('Event saved successfully!');
 
             submitBtn.disabled = false;
