@@ -117,20 +117,33 @@ async function fetchEventFromGitHub(eventName) {
 function applyManualScores(manualScores) {
     if (!eventManager.eventData) return;
 
+    console.log('Applying manual scores:', manualScores);
+
     Object.entries(manualScores).forEach(([raceIndex, playerScores]) => {
         const raceIdx = parseInt(raceIndex);
         const race = eventManager.eventData.races[raceIdx];
-        if (!race) return;
+        if (!race) {
+            console.log(`Race ${raceIdx} not found`);
+            return;
+        }
+
+        console.log(`Processing race ${raceIdx}:`, playerScores);
 
         race.tornRaceId = 'manual';
         race.status = 'manual';
-        if (!race.results) {
-            race.results = [];
-        }
+        race.results = [];
 
         playerScores.forEach(({ playerId, score, position }) => {
             const player = eventManager.eventData.players.find(p => p.id === playerId);
-            if (!player) return;
+            if (!player) {
+                console.log(`Player ${playerId} not found`);
+                return;
+            }
+
+            race.results.push({
+                driver_id: playerId,
+                position: position,
+            });
 
             const standing = eventManager.eventData.standings.individual.find(p => p.id === playerId);
             if (standing) {
@@ -147,11 +160,13 @@ function applyManualScores(manualScores) {
                     });
                 }
                 standing.totalScore += score;
+                console.log(`Updated ${standing.name}: total=${standing.totalScore}`);
             }
         });
     });
 
     eventManager.calculateStandings();
+    console.log('Manual scores applied and standings recalculated');
 }
 
 async function saveEventToGitHub(eventName, eventData) {
