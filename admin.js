@@ -97,7 +97,7 @@ async function fetchEventFromGitHub(eventName) {
     }
 }
 
-
+async function saveEventToGitHub(eventName, eventData) {
     try {
         const response = await fetch(CLOUDFLARE_WORKER, {
             method: 'POST',
