@@ -1,5 +1,7 @@
-const ADMIN_PASSWORD = 'NogLovesToes';
 const API_BASE = 'https://api.torn.com';
+const GITHUB_OWNER = 'deviyl';
+const GITHUB_REPO = 'kfc-grand-prix';
+const GITHUB_WORKFLOWS_DISPATCH = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/save-race-event.yml/dispatches`;
 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -78,6 +80,41 @@ async function getRaceResults(raceName) {
     }
 }
 
+async function triggerGitHubWorkflow(eventName, eventData) {
+    const githubToken = getCookie('githubToken');
+    if (!githubToken) {
+        throw new Error('GitHub token not set. Please set it in settings.');
+    }
+
+    try {
+        const response = await fetch(GITHUB_WORKFLOWS_DISPATCH, {
+            method: 'POST',
+            headers: {
+                'Authorization': `token ${githubToken}`,
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                ref: 'main',
+                inputs: {
+                    event_name: eventName,
+                    event_data: JSON.stringify(eventData),
+                },
+            }),
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(`GitHub API Error: ${error.message || response.statusText}`);
+        }
+
+        return true;
+    } catch (error) {
+        console.error('GitHub workflow trigger error:', error);
+        throw error;
+    }
+}
+
 class EventManager {
     constructor() {
         this.currentEvent = null;
@@ -99,7 +136,7 @@ class EventManager {
         }
     }
 
-    createEvent(eventConfig) {
+    async createEvent(eventConfig) {
         const eventData = {
             name: eventConfig.eventName,
             createdAt: new Date().toISOString(),
@@ -124,13 +161,16 @@ class EventManager {
         };
 
         localStorage.setItem(`event_${eventConfig.eventName}`, JSON.stringify(eventData));
+        
+        await triggerGitHubWorkflow(eventConfig.eventName, eventData);
+        
         this.eventData = eventData;
         this.currentEvent = eventConfig.eventName;
 
         return eventData;
     }
 
-    updateEvent(eventConfig) {
+    async updateEvent(eventConfig) {
         if (!this.eventData) throw new Error('No event loaded');
 
         this.eventData.name = eventConfig.eventName;
@@ -155,8 +195,10 @@ class EventManager {
 
         localStorage.removeItem(`event_${this.currentEvent}`);
         localStorage.setItem(`event_${eventConfig.eventName}`, JSON.stringify(this.eventData));
+        
+        await triggerGitHubWorkflow(eventConfig.eventName, this.eventData);
+        
         this.currentEvent = eventConfig.eventName;
-        this.saveEvent();
 
         return this.eventData;
     }
@@ -363,13 +405,6 @@ authForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const inputApiKey = document.getElementById('apiKey').value;
-    const inputPassword = document.getElementById('adminPassword').value;
-
-    if (inputPassword !== ADMIN_PASSWORD) {
-        authError.textContent = 'Invalid admin password';
-        authError.style.display = 'block';
-        return;
-    }
 
     try {
         apiKey = inputApiKey;
@@ -389,6 +424,7 @@ authForm.addEventListener('submit', async (e) => {
 
 logoutBtn.addEventListener('click', () => {
     clearCookie('tornApiKey');
+    clearCookie('githubToken');
     apiKey = null;
     authPanel.style.display = 'flex';
     adminPanel.style.display = 'none';
@@ -398,14 +434,54 @@ logoutBtn.addEventListener('click', () => {
 
 clearApiBtn.addEventListener('click', () => {
     clearCookie('tornApiKey');
+    clearCookie('githubToken');
     apiKey = null;
-    alert('API key cleared');
+    alert('API key and GitHub token cleared');
 });
 
 function initializeAdmin() {
+    setupGitHubTokenModal();
     setupEventManagement();
     setupPlayerManagement();
     setupRaceResults();
+}
+
+function setupGitHubTokenModal() {
+    const existingToken = getCookie('githubToken');
+    if (!existingToken) {
+        const modal = document.createElement('div');
+        modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:9999;';
+        
+        const content = document.createElement('div');
+        content.style.cssText = 'background:#2d2d2d;border:2px solid #d4af37;border-radius:8px;padding:24px;max-width:500px;color:#fff;';
+        
+        content.innerHTML = `
+            <h3 style="margin-bottom:16px;color:#d4af37;">GitHub Token Setup</h3>
+            <p style="color:#b0b0b0;margin-bottom:16px;font-size:14px;">Enter your GitHub Personal Access Token (PAT) to enable auto-commit of race events. This token is stored locally in your browser and used to save events to the repository.</p>
+            <input type="password" id="githubTokenInput" placeholder="github_pat_..." style="width:100%;padding:10px;margin-bottom:16px;background:#1a1a1a;color:#fff;border:1px solid #d4af37;border-radius:4px;font-family:monospace;font-size:12px;">
+            <div style="display:flex;gap:8px;">
+                <button id="confirmToken" style="flex:1;padding:10px;background:#d4af37;color:#1a1a1a;border:none;border-radius:4px;cursor:pointer;font-weight:600;">Save Token</button>
+                <button id="skipToken" style="flex:1;padding:10px;background:#444;color:#fff;border:none;border-radius:4px;cursor:pointer;">Skip for Now</button>
+            </div>
+        `;
+        
+        modal.appendChild(content);
+        document.body.appendChild(modal);
+
+        document.getElementById('confirmToken').addEventListener('click', () => {
+            const token = document.getElementById('githubTokenInput').value;
+            if (token) {
+                setCookie('githubToken', token, 30);
+                modal.remove();
+            } else {
+                alert('Please enter a valid token');
+            }
+        });
+
+        document.getElementById('skipToken').addEventListener('click', () => {
+            modal.remove();
+        });
+    }
 }
 
 function setupEventManagement() {
@@ -545,7 +621,7 @@ function setupEventManagement() {
         }
     });
 
-    eventForm.addEventListener('submit', (e) => {
+    eventForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const raceNames = Array.from(document.querySelectorAll('.race-name-input'))
@@ -569,16 +645,26 @@ function setupEventManagement() {
         };
 
         try {
+            const submitBtn = eventForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Saving...';
+
             if (editingEvent && eventManager.eventData) {
-                eventManager.updateEvent(eventConfig);
+                await eventManager.updateEvent(eventConfig);
             } else {
-                eventManager.createEvent(eventConfig);
+                await eventManager.createEvent(eventConfig);
             }
             eventFormContainer.style.display = 'none';
             displayActiveEvent();
             alert('Event saved successfully!');
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Save Event';
         } catch (error) {
             alert('Error saving event: ' + error.message);
+            const submitBtn = eventForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Save Event';
         }
     });
 
@@ -779,7 +865,7 @@ function setupPlayerManagement() {
                 zone.style.background = zone.id === 'unassigned-drop-zone' ? 'transparent' : 'rgba(0,0,0,0.3)';
             });
 
-            zone.addEventListener('drop', (e) => {
+            zone.addEventListener('drop', async (e) => {
                 e.preventDefault();
                 const playerId = parseInt(e.dataTransfer.getData('playerId'));
                 const teamName = zone.dataset.team;
@@ -793,19 +879,22 @@ function setupPlayerManagement() {
                 zone.style.background = zone.id === 'unassigned-drop-zone' ? 'transparent' : 'rgba(0,0,0,0.3)';
                 displayPlayers();
                 displayStandings();
+
+                await triggerGitHubWorkflow(eventManager.eventData.name, eventManager.eventData);
             });
         });
     }
 
     function setupTeamEditing() {
         document.querySelectorAll('.edit-team-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', async () => {
                 const teamName = btn.dataset.team;
                 const newName = prompt(`Edit team name:`, teamName);
                 if (newName && newName !== teamName) {
                     eventManager.updateTeamName(teamName, newName);
                     displayPlayers();
                     displayStandings();
+                    await triggerGitHubWorkflow(eventManager.eventData.name, eventManager.eventData);
                 }
             });
         });
@@ -813,12 +902,13 @@ function setupPlayerManagement() {
 
     function setupTeamDeletion() {
         document.querySelectorAll('.delete-team-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', async () => {
                 const teamName = btn.dataset.team;
                 if (confirm(`Delete team "${teamName}"? Players will be unassigned.`)) {
                     eventManager.removeTeam(teamName);
                     displayPlayers();
                     displayStandings();
+                    await triggerGitHubWorkflow(eventManager.eventData.name, eventManager.eventData);
                 }
             });
         });
@@ -826,25 +916,15 @@ function setupPlayerManagement() {
 
     function setupPlayerRemoval() {
         document.querySelectorAll('.delete-player-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', async () => {
                 const playerId = parseInt(btn.dataset.playerId);
                 const player = eventManager.eventData.players.find(p => p.id === playerId);
                 if (confirm(`Remove player "${player.name}"?`)) {
                     eventManager.removePlayer(playerId);
                     displayPlayers();
                     displayStandings();
+                    await triggerGitHubWorkflow(eventManager.eventData.name, eventManager.eventData);
                 }
-            });
-        });
-    }
-
-    function setupRemoveFromTeam() {
-        document.querySelectorAll('.remove-from-team').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const playerId = parseInt(btn.dataset.playerId);
-                eventManager.removePlayerFromTeam(playerId);
-                displayPlayers();
-                displayStandings();
             });
         });
     }
@@ -889,6 +969,9 @@ function setupRaceResults() {
 
             fetchStatus.textContent = message;
             fetchStatus.className = 'status-text success';
+            
+            await triggerGitHubWorkflow(eventManager.eventData.name, eventManager.eventData);
+
             setTimeout(() => {
                 fetchStatus.textContent = '';
                 fetchStatus.className = 'status-text';
