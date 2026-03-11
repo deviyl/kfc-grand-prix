@@ -142,35 +142,43 @@ function displayStandings(eventData) {
     teamDisplay.innerHTML = '';
 
     const standings = eventData?.standings || { individual: [], team: [] };
+    const hasTeams = standings.team && standings.team.length > 0;
 
     if (standings.individual && standings.individual.length > 0) {
-        let tableHtml = '<div class="standings-table-wrapper"><table class="standings-table"><thead><tr>';
-        tableHtml += '<th>Rank</th><th>Name</th>';
+        if (hasTeams) {
+            individualContainer.style.display = 'none';
+        } else {
+            individualContainer.style.display = 'block';
+            let tableHtml = '<div class="standings-table-wrapper"><table class="standings-table"><thead><tr>';
+            tableHtml += '<th>Rank</th><th>Name</th>';
 
-        (eventData?.races || []).forEach((race, index) => {
-            tableHtml += `<th>R${index + 1}</th>`;
-        });
-
-        tableHtml += '<th>Total</th></tr></thead><tbody>';
-
-        standings.individual.forEach((player, index) => {
-            if (!player) return;
-            tableHtml += `<tr>
-                <td class="standings-rank">${index + 1}</td>
-                <td class="standings-name">${player.name || 'Unknown'}</td>`;
-
-            (eventData?.races || []).forEach((_, raceIndex) => {
-                const raceScore = player.raceScores?.find(rs => rs.race === raceIndex);
-                tableHtml += `<td class="standings-race-score ${raceScore ? '' : 'dnf'}">${raceScore ? raceScore.score : '—'}</td>`;
+            (eventData?.races || []).forEach((race, index) => {
+                tableHtml += `<th>R${index + 1}</th>`;
             });
 
-            tableHtml += `<td class="standings-score">${player.totalScore || 0}</td></tr>`;
-        });
+            tableHtml += '<th>Total</th></tr></thead><tbody>';
 
-        tableHtml += '</tbody></table></div>';
-        individualDisplay.innerHTML = tableHtml;
+            standings.individual.forEach((player, index) => {
+                if (!player) return;
+                tableHtml += `<tr>
+                    <td class="standings-rank">${index + 1}</td>
+                    <td class="standings-name">${player.name || 'Unknown'}</td>`;
+
+                (eventData?.races || []).forEach((_, raceIndex) => {
+                    const raceScore = player.raceScores?.find(rs => rs.race === raceIndex);
+                    tableHtml += `<td class="standings-race-score ${raceScore ? '' : 'dnf'}">${raceScore ? raceScore.score : '—'}</td>`;
+                });
+
+                tableHtml += `<td class="standings-score">${player.totalScore || 0}</td></tr>`;
+            });
+
+            tableHtml += '</tbody></table></div>';
+            individualDisplay.innerHTML = tableHtml;
+        }
     } else {
-        individualDisplay.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 32px;">No race results yet</p>';
+        if (!hasTeams) {
+            individualDisplay.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 32px;">No race results yet</p>';
+        }
     }
 
     if (standings.team && standings.team.length > 0) {
@@ -187,10 +195,12 @@ function displayStandings(eventData) {
 
         standings.team.forEach((team, index) => {
             if (!team) return;
+            const memberNames = (team.members || []).map(m => m?.name || 'Unknown').join(', ');
+            
             teamHtml += `<tr>
                 <td class="standings-rank">${index + 1}</td>
                 <td class="standings-name">${team.name || 'Unknown Team'}</td>
-                <td class="team-members-inline">${(team.members || []).length} players</td>`;
+                <td class="team-members-inline">${memberNames || 'No members'}</td>`;
 
             (eventData?.races || []).forEach((_, raceIndex) => {
                 const raceTeamScore = (team.members || []).reduce((sum, member) => {
