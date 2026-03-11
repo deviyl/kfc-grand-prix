@@ -1,7 +1,5 @@
 const API_BASE = 'https://api.torn.com';
-const GITHUB_OWNER = 'deviyl';
-const GITHUB_REPO = 'kfc-grand-prix';
-const GITHUB_WORKFLOWS_DISPATCH = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/save-race-event.yml/dispatches`;
+const CLOUDFLARE_WORKER = 'https://kfcrace.deviyl.workers.dev/save-event';
 
 function getCookie(name) {
     const value = `; ${document.cookie}`;
@@ -80,37 +78,27 @@ async function getRaceResults(raceName) {
     }
 }
 
-async function triggerGitHubWorkflow(eventName, eventData) {
-    const githubToken = getCookie('githubToken');
-    if (!githubToken) {
-        throw new Error('GitHub token not set. Please set it in settings.');
-    }
-
+async function saveEventToGitHub(eventName, eventData) {
     try {
-        const response = await fetch(GITHUB_WORKFLOWS_DISPATCH, {
+        const response = await fetch(CLOUDFLARE_WORKER, {
             method: 'POST',
             headers: {
-                'Authorization': `token ${githubToken}`,
-                'Accept': 'application/vnd.github.v3+json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                ref: 'main',
-                inputs: {
-                    event_name: eventName,
-                    event_data: JSON.stringify(eventData),
-                },
+                eventName: eventName,
+                eventData: eventData,
             }),
         });
 
         if (!response.ok) {
             const error = await response.json();
-            throw new Error(`GitHub API Error: ${error.message || response.statusText}`);
+            throw new Error(`Error saving to GitHub: ${error.error || response.statusText}`);
         }
 
         return true;
     } catch (error) {
-        console.error('GitHub workflow trigger error:', error);
+        console.error('Save to GitHub error:', error);
         throw error;
     }
 }
@@ -162,7 +150,7 @@ class EventManager {
 
         localStorage.setItem(`event_${eventConfig.eventName}`, JSON.stringify(eventData));
         
-        await triggerGitHubWorkflow(eventConfig.eventName, eventData);
+        await saveEventToGitHub(eventConfig.eventName, eventData);
         
         this.eventData = eventData;
         this.currentEvent = eventConfig.eventName;
@@ -196,7 +184,7 @@ class EventManager {
         localStorage.removeItem(`event_${this.currentEvent}`);
         localStorage.setItem(`event_${eventConfig.eventName}`, JSON.stringify(this.eventData));
         
-        await triggerGitHubWorkflow(eventConfig.eventName, this.eventData);
+        await saveEventToGitHub(eventConfig.eventName, this.eventData);
         
         this.currentEvent = eventConfig.eventName;
 
@@ -405,8 +393,26 @@ authForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const inputApiKey = document.getElementById('apiKey').value;
+    const inputPassword = document.getElementById('adminPassword').value;
 
     try {
+        const passwordResponse = await fetch(CLOUDFLARE_WORKER, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                action: 'validate-password',
+                password: inputPassword,
+            }),
+        });
+
+        if (!passwordResponse.ok) {
+            authError.textContent = 'Invalid admin password';
+            authError.style.display = 'block';
+            return;
+        }
+
         apiKey = inputApiKey;
         setCookie('tornApiKey', inputApiKey);
         
@@ -424,7 +430,6 @@ authForm.addEventListener('submit', async (e) => {
 
 logoutBtn.addEventListener('click', () => {
     clearCookie('tornApiKey');
-    clearCookie('githubToken');
     apiKey = null;
     authPanel.style.display = 'flex';
     adminPanel.style.display = 'none';
@@ -434,54 +439,14 @@ logoutBtn.addEventListener('click', () => {
 
 clearApiBtn.addEventListener('click', () => {
     clearCookie('tornApiKey');
-    clearCookie('githubToken');
     apiKey = null;
-    alert('API key and GitHub token cleared');
+    alert('API key cleared');
 });
 
 function initializeAdmin() {
-    setupGitHubTokenModal();
     setupEventManagement();
     setupPlayerManagement();
     setupRaceResults();
-}
-
-function setupGitHubTokenModal() {
-    const existingToken = getCookie('githubToken');
-    if (!existingToken) {
-        const modal = document.createElement('div');
-        modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:9999;';
-        
-        const content = document.createElement('div');
-        content.style.cssText = 'background:#2d2d2d;border:2px solid #d4af37;border-radius:8px;padding:24px;max-width:500px;color:#fff;';
-        
-        content.innerHTML = `
-            <h3 style="margin-bottom:16px;color:#d4af37;">GitHub Token Setup</h3>
-            <p style="color:#b0b0b0;margin-bottom:16px;font-size:14px;">Enter your GitHub Personal Access Token (PAT) to enable auto-commit of race events. This token is stored locally in your browser and used to save events to the repository.</p>
-            <input type="password" id="githubTokenInput" placeholder="github_pat_..." style="width:100%;padding:10px;margin-bottom:16px;background:#1a1a1a;color:#fff;border:1px solid #d4af37;border-radius:4px;font-family:monospace;font-size:12px;">
-            <div style="display:flex;gap:8px;">
-                <button id="confirmToken" style="flex:1;padding:10px;background:#d4af37;color:#1a1a1a;border:none;border-radius:4px;cursor:pointer;font-weight:600;">Save Token</button>
-                <button id="skipToken" style="flex:1;padding:10px;background:#444;color:#fff;border:none;border-radius:4px;cursor:pointer;">Skip for Now</button>
-            </div>
-        `;
-        
-        modal.appendChild(content);
-        document.body.appendChild(modal);
-
-        document.getElementById('confirmToken').addEventListener('click', () => {
-            const token = document.getElementById('githubTokenInput').value;
-            if (token) {
-                setCookie('githubToken', token, 30);
-                modal.remove();
-            } else {
-                alert('Please enter a valid token');
-            }
-        });
-
-        document.getElementById('skipToken').addEventListener('click', () => {
-            modal.remove();
-        });
-    }
 }
 
 function setupEventManagement() {
@@ -880,7 +845,7 @@ function setupPlayerManagement() {
                 displayPlayers();
                 displayStandings();
 
-                await triggerGitHubWorkflow(eventManager.eventData.name, eventManager.eventData);
+                await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
             });
         });
     }
@@ -894,7 +859,7 @@ function setupPlayerManagement() {
                     eventManager.updateTeamName(teamName, newName);
                     displayPlayers();
                     displayStandings();
-                    await triggerGitHubWorkflow(eventManager.eventData.name, eventManager.eventData);
+                    await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
                 }
             });
         });
@@ -908,7 +873,7 @@ function setupPlayerManagement() {
                     eventManager.removeTeam(teamName);
                     displayPlayers();
                     displayStandings();
-                    await triggerGitHubWorkflow(eventManager.eventData.name, eventManager.eventData);
+                    await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
                 }
             });
         });
@@ -923,7 +888,7 @@ function setupPlayerManagement() {
                     eventManager.removePlayer(playerId);
                     displayPlayers();
                     displayStandings();
-                    await triggerGitHubWorkflow(eventManager.eventData.name, eventManager.eventData);
+                    await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
                 }
             });
         });
@@ -970,7 +935,7 @@ function setupRaceResults() {
             fetchStatus.textContent = message;
             fetchStatus.className = 'status-text success';
             
-            await triggerGitHubWorkflow(eventManager.eventData.name, eventManager.eventData);
+            await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
 
             setTimeout(() => {
                 fetchStatus.textContent = '';
