@@ -276,12 +276,15 @@ function displayRaceResults(eventData) {
             <div class="race-result-body">
                 <div class="race-result-list">
                     ${results.length > 0 ? results.map((result, idx) => {
-                        const totalParticipants = results.length;
-                        const points = totalParticipants - (result.position - 1);
                         const isTop3 = result.position <= 3;
 
                         const playerInfo = eventData.players?.find(p => p.id === result.driver_id);
                         const driverName = playerInfo?.name || `Driver ${result.driver_id}`;
+                        
+                        const player = eventData.standings?.individual?.find(p => p.id === result.driver_id);
+                        const raceIndex = eventData.races.findIndex(r => r === race);
+                        const raceScore = player?.raceScores?.find(rs => rs.race === raceIndex);
+                        const points = raceScore?.score || 0;
 
                         return `
                             <div class="race-result-item ${isTop3 ? 'top3' : ''}">
