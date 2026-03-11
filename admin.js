@@ -133,6 +133,15 @@ function applyManualScores(manualScores) {
         race.status = 'manual';
         race.results = [];
 
+        eventManager.eventData.standings.individual.forEach(standing => {
+            const existingRaceScore = standing.raceScores.find(rs => rs.race === raceIdx);
+            if (existingRaceScore) {
+                standing.totalScore -= existingRaceScore.score;
+                standing.raceScores = standing.raceScores.filter(rs => rs.race !== raceIdx);
+                console.log(`Removed old race ${raceIdx} from ${standing.name}`);
+            }
+        });
+
         playerScores.forEach(({ playerId, score, position }) => {
             const player = eventManager.eventData.players.find(p => p.id === playerId);
             if (!player) {
@@ -147,20 +156,13 @@ function applyManualScores(manualScores) {
 
             const standing = eventManager.eventData.standings.individual.find(p => p.id === playerId);
             if (standing) {
-                const existingRaceScore = standing.raceScores.find(rs => rs.race === raceIdx);
-                if (existingRaceScore) {
-                    standing.totalScore -= existingRaceScore.score;
-                    existingRaceScore.position = position;
-                    existingRaceScore.score = score;
-                } else {
-                    standing.raceScores.push({
-                        race: raceIdx,
-                        position: position,
-                        score: score,
-                    });
-                }
+                standing.raceScores.push({
+                    race: raceIdx,
+                    position: position,
+                    score: score,
+                });
                 standing.totalScore += score;
-                console.log(`Updated ${standing.name}: total=${standing.totalScore}`);
+                console.log(`Updated ${standing.name}: added race ${raceIdx} with ${score} points, total=${standing.totalScore}`);
             }
         });
     });
