@@ -108,14 +108,6 @@ function displayEvent(eventData) {
     document.getElementById('eventTitle').textContent = eventData.name;
     document.getElementById('eventRaceCount').textContent = eventData.races.length;
 
-    const createdDate = new Date(eventData.createdAt).toLocaleDateString('en-US', {
-        timeZone: 'UTC',
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-    });
-    document.getElementById('eventDates').textContent = `Created: ${createdDate} TCT`;
-
     if (eventData.prizes && (eventData.prizes.first || eventData.prizes.second || eventData.prizes.third)) {
         document.getElementById('prizesSection').style.display = 'block';
         
