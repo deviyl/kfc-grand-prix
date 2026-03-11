@@ -224,9 +224,9 @@
 
 .standings-name { color: var(--text-primary); font-weight: 600; }
 
-.standings-score { color: var(--primary); font-weight: 700; text-align: center; }
+.standings-score { color: var(--primary); font-weight: 700; }
 
-.standings-race-score { text-align: center; color: var(--accent-light); font-weight: 600; }
+.standings-race-score { color: var(--accent-light); font-weight: 600; }
 
 .standings-race-score.dnf { color: var(--danger); }
 
