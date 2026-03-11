@@ -1,0 +1,43 @@
+{
+  "name": "KFC Grand Prix",
+  "createdAt": "2026-03-11T02:31:50.774Z",
+  "races": [
+    {
+      "index": 0,
+      "name": "KFC Grand Prix",
+      "tornRaceId": null,
+      "status": "pending",
+      "results": []
+    },
+    {
+      "index": 1,
+      "name": "KFC Grand Prix - Race 2",
+      "tornRaceId": null,
+      "status": "pending",
+      "results": []
+    },
+    {
+      "index": 2,
+      "name": "KFC Grand Prix - Race 3",
+      "tornRaceId": null,
+      "status": "pending",
+      "results": []
+    }
+  ],
+  "teams": [
+    {
+      "name": "DaxWolf",
+      "members": []
+    }
+  ],
+  "players": [],
+  "prizes": {
+    "first": "1xFHC + 1xE-DVD Each",
+    "second": "1xBCT + 1xE-DVD Each",
+    "third": "2xRed Cow + 1xE-DVD Each"
+  },
+  "standings": {
+    "individual": [],
+    "team": []
+  }
+}
