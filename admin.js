@@ -785,6 +785,87 @@ function displayPlayers() {
     }
 }
 
+function setupDragDrop() {
+    const playerCards = document.querySelectorAll('.player-card[draggable="true"]');
+    const dropZones = document.querySelectorAll('.team-drop-zone, #unassigned-drop-zone');
+
+    playerCards.forEach(card => {
+        card.addEventListener('dragstart', (e) => {
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('playerId', card.dataset.playerId);
+        });
+    });
+
+    dropZones.forEach(zone => {
+        zone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            zone.style.background = 'rgba(212, 175, 55, 0.2)';
+        });
+
+        zone.addEventListener('dragleave', () => {
+            zone.style.background = zone.id === 'unassigned-drop-zone' ? 'transparent' : 'rgba(0,0,0,0.3)';
+        });
+
+        zone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const playerId = parseInt(e.dataTransfer.getData('playerId'));
+            const teamName = zone.dataset.team;
+
+            if (teamName) {
+                eventManager.assignPlayerToTeam(playerId, teamName);
+            } else {
+                eventManager.removePlayerFromTeam(playerId);
+            }
+
+            zone.style.background = zone.id === 'unassigned-drop-zone' ? 'transparent' : 'rgba(0,0,0,0.3)';
+            displayPlayers();
+            displayStandings();
+        });
+    });
+}
+
+function setupTeamEditing() {
+    document.querySelectorAll('.edit-team-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const teamName = btn.dataset.team;
+            const newName = prompt(`Edit team name:`, teamName);
+            if (newName && newName !== teamName) {
+                eventManager.updateTeamName(teamName, newName);
+                displayPlayers();
+                displayStandings();
+            }
+        });
+    });
+}
+
+function setupTeamDeletion() {
+    document.querySelectorAll('.delete-team-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const teamName = btn.dataset.team;
+            if (confirm(`Delete team "${teamName}"? Players will be unassigned.`)) {
+                eventManager.removeTeam(teamName);
+                displayPlayers();
+                displayStandings();
+            }
+        });
+    });
+}
+
+function setupPlayerRemoval() {
+    document.querySelectorAll('.delete-player-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const playerId = parseInt(btn.dataset.playerId);
+            const player = eventManager.eventData.players.find(p => p.id === playerId);
+            if (confirm(`Remove player "${player.name}"?`)) {
+                eventManager.removePlayer(playerId);
+                displayPlayers();
+                displayStandings();
+            }
+        });
+    });
+}
+
 function setupPlayerManagement() {
     const playerIdInput = document.getElementById('playerIdInput');
     const addPlayerBtn = document.getElementById('addPlayerBtn');
@@ -833,87 +914,6 @@ function setupPlayerManagement() {
         }
     });
 
-    }
-
-    function setupDragDrop() {
-        const playerCards = document.querySelectorAll('.player-card[draggable="true"]');
-        const dropZones = document.querySelectorAll('.team-drop-zone, #unassigned-drop-zone');
-
-        playerCards.forEach(card => {
-            card.addEventListener('dragstart', (e) => {
-                e.dataTransfer.effectAllowed = 'move';
-                e.dataTransfer.setData('playerId', card.dataset.playerId);
-            });
-        });
-
-        dropZones.forEach(zone => {
-            zone.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                e.dataTransfer.dropEffect = 'move';
-                zone.style.background = 'rgba(212, 175, 55, 0.2)';
-            });
-
-            zone.addEventListener('dragleave', () => {
-                zone.style.background = zone.id === 'unassigned-drop-zone' ? 'transparent' : 'rgba(0,0,0,0.3)';
-            });
-
-            zone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                const playerId = parseInt(e.dataTransfer.getData('playerId'));
-                const teamName = zone.dataset.team;
-
-                if (teamName) {
-                    eventManager.assignPlayerToTeam(playerId, teamName);
-                } else {
-                    eventManager.removePlayerFromTeam(playerId);
-                }
-
-                zone.style.background = zone.id === 'unassigned-drop-zone' ? 'transparent' : 'rgba(0,0,0,0.3)';
-                displayPlayers();
-                displayStandings();
-            });
-        });
-    }
-
-    function setupTeamEditing() {
-        document.querySelectorAll('.edit-team-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const teamName = btn.dataset.team;
-                const newName = prompt(`Edit team name:`, teamName);
-                if (newName && newName !== teamName) {
-                    eventManager.updateTeamName(teamName, newName);
-                    displayPlayers();
-                    displayStandings();
-                }
-            });
-        });
-    }
-
-    function setupTeamDeletion() {
-        document.querySelectorAll('.delete-team-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const teamName = btn.dataset.team;
-                if (confirm(`Delete team "${teamName}"? Players will be unassigned.`)) {
-                    eventManager.removeTeam(teamName);
-                    displayPlayers();
-                    displayStandings();
-                }
-            });
-        });
-    }
-
-    function setupPlayerRemoval() {
-        document.querySelectorAll('.delete-player-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const playerId = parseInt(btn.dataset.playerId);
-                const player = eventManager.eventData.players.find(p => p.id === playerId);
-                if (confirm(`Remove player "${player.name}"?`)) {
-                    eventManager.removePlayer(playerId);
-                    displayPlayers();
-                    displayStandings();
-                }
-            });
-        });
     }
 
     if (eventManager.eventData) {
