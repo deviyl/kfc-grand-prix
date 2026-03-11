@@ -86,6 +86,7 @@ async function saveEventToGitHub(eventName, eventData) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                action: 'save-event',
                 eventName: eventName,
                 eventData: eventData,
             }),
