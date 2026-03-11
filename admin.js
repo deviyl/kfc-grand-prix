@@ -1,7 +1,6 @@
 const ADMIN_PASSWORD = 'NogLovesToes';
 const API_BASE = 'https://api.torn.com';
 
-
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -24,7 +23,6 @@ function formatUTC(timestamp) {
     const date = new Date(timestamp * 1000);
     return date.toLocaleString('en-US', { timeZone: 'UTC' }) + ' TCT';
 }
-
 
 let apiKey = getCookie('tornApiKey');
 
@@ -59,17 +57,12 @@ async function getPlayerInfo(playerId) {
     }
 }
 
-async function getRaceResults(raceName, fromTimestamp = null, toTimestamp = null) {
+async function getRaceResults(raceName) {
     try {
-        let endpoint = '/v2/user/races?limit=20&cat=custom';
-        if (fromTimestamp) endpoint += `&from=${fromTimestamp}`;
-        if (toTimestamp) endpoint += `&to=${toTimestamp}`;
-
-        const data = await callTornAPI(endpoint);
-        
+        const data = await callTornAPI('/v2/user/races?limit=20&cat=custom');
         const race = data.races.find(r => r.title === raceName);
         if (!race) {
-            throw new Error(`Race "${raceName}" not found in results`);
+            return null;
         }
 
         return {
@@ -85,14 +78,13 @@ async function getRaceResults(raceName, fromTimestamp = null, toTimestamp = null
     }
 }
 
-
 class EventManager {
     constructor() {
         this.currentEvent = null;
         this.eventData = null;
     }
 
-    async loadEvent(eventName) {
+    loadEvent(eventName) {
         try {
             const stored = localStorage.getItem(`event_${eventName}`);
             if (stored) {
@@ -110,7 +102,6 @@ class EventManager {
     createEvent(eventConfig) {
         const eventData = {
             name: eventConfig.eventName,
-            status: 'setup',
             createdAt: new Date().toISOString(),
             races: eventConfig.raceNames.map((name, index) => ({
                 index: index,
@@ -139,6 +130,37 @@ class EventManager {
         return eventData;
     }
 
+    updateEvent(eventConfig) {
+        if (!this.eventData) throw new Error('No event loaded');
+
+        this.eventData.name = eventConfig.eventName;
+        this.eventData.races = eventConfig.raceNames.map((name, index) => ({
+            index: index,
+            name: name,
+            tornRaceId: this.eventData.races[index]?.tornRaceId || null,
+            status: this.eventData.races[index]?.status || 'pending',
+            results: this.eventData.races[index]?.results || [],
+        }));
+        this.eventData.prizes = {
+            first: eventConfig.prize1st,
+            second: eventConfig.prize2nd,
+            third: eventConfig.prize3rd,
+        };
+
+        if (eventConfig.teamMode === 'teams') {
+            this.eventData.teams = eventConfig.teams;
+        } else {
+            this.eventData.teams = null;
+        }
+
+        localStorage.removeItem(`event_${this.currentEvent}`);
+        localStorage.setItem(`event_${eventConfig.eventName}`, JSON.stringify(this.eventData));
+        this.currentEvent = eventConfig.eventName;
+        this.saveEvent();
+
+        return this.eventData;
+    }
+
     addPlayer(playerId, playerName) {
         if (!this.eventData) throw new Error('No event loaded');
 
@@ -162,6 +184,62 @@ class EventManager {
         this.saveEvent();
     }
 
+    addTeam(teamName) {
+        if (!this.eventData) throw new Error('No event loaded');
+        if (!this.eventData.teams) this.eventData.teams = [];
+
+        this.eventData.teams.push({
+            name: teamName,
+            members: [],
+        });
+
+        this.saveEvent();
+    }
+
+    removeTeam(teamName) {
+        if (!this.eventData) throw new Error('No event loaded');
+
+        this.eventData.teams = this.eventData.teams.filter(t => t.name !== teamName);
+        this.eventData.players.forEach(p => {
+            if (p.team === teamName) p.team = null;
+        });
+
+        this.saveEvent();
+    }
+
+    updateTeamName(oldName, newName) {
+        if (!this.eventData) throw new Error('No event loaded');
+
+        const team = this.eventData.teams.find(t => t.name === oldName);
+        if (team) {
+            team.name = newName;
+            this.eventData.players.forEach(p => {
+                if (p.team === oldName) p.team = newName;
+            });
+            this.saveEvent();
+        }
+    }
+
+    assignPlayerToTeam(playerId, teamName) {
+        if (!this.eventData) throw new Error('No event loaded');
+
+        const player = this.eventData.players.find(p => p.id === playerId);
+        if (player) {
+            player.team = teamName;
+            this.saveEvent();
+        }
+    }
+
+    removePlayerFromTeam(playerId) {
+        if (!this.eventData) throw new Error('No event loaded');
+
+        const player = this.eventData.players.find(p => p.id === playerId);
+        if (player) {
+            player.team = null;
+            this.saveEvent();
+        }
+    }
+
     async fetchRaceResults(raceIndex) {
         if (!this.eventData) throw new Error('No event loaded');
 
@@ -170,6 +248,10 @@ class EventManager {
 
         const raceResults = await getRaceResults(race.name);
         
+        if (!raceResults) {
+            return null;
+        }
+
         race.tornRaceId = raceResults.id;
         race.status = raceResults.status;
         race.results = raceResults.results;
@@ -264,12 +346,11 @@ class EventManager {
                 events.push(data);
             }
         }
-        return events;
+        return events.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     }
 }
 
 const eventManager = new EventManager();
-
 
 const authPanel = document.getElementById('authPanel');
 const adminPanel = document.getElementById('adminPanel');
@@ -321,13 +402,11 @@ clearApiBtn.addEventListener('click', () => {
     alert('API key cleared');
 });
 
-
 function initializeAdmin() {
     setupEventManagement();
     setupPlayerManagement();
     setupRaceResults();
 }
-
 
 function setupEventManagement() {
     const newEventBtn = document.getElementById('newEventBtn');
@@ -343,7 +422,6 @@ function setupEventManagement() {
     const activeEventDisplay = document.getElementById('activeEventDisplay');
     const editEventBtn = document.getElementById('editEventBtn');
     const deleteEventBtn = document.getElementById('deleteEventBtn');
-    const eventStatus = document.getElementById('eventStatus');
 
     let editingEvent = false;
 
@@ -351,6 +429,14 @@ function setupEventManagement() {
         editingEvent = false;
         document.getElementById('eventFormTitle').textContent = 'Create New Event';
         eventForm.reset();
+        document.getElementById('eventName').value = '';
+        document.getElementById('numRaces').value = '1';
+        document.getElementById('prize1st').value = '';
+        document.getElementById('prize2nd').value = '';
+        document.getElementById('prize3rd').value = '';
+        document.querySelector('input[name="teamMode"][value="individual"]').checked = true;
+        teamsContainer.style.display = 'none';
+        document.getElementById('teamsList').innerHTML = '';
         raceNamesContainer.innerHTML = '';
         eventFormContainer.style.display = 'block';
         activeEventDisplay.style.display = 'none';
@@ -364,15 +450,41 @@ function setupEventManagement() {
             return;
         }
 
-        const eventName = prompt('Enter event name to load:\n' + events.map(e => e.name).join('\n'));
-        if (!eventName) return;
+        const modal = document.createElement('div');
+        modal.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;z-index:9999;';
+        
+        const content = document.createElement('div');
+        content.style.cssText = 'background:#2d2d2d;border:2px solid #d4af37;border-radius:8px;padding:24px;max-width:400px;color:#fff;';
+        
+        content.innerHTML = `
+            <h3 style="margin-bottom:16px;color:#d4af37;">Select Event to Load</h3>
+            <select id="eventDropdown" style="width:100%;padding:8px;margin-bottom:16px;background:#1a1a1a;color:#fff;border:1px solid #d4af37;border-radius:4px;">
+                ${events.map(e => `<option value="${e.name}">${e.name}</option>`).join('')}
+            </select>
+            <div style="display:flex;gap:8px;">
+                <button id="confirmLoad" style="flex:1;padding:8px;background:#d4af37;color:#1a1a1a;border:none;border-radius:4px;cursor:pointer;font-weight:600;">Load</button>
+                <button id="cancelLoad" style="flex:1;padding:8px;background:#444;color:#fff;border:none;border-radius:4px;cursor:pointer;">Cancel</button>
+            </div>
+        `;
+        
+        modal.appendChild(content);
+        document.body.appendChild(modal);
 
-        try {
-            eventManager.loadEvent(eventName);
-            displayActiveEvent();
-        } catch (error) {
-            alert('Error loading event: ' + error.message);
-        }
+        document.getElementById('confirmLoad').addEventListener('click', () => {
+            const eventName = document.getElementById('eventDropdown').value;
+            try {
+                eventManager.loadEvent(eventName);
+                displayActiveEvent();
+                modal.remove();
+            } catch (error) {
+                alert('Error loading event: ' + error.message);
+                modal.remove();
+            }
+        });
+
+        document.getElementById('cancelLoad').addEventListener('click', () => {
+            modal.remove();
+        });
     });
 
     numRaces.addEventListener('change', (e) => {
@@ -387,7 +499,7 @@ function setupEventManagement() {
             group.className = 'race-name-input-group';
             group.innerHTML = `
                 <div class="form-group">
-                    <label for="raceName${i}">Race ${i + 1} Name (must match Torn race title)</label>
+                    <label for="raceName${i}">Race ${i + 1} Name</label>
                     <input 
                         type="text" 
                         id="raceName${i}" 
@@ -404,7 +516,7 @@ function setupEventManagement() {
     teamModeRadios.forEach(radio => {
         radio.addEventListener('change', (e) => {
             teamsContainer.style.display = e.target.value === 'teams' ? 'block' : 'none';
-            if (e.target.value === 'teams') {
+            if (e.target.value === 'teams' && document.getElementById('teamsList').innerHTML === '') {
                 addTeamBtn.click();
             }
         });
@@ -457,12 +569,16 @@ function setupEventManagement() {
         };
 
         try {
-            eventManager.createEvent(eventConfig);
+            if (editingEvent && eventManager.eventData) {
+                eventManager.updateEvent(eventConfig);
+            } else {
+                eventManager.createEvent(eventConfig);
+            }
             eventFormContainer.style.display = 'none';
             displayActiveEvent();
-            alert('Event created successfully!');
+            alert('Event saved successfully!');
         } catch (error) {
-            alert('Error creating event: ' + error.message);
+            alert('Error saving event: ' + error.message);
         }
     });
 
@@ -472,11 +588,44 @@ function setupEventManagement() {
         
         document.getElementById('eventName').value = eventManager.eventData.name;
         document.getElementById('numRaces').value = eventManager.eventData.races.length;
+        document.getElementById('prize1st').value = eventManager.eventData.prizes.first;
+        document.getElementById('prize2nd').value = eventManager.eventData.prizes.second;
+        document.getElementById('prize3rd').value = eventManager.eventData.prizes.third;
+        
         generateRaceNameInputs(eventManager.eventData.races.length);
         
         eventManager.eventData.races.forEach((race, index) => {
             document.getElementById(`raceName${index}`).value = race.name;
         });
+
+        if (eventManager.eventData.teams) {
+            document.querySelector('input[name="teamMode"][value="teams"]').checked = true;
+            teamsContainer.style.display = 'block';
+            document.getElementById('teamsList').innerHTML = '';
+            eventManager.eventData.teams.forEach(team => {
+                const teamCard = document.createElement('div');
+                teamCard.className = 'team-card';
+                teamCard.innerHTML = `
+                    <div class="team-input-group">
+                        <input type="text" class="team-name-input" value="${team.name}" required>
+                        <button type="button" class="btn btn-danger" style="width: auto;">Remove</button>
+                    </div>
+                    <div style="margin-top:8px;padding-top:8px;border-top:1px solid #333;">
+                        <div style="font-size:12px;color:#b0b0b0;margin-bottom:8px;">Members:</div>
+                        <div class="team-members-drag" style="display:flex;flex-wrap:wrap;gap:6px;min-height:30px;padding:8px;background:rgba(0,0,0,0.2);border-radius:4px;">
+                            ${eventManager.eventData.players
+                                .filter(p => p.team === team.name)
+                                .map(p => `<span style="background:#d4af37;color:#1a1a1a;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600;">${p.name}</span>`)
+                                .join('')}
+                        </div>
+                    </div>
+                `;
+                teamCard.querySelector('.btn-danger').addEventListener('click', () => {
+                    teamCard.remove();
+                });
+                document.getElementById('teamsList').appendChild(teamCard);
+            });
+        }
 
         eventFormContainer.style.display = 'block';
         activeEventDisplay.style.display = 'none';
@@ -491,20 +640,12 @@ function setupEventManagement() {
         }
     });
 
-    eventStatus.addEventListener('change', (e) => {
-        if (eventManager.eventData) {
-            eventManager.eventData.status = e.target.value;
-            eventManager.saveEvent();
-        }
-    });
-
     function displayActiveEvent() {
         if (!eventManager.eventData) return;
 
         document.getElementById('displayEventName').textContent = eventManager.eventData.name;
         document.getElementById('displayNumRaces').textContent = eventManager.eventData.races.length;
-        eventStatus.value = eventManager.eventData.status;
-        document.getElementById('currentEventName').textContent = eventManager.eventData.name + ' - ' + eventManager.eventData.status.toUpperCase();
+        document.getElementById('currentEventName').textContent = eventManager.eventData.name;
 
         eventFormContainer.style.display = 'none';
         activeEventDisplay.style.display = 'block';
@@ -512,7 +653,6 @@ function setupEventManagement() {
         displayStandings();
     }
 }
-
 
 function setupPlayerManagement() {
     const playerIdInput = document.getElementById('playerIdInput');
@@ -549,21 +689,163 @@ function setupPlayerManagement() {
 
         playersContainer.innerHTML = '';
 
-        eventManager.eventData.players.forEach(player => {
-            const card = document.createElement('div');
-            card.className = 'player-card';
-            card.innerHTML = `
-                <div class="player-info">
-                    <div class="player-name">${player.name}</div>
-                    <div class="player-id">ID: ${player.id}</div>
+        if (eventManager.eventData.teams) {
+            const teamsHTML = eventManager.eventData.teams.map(team => {
+                const teamPlayers = eventManager.eventData.players.filter(p => p.team === team.name);
+                const unassignedPlayers = eventManager.eventData.players.filter(p => !p.team);
+                
+                return `
+                    <div style="border:1px solid #d4af37;border-radius:6px;padding:16px;margin-bottom:16px;background:rgba(212,175,55,0.05);">
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                            <h4 style="color:#d4af37;margin:0;">${team.name}</h4>
+                            <div style="display:flex;gap:8px;">
+                                <button class="edit-team-btn btn btn-secondary" data-team="${team.name}" style="padding:6px 12px;font-size:12px;">Edit</button>
+                                <button class="delete-team-btn btn btn-danger" data-team="${team.name}" style="padding:6px 12px;font-size:12px;">Delete</button>
+                            </div>
+                        </div>
+                        <div class="team-drop-zone" data-team="${team.name}" style="background:rgba(0,0,0,0.3);border:2px dashed #d4af37;border-radius:4px;padding:12px;min-height:40px;margin-bottom:12px;">
+                            ${teamPlayers.map(p => `
+                                <div class="player-card" draggable="true" data-player-id="${p.id}" style="display:inline-block;margin:4px;">
+                                    <span style="background:#d4af37;color:#1a1a1a;padding:6px 12px;border-radius:4px;font-weight:600;display:inline-block;">
+                                        ${p.name}
+                                        <button class="remove-from-team" data-player-id="${p.id}" style="background:transparent;border:none;color:#1a1a1a;cursor:pointer;margin-left:6px;font-weight:bold;">✕</button>
+                                    </span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const unassignedHTML = `
+                <div style="border:1px solid #666;border-radius:6px;padding:16px;background:rgba(0,0,0,0.2);">
+                    <h4 style="color:#b0b0b0;margin:0 0 12px 0;">Unassigned Players</h4>
+                    <div id="unassigned-drop-zone" style="display:flex;flex-wrap:wrap;gap:8px;min-height:40px;">
+                        ${eventManager.eventData.players.filter(p => !p.team).map(p => `
+                            <div class="player-card" draggable="true" data-player-id="${p.id}">
+                                <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:4px;">
+                                    <span style="color:#fff;font-weight:600;">${p.name}</span>
+                                    <button class="delete-player-btn" data-player-id="${p.id}" style="background:transparent;border:none;color:#ff1744;cursor:pointer;margin-left:8px;font-weight:bold;">✕</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
-                <button class="player-remove" data-id="${player.id}">✕</button>
             `;
-            card.querySelector('.player-remove').addEventListener('click', () => {
-                eventManager.removePlayer(player.id);
-                displayPlayers();
+
+            playersContainer.innerHTML = teamsHTML + unassignedHTML;
+
+            setupDragDrop();
+            setupTeamEditing();
+            setupTeamDeletion();
+            setupPlayerRemoval();
+        } else {
+            eventManager.eventData.players.forEach(player => {
+                const card = document.createElement('div');
+                card.className = 'player-card';
+                card.innerHTML = `
+                    <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,0.3);padding:12px;border-radius:6px;border:1px solid #d4af37;">
+                        <span style="color:#fff;font-weight:600;">${player.name}</span>
+                        <span style="color:#b0b0b0;font-size:12px;margin:0 12px;">ID: ${player.id}</span>
+                        <button class="delete-player-btn btn btn-danger" data-player-id="${player.id}" style="padding:6px 12px;">✕</button>
+                    </div>
+                `;
+                playersContainer.appendChild(card);
             });
-            playersContainer.appendChild(card);
+
+            setupPlayerRemoval();
+        }
+    }
+
+    function setupDragDrop() {
+        const playerCards = document.querySelectorAll('.player-card[draggable="true"]');
+        const dropZones = document.querySelectorAll('.team-drop-zone, #unassigned-drop-zone');
+
+        playerCards.forEach(card => {
+            card.addEventListener('dragstart', (e) => {
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('playerId', card.dataset.playerId);
+            });
+        });
+
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                zone.style.background = 'rgba(212, 175, 55, 0.2)';
+            });
+
+            zone.addEventListener('dragleave', () => {
+                zone.style.background = zone.id === 'unassigned-drop-zone' ? 'transparent' : 'rgba(0,0,0,0.3)';
+            });
+
+            zone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const playerId = parseInt(e.dataTransfer.getData('playerId'));
+                const teamName = zone.dataset.team;
+
+                if (teamName) {
+                    eventManager.assignPlayerToTeam(playerId, teamName);
+                } else {
+                    eventManager.removePlayerFromTeam(playerId);
+                }
+
+                zone.style.background = zone.id === 'unassigned-drop-zone' ? 'transparent' : 'rgba(0,0,0,0.3)';
+                displayPlayers();
+                displayStandings();
+            });
+        });
+    }
+
+    function setupTeamEditing() {
+        document.querySelectorAll('.edit-team-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const teamName = btn.dataset.team;
+                const newName = prompt(`Edit team name:`, teamName);
+                if (newName && newName !== teamName) {
+                    eventManager.updateTeamName(teamName, newName);
+                    displayPlayers();
+                    displayStandings();
+                }
+            });
+        });
+    }
+
+    function setupTeamDeletion() {
+        document.querySelectorAll('.delete-team-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const teamName = btn.dataset.team;
+                if (confirm(`Delete team "${teamName}"? Players will be unassigned.`)) {
+                    eventManager.removeTeam(teamName);
+                    displayPlayers();
+                    displayStandings();
+                }
+            });
+        });
+    }
+
+    function setupPlayerRemoval() {
+        document.querySelectorAll('.delete-player-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const playerId = parseInt(btn.dataset.playerId);
+                const player = eventManager.eventData.players.find(p => p.id === playerId);
+                if (confirm(`Remove player "${player.name}"?`)) {
+                    eventManager.removePlayer(playerId);
+                    displayPlayers();
+                    displayStandings();
+                }
+            });
+        });
+    }
+
+    function setupRemoveFromTeam() {
+        document.querySelectorAll('.remove-from-team').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const playerId = parseInt(btn.dataset.playerId);
+                eventManager.removePlayerFromTeam(playerId);
+                displayPlayers();
+                displayStandings();
+            });
         });
     }
 
@@ -571,7 +853,6 @@ function setupPlayerManagement() {
         displayPlayers();
     }
 }
-
 
 function setupRaceResults() {
     const fetchResultsBtn = document.getElementById('fetchResultsBtn');
@@ -589,16 +870,29 @@ function setupRaceResults() {
         fetchStatus.className = 'status-text loading';
 
         try {
+            let fetchedCount = 0;
+            let notFoundCount = 0;
+
             for (let i = 0; i < eventManager.eventData.races.length; i++) {
-                await eventManager.fetchRaceResults(i);
+                const result = await eventManager.fetchRaceResults(i);
+                if (result) {
+                    fetchedCount++;
+                } else {
+                    notFoundCount++;
+                }
             }
 
-            fetchStatus.textContent = 'Results fetched successfully!';
+            let message = `${fetchedCount} race(s) fetched successfully`;
+            if (notFoundCount > 0) {
+                message += ` (${notFoundCount} not found - races may not have started yet)`;
+            }
+
+            fetchStatus.textContent = message;
             fetchStatus.className = 'status-text success';
             setTimeout(() => {
                 fetchStatus.textContent = '';
                 fetchStatus.className = 'status-text';
-            }, 3000);
+            }, 4000);
 
             displayRaces();
             displayStandings();
@@ -632,20 +926,23 @@ function setupRaceResults() {
                     </div>
                 </div>
                 <div class="race-results">
-                    ${race.results.length ? race.results.slice(0, 10).map(result => `
-                        <div class="result-row">
-                            <span class="result-position">#${result.position}</span>
-                            <span class="result-name">${result.driver_id}</span>
-                            <span class="result-score">${race.results.length - (result.position - 1)}pts</span>
-                        </div>
-                    `).join('') : '<p style="color: var(--text-secondary); font-size: 12px;">No results yet</p>'}
+                    ${race.results.length ? race.results.slice(0, 10).map(result => {
+                        const player = eventManager.eventData.players.find(p => p.id === result.driver_id);
+                        const points = race.results.length - (result.position - 1);
+                        return `
+                            <div class="result-row">
+                                <span class="result-position">#${result.position}</span>
+                                <span class="result-name">${player ? player.name : `Driver ${result.driver_id}`}</span>
+                                <span class="result-score">${points}pts</span>
+                            </div>
+                        `;
+                    }).join('') : '<p style="color: var(--text-secondary); font-size: 12px;">No results yet</p>'}
                 </div>
             `;
             racesDisplay.appendChild(card);
         });
     }
 }
-
 
 function displayStandings() {
     if (!eventManager.eventData) return;
@@ -657,7 +954,7 @@ function displayStandings() {
     html += '<th>Rank</th><th>Name</th>';
     
     eventManager.eventData.races.forEach((race, index) => {
-        html += `<th>Race ${index + 1}</th>`;
+        html += `<th>R${index + 1}</th>`;
     });
     
     html += '<th>Total Score</th></tr></thead><tbody>';
@@ -696,7 +993,6 @@ function displayStandings() {
 
     standingsDisplay.innerHTML = html;
 }
-
 
 if (getCookie('tornApiKey')) {
     apiKey = getCookie('tornApiKey');
