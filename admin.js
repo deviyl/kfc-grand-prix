@@ -169,10 +169,7 @@ function applyManualScores(manualScores) {
         console.log(`Race ${raceIdx} results after apply:`, race.results);
     });
 
-    console.log('Before calculateStandings, checking race 3:', eventManager.eventData.races[3]);
-    eventManager.calculateStandings();
-    console.log('After calculateStandings, standings:', eventManager.eventData.standings.individual.filter(s => s.id === 3157644));
-    console.log('Manual scores applied and standings recalculated');
+    console.log('Manual scores applied - standings are final, NOT recalculating');
 }
 
 async function saveEventToGitHub(eventName, eventData) {
@@ -932,10 +929,16 @@ function setupEventManagement() {
                 document.getElementById(`manualScore${index}`).checked = true;
                 const container = document.getElementById(`manualScoresContainer${index}`);
                 container.style.display = 'block';
+                const playerScoresContainer = document.getElementById(`playerScoresContainer${index}`);
+                playerScoresContainer.innerHTML = '';
                 
-                const standings = eventManager.eventData.standings.individual;
-                standings.forEach(player => {
-                    const raceScore = player.raceScores.find(rs => rs.race === index);
+                race.results.forEach(result => {
+                    const player = eventManager.eventData.players.find(p => p.id === result.driver_id);
+                    if (!player) return;
+                    
+                    const standing = eventManager.eventData.standings.individual.find(p => p.id === result.driver_id);
+                    const raceScore = standing?.raceScores.find(rs => rs.race === index);
+                    
                     if (raceScore) {
                         const playerScoreRow = document.createElement('div');
                         playerScoreRow.style.display = 'flex';
@@ -947,7 +950,7 @@ function setupEventManagement() {
                             <input type="number" placeholder="Score" class="player-score-input" value="${raceScore.score}" style="flex:1;padding:8px;border:1px solid #d4af37;background:#1a1a1a;color:#fff;border-radius:4px;">
                             <button type="button" class="btn btn-danger remove-score-btn" style="padding:6px 12px;font-size:12px;">✕</button>
                         `;
-                        document.getElementById(`playerScoresContainer${index}`).appendChild(playerScoreRow);
+                        playerScoresContainer.appendChild(playerScoreRow);
                         
                         playerScoreRow.querySelector('.remove-score-btn').addEventListener('click', () => {
                             playerScoreRow.remove();
