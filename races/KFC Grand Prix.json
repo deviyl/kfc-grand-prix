@@ -5,16 +5,510 @@
     {
       "index": 0,
       "name": "KFC Grand Prix",
-      "tornRaceId": null,
-      "status": "pending",
-      "results": []
+      "tornRaceId": 18261353,
+      "status": "finished",
+      "results": [
+        {
+          "driver_id": 3627681,
+          "position": 1,
+          "car_id": 1170822,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.52,
+          "race_time": 545.53,
+          "time_ended": 1773079814
+        },
+        {
+          "driver_id": 3722358,
+          "position": 2,
+          "car_id": 1221270,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.41,
+          "race_time": 546.03,
+          "time_ended": 1773079814
+        },
+        {
+          "driver_id": 3157644,
+          "position": 3,
+          "car_id": 1221623,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.62,
+          "race_time": 548.45,
+          "time_ended": 1773079816
+        },
+        {
+          "driver_id": 3163147,
+          "position": 4,
+          "car_id": 1028762,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.4,
+          "race_time": 558.34,
+          "time_ended": 1773079826
+        },
+        {
+          "driver_id": 1978647,
+          "position": 5,
+          "car_id": 1221630,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.37,
+          "race_time": 558.56,
+          "time_ended": 1773079827
+        },
+        {
+          "driver_id": 2939779,
+          "position": 6,
+          "car_id": 1221126,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.36,
+          "race_time": 560.3,
+          "time_ended": 1773079828
+        },
+        {
+          "driver_id": 3599627,
+          "position": 7,
+          "car_id": 1168726,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.34,
+          "race_time": 560.67,
+          "time_ended": 1773079829
+        },
+        {
+          "driver_id": 2792892,
+          "position": 8,
+          "car_id": 1220851,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.3,
+          "race_time": 562.56,
+          "time_ended": 1773079831
+        },
+        {
+          "driver_id": 3913421,
+          "position": 9,
+          "car_id": 1221643,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.42,
+          "race_time": 564.94,
+          "time_ended": 1773079833
+        },
+        {
+          "driver_id": 3163171,
+          "position": 10,
+          "car_id": 1220868,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.56,
+          "race_time": 565.43,
+          "time_ended": 1773079833
+        },
+        {
+          "driver_id": 2967439,
+          "position": 11,
+          "car_id": 765194,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.44,
+          "race_time": 565.93,
+          "time_ended": 1773079834
+        },
+        {
+          "driver_id": 3796175,
+          "position": 12,
+          "car_id": 1220867,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.35,
+          "race_time": 566.96,
+          "time_ended": 1773079835
+        },
+        {
+          "driver_id": 2802730,
+          "position": 13,
+          "car_id": 1220945,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.48,
+          "race_time": 567.12,
+          "time_ended": 1773079835
+        },
+        {
+          "driver_id": 3774090,
+          "position": 14,
+          "car_id": 1168720,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.32,
+          "race_time": 567.22,
+          "time_ended": 1773079835
+        },
+        {
+          "driver_id": 3171413,
+          "position": 15,
+          "car_id": 1221631,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.58,
+          "race_time": 570.08,
+          "time_ended": 1773079838
+        },
+        {
+          "driver_id": 3844859,
+          "position": 16,
+          "car_id": 1220966,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 53.09,
+          "race_time": 572.46,
+          "time_ended": 1773079840
+        },
+        {
+          "driver_id": 3251423,
+          "position": 17,
+          "car_id": 1174775,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.31,
+          "race_time": 573.1,
+          "time_ended": 1773079841
+        },
+        {
+          "driver_id": 3562619,
+          "position": 18,
+          "car_id": 1168675,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.54,
+          "race_time": 574.84,
+          "time_ended": 1773079843
+        },
+        {
+          "driver_id": 3993903,
+          "position": 19,
+          "car_id": 1220857,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.54,
+          "race_time": 577.14,
+          "time_ended": 1773079845
+        },
+        {
+          "driver_id": 3513090,
+          "position": 20,
+          "car_id": 1221016,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 50.68,
+          "race_time": 577.87,
+          "time_ended": 1773079846
+        }
+      ]
     },
     {
       "index": 1,
       "name": "KFC Grand Prix - Race 2",
-      "tornRaceId": null,
-      "status": "pending",
-      "results": []
+      "tornRaceId": 18273179,
+      "status": "finished",
+      "results": [
+        {
+          "driver_id": 3627681,
+          "position": 1,
+          "car_id": 1170822,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 122.02,
+          "race_time": 396.05,
+          "time_ended": 1773166063
+        },
+        {
+          "driver_id": 3171413,
+          "position": 2,
+          "car_id": 1222370,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 121.42,
+          "race_time": 397.16,
+          "time_ended": 1773166064
+        },
+        {
+          "driver_id": 3913421,
+          "position": 3,
+          "car_id": 1220717,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 121.72,
+          "race_time": 397.78,
+          "time_ended": 1773166065
+        },
+        {
+          "driver_id": 2939779,
+          "position": 4,
+          "car_id": 1221126,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 130.59,
+          "race_time": 400.23,
+          "time_ended": 1773166067
+        },
+        {
+          "driver_id": 3562619,
+          "position": 5,
+          "car_id": 1168675,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 123.89,
+          "race_time": 401.12,
+          "time_ended": 1773166068
+        },
+        {
+          "driver_id": 3774090,
+          "position": 6,
+          "car_id": 1168720,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 125.13,
+          "race_time": 401.5,
+          "time_ended": 1773166069
+        },
+        {
+          "driver_id": 3993903,
+          "position": 7,
+          "car_id": 1220857,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 125.55,
+          "race_time": 402.38,
+          "time_ended": 1773166069
+        },
+        {
+          "driver_id": 3163147,
+          "position": 8,
+          "car_id": 1028762,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 125.51,
+          "race_time": 403.74,
+          "time_ended": 1773166071
+        },
+        {
+          "driver_id": 3844859,
+          "position": 9,
+          "car_id": 1220966,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 125.4,
+          "race_time": 406.05,
+          "time_ended": 1773166073
+        },
+        {
+          "driver_id": 1978647,
+          "position": 10,
+          "car_id": 1221630,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 124.94,
+          "race_time": 407.41,
+          "time_ended": 1773166074
+        },
+        {
+          "driver_id": 2792892,
+          "position": 11,
+          "car_id": 1220851,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 126.19,
+          "race_time": 409.09,
+          "time_ended": 1773166076
+        },
+        {
+          "driver_id": 3157644,
+          "position": 12,
+          "car_id": 1221623,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 121.81,
+          "race_time": 409.99,
+          "time_ended": 1773166077
+        },
+        {
+          "driver_id": 3251423,
+          "position": 13,
+          "car_id": 1174775,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 128.23,
+          "race_time": 413.48,
+          "time_ended": 1773166080
+        },
+        {
+          "driver_id": 3513090,
+          "position": 14,
+          "car_id": 1221016,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 125.68,
+          "race_time": 415.16,
+          "time_ended": 1773166082
+        },
+        {
+          "driver_id": 3722358,
+          "position": 15,
+          "car_id": 1221270,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 128.44,
+          "race_time": 417.34,
+          "time_ended": 1773166084
+        },
+        {
+          "driver_id": 3796175,
+          "position": 16,
+          "car_id": 1220867,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 122.52,
+          "race_time": 418.37,
+          "time_ended": 1773166085
+        },
+        {
+          "driver_id": 3599627,
+          "position": 17,
+          "car_id": 1168726,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 137.24,
+          "race_time": 418.75,
+          "time_ended": 1773166086
+        },
+        {
+          "driver_id": 3163171,
+          "position": 18,
+          "car_id": 1220868,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 121.52,
+          "race_time": 420.62,
+          "time_ended": 1773166088
+        },
+        {
+          "driver_id": 2967439,
+          "position": 19,
+          "car_id": 765194,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 121.96,
+          "race_time": 420.69,
+          "time_ended": 1773166088
+        },
+        {
+          "driver_id": 2802730,
+          "position": 20,
+          "car_id": 1220945,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 127.44,
+          "race_time": 421.53,
+          "time_ended": 1773166089
+        },
+        {
+          "driver_id": 2741991,
+          "position": 21,
+          "car_id": 1222102,
+          "car_item_id": 495,
+          "car_item_name": "Nano Pioneer",
+          "car_class": "E",
+          "has_crashed": false,
+          "best_lap_time": 121.68,
+          "race_time": 423.19,
+          "time_ended": 1773166090
+        }
+      ]
     },
     {
       "index": 2,
@@ -198,7 +692,794 @@
     "third": "2xRed Cow + 1xE-DVD Each"
   },
   "standings": {
-    "individual": [],
-    "team": []
+    "individual": [
+      {
+        "id": 3627681,
+        "name": "ZeTwilighTwizz",
+        "totalScore": 41,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 1,
+            "score": 20
+          },
+          {
+            "race": 1,
+            "position": 1,
+            "score": 21
+          }
+        ],
+        "team": "Midnight Delivery"
+      },
+      {
+        "id": 2939779,
+        "name": "JaydusStrokka",
+        "totalScore": 33,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 6,
+            "score": 15
+          },
+          {
+            "race": 1,
+            "position": 4,
+            "score": 18
+          }
+        ],
+        "team": "Stroke & Slice"
+      },
+      {
+        "id": 3163147,
+        "name": "bitek",
+        "totalScore": 31,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 4,
+            "score": 17
+          },
+          {
+            "race": 1,
+            "position": 8,
+            "score": 14
+          }
+        ],
+        "team": "J-Bit Protocol"
+      },
+      {
+        "id": 3913421,
+        "name": "Wolfylein",
+        "totalScore": 31,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 9,
+            "score": 12
+          },
+          {
+            "race": 1,
+            "position": 3,
+            "score": 19
+          }
+        ],
+        "team": "DaxWolf"
+      },
+      {
+        "id": 1978647,
+        "name": "Delldax",
+        "totalScore": 28,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 5,
+            "score": 16
+          },
+          {
+            "race": 1,
+            "position": 10,
+            "score": 12
+          }
+        ],
+        "team": "DaxWolf"
+      },
+      {
+        "id": 3157644,
+        "name": "SirJimboSliceSr",
+        "totalScore": 28,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 3,
+            "score": 18
+          },
+          {
+            "race": 1,
+            "position": 12,
+            "score": 10
+          }
+        ],
+        "team": "Stroke & Slice"
+      },
+      {
+        "id": 3171413,
+        "name": "xKittehxKatx",
+        "totalScore": 26,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 15,
+            "score": 6
+          },
+          {
+            "race": 1,
+            "position": 2,
+            "score": 20
+          }
+        ],
+        "team": "Latecomers"
+      },
+      {
+        "id": 3722358,
+        "name": "Deviyl",
+        "totalScore": 26,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 2,
+            "score": 19
+          },
+          {
+            "race": 1,
+            "position": 15,
+            "score": 7
+          }
+        ],
+        "team": "Devil's Crackers"
+      },
+      {
+        "id": 2792892,
+        "name": "Xevi",
+        "totalScore": 24,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 8,
+            "score": 13
+          },
+          {
+            "race": 1,
+            "position": 11,
+            "score": 11
+          }
+        ],
+        "team": "Turbo Whisker"
+      },
+      {
+        "id": 3774090,
+        "name": "Jereos",
+        "totalScore": 23,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 14,
+            "score": 7
+          },
+          {
+            "race": 1,
+            "position": 6,
+            "score": 16
+          }
+        ],
+        "team": "J-Bit Protocol"
+      },
+      {
+        "id": 3562619,
+        "name": "Postman_",
+        "totalScore": 20,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 18,
+            "score": 3
+          },
+          {
+            "race": 1,
+            "position": 5,
+            "score": 17
+          }
+        ],
+        "team": "Midnight Delivery"
+      },
+      {
+        "id": 3599627,
+        "name": "CaptainRinny",
+        "totalScore": 19,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 7,
+            "score": 14
+          },
+          {
+            "race": 1,
+            "position": 17,
+            "score": 5
+          }
+        ],
+        "team": "Caprider"
+      },
+      {
+        "id": 3844859,
+        "name": "Mr_Lynch_Ryder",
+        "totalScore": 18,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 16,
+            "score": 5
+          },
+          {
+            "race": 1,
+            "position": 9,
+            "score": 13
+          }
+        ],
+        "team": "Caprider"
+      },
+      {
+        "id": 3993903,
+        "name": "PeachesCat",
+        "totalScore": 17,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 19,
+            "score": 2
+          },
+          {
+            "race": 1,
+            "position": 7,
+            "score": 15
+          }
+        ],
+        "team": "Turbo Whisker"
+      },
+      {
+        "id": 3163171,
+        "name": "Kaleciatko",
+        "totalScore": 15,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 10,
+            "score": 11
+          },
+          {
+            "race": 1,
+            "position": 18,
+            "score": 4
+          }
+        ],
+        "team": "Powercritters"
+      },
+      {
+        "id": 3796175,
+        "name": "PowerMax",
+        "totalScore": 15,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 12,
+            "score": 9
+          },
+          {
+            "race": 1,
+            "position": 16,
+            "score": 6
+          }
+        ],
+        "team": "Powercritters"
+      },
+      {
+        "id": 2967439,
+        "name": "VictoriaCicile",
+        "totalScore": 13,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 11,
+            "score": 10
+          },
+          {
+            "race": 1,
+            "position": 19,
+            "score": 3
+          }
+        ],
+        "team": "Litany of Teeth"
+      },
+      {
+        "id": 3251423,
+        "name": "err0r418125",
+        "totalScore": 13,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 17,
+            "score": 4
+          },
+          {
+            "race": 1,
+            "position": 13,
+            "score": 9
+          }
+        ],
+        "team": "Latecomers"
+      },
+      {
+        "id": 2802730,
+        "name": "datcracker420",
+        "totalScore": 10,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 13,
+            "score": 8
+          },
+          {
+            "race": 1,
+            "position": 20,
+            "score": 2
+          }
+        ],
+        "team": "Devil's Crackers"
+      },
+      {
+        "id": 3513090,
+        "name": "Squith",
+        "totalScore": 9,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 20,
+            "score": 1
+          },
+          {
+            "race": 1,
+            "position": 14,
+            "score": 8
+          }
+        ],
+        "team": "Litany of Teeth"
+      },
+      {
+        "totalScore": 0,
+        "raceScores": [],
+        "team": null
+      }
+    ],
+    "team": [
+      {
+        "name": "Midnight Delivery",
+        "totalScore": 61,
+        "members": [
+          {
+            "id": 3627681,
+            "name": "ZeTwilighTwizz",
+            "totalScore": 41,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 1,
+                "score": 20
+              },
+              {
+                "race": 1,
+                "position": 1,
+                "score": 21
+              }
+            ],
+            "team": "Midnight Delivery"
+          },
+          {
+            "id": 3562619,
+            "name": "Postman_",
+            "totalScore": 20,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 18,
+                "score": 3
+              },
+              {
+                "race": 1,
+                "position": 5,
+                "score": 17
+              }
+            ],
+            "team": "Midnight Delivery"
+          }
+        ]
+      },
+      {
+        "name": "Stroke & Slice",
+        "totalScore": 61,
+        "members": [
+          {
+            "id": 2939779,
+            "name": "JaydusStrokka",
+            "totalScore": 33,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 6,
+                "score": 15
+              },
+              {
+                "race": 1,
+                "position": 4,
+                "score": 18
+              }
+            ],
+            "team": "Stroke & Slice"
+          },
+          {
+            "id": 3157644,
+            "name": "SirJimboSliceSr",
+            "totalScore": 28,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 3,
+                "score": 18
+              },
+              {
+                "race": 1,
+                "position": 12,
+                "score": 10
+              }
+            ],
+            "team": "Stroke & Slice"
+          }
+        ]
+      },
+      {
+        "name": "DaxWolf",
+        "totalScore": 59,
+        "members": [
+          {
+            "id": 3913421,
+            "name": "Wolfylein",
+            "totalScore": 31,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 9,
+                "score": 12
+              },
+              {
+                "race": 1,
+                "position": 3,
+                "score": 19
+              }
+            ],
+            "team": "DaxWolf"
+          },
+          {
+            "id": 1978647,
+            "name": "Delldax",
+            "totalScore": 28,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 5,
+                "score": 16
+              },
+              {
+                "race": 1,
+                "position": 10,
+                "score": 12
+              }
+            ],
+            "team": "DaxWolf"
+          }
+        ]
+      },
+      {
+        "name": "J-Bit Protocol",
+        "totalScore": 54,
+        "members": [
+          {
+            "id": 3163147,
+            "name": "bitek",
+            "totalScore": 31,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 4,
+                "score": 17
+              },
+              {
+                "race": 1,
+                "position": 8,
+                "score": 14
+              }
+            ],
+            "team": "J-Bit Protocol"
+          },
+          {
+            "id": 3774090,
+            "name": "Jereos",
+            "totalScore": 23,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 14,
+                "score": 7
+              },
+              {
+                "race": 1,
+                "position": 6,
+                "score": 16
+              }
+            ],
+            "team": "J-Bit Protocol"
+          }
+        ]
+      },
+      {
+        "name": "Turbo Whisker",
+        "totalScore": 41,
+        "members": [
+          {
+            "id": 2792892,
+            "name": "Xevi",
+            "totalScore": 24,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 8,
+                "score": 13
+              },
+              {
+                "race": 1,
+                "position": 11,
+                "score": 11
+              }
+            ],
+            "team": "Turbo Whisker"
+          },
+          {
+            "id": 3993903,
+            "name": "PeachesCat",
+            "totalScore": 17,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 19,
+                "score": 2
+              },
+              {
+                "race": 1,
+                "position": 7,
+                "score": 15
+              }
+            ],
+            "team": "Turbo Whisker"
+          }
+        ]
+      },
+      {
+        "name": "Latecomers",
+        "totalScore": 39,
+        "members": [
+          {
+            "id": 3171413,
+            "name": "xKittehxKatx",
+            "totalScore": 26,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 15,
+                "score": 6
+              },
+              {
+                "race": 1,
+                "position": 2,
+                "score": 20
+              }
+            ],
+            "team": "Latecomers"
+          },
+          {
+            "id": 3251423,
+            "name": "err0r418125",
+            "totalScore": 13,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 17,
+                "score": 4
+              },
+              {
+                "race": 1,
+                "position": 13,
+                "score": 9
+              }
+            ],
+            "team": "Latecomers"
+          }
+        ]
+      },
+      {
+        "name": "Caprider",
+        "totalScore": 37,
+        "members": [
+          {
+            "id": 3599627,
+            "name": "CaptainRinny",
+            "totalScore": 19,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 7,
+                "score": 14
+              },
+              {
+                "race": 1,
+                "position": 17,
+                "score": 5
+              }
+            ],
+            "team": "Caprider"
+          },
+          {
+            "id": 3844859,
+            "name": "Mr_Lynch_Ryder",
+            "totalScore": 18,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 16,
+                "score": 5
+              },
+              {
+                "race": 1,
+                "position": 9,
+                "score": 13
+              }
+            ],
+            "team": "Caprider"
+          }
+        ]
+      },
+      {
+        "name": "Devil's Crackers",
+        "totalScore": 36,
+        "members": [
+          {
+            "id": 3722358,
+            "name": "Deviyl",
+            "totalScore": 26,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 2,
+                "score": 19
+              },
+              {
+                "race": 1,
+                "position": 15,
+                "score": 7
+              }
+            ],
+            "team": "Devil's Crackers"
+          },
+          {
+            "id": 2802730,
+            "name": "datcracker420",
+            "totalScore": 10,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 13,
+                "score": 8
+              },
+              {
+                "race": 1,
+                "position": 20,
+                "score": 2
+              }
+            ],
+            "team": "Devil's Crackers"
+          }
+        ]
+      },
+      {
+        "name": "Powercritters",
+        "totalScore": 30,
+        "members": [
+          {
+            "id": 3163171,
+            "name": "Kaleciatko",
+            "totalScore": 15,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 10,
+                "score": 11
+              },
+              {
+                "race": 1,
+                "position": 18,
+                "score": 4
+              }
+            ],
+            "team": "Powercritters"
+          },
+          {
+            "id": 3796175,
+            "name": "PowerMax",
+            "totalScore": 15,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 12,
+                "score": 9
+              },
+              {
+                "race": 1,
+                "position": 16,
+                "score": 6
+              }
+            ],
+            "team": "Powercritters"
+          }
+        ]
+      },
+      {
+        "name": "Litany of Teeth",
+        "totalScore": 22,
+        "members": [
+          {
+            "id": 2967439,
+            "name": "VictoriaCicile",
+            "totalScore": 13,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 11,
+                "score": 10
+              },
+              {
+                "race": 1,
+                "position": 19,
+                "score": 3
+              }
+            ],
+            "team": "Litany of Teeth"
+          },
+          {
+            "id": 3513090,
+            "name": "Squith",
+            "totalScore": 9,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 20,
+                "score": 1
+              },
+              {
+                "race": 1,
+                "position": 14,
+                "score": 8
+              }
+            ],
+            "team": "Litany of Teeth"
+          }
+        ]
+      }
+    ]
   }
 }
