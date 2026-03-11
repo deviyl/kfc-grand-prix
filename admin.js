@@ -122,23 +122,36 @@ function applyManualScores(manualScores) {
         const race = eventManager.eventData.races[raceIdx];
         if (!race) return;
 
+        race.tornRaceId = 'manual';
+        race.status = 'manual';
+        if (!race.results) {
+            race.results = [];
+        }
+
         playerScores.forEach(({ playerId, score, position }) => {
             const player = eventManager.eventData.players.find(p => p.id === playerId);
             if (!player) return;
 
             const standing = eventManager.eventData.standings.individual.find(p => p.id === playerId);
             if (standing) {
+                const existingRaceScore = standing.raceScores.find(rs => rs.race === raceIdx);
+                if (existingRaceScore) {
+                    standing.totalScore -= existingRaceScore.score;
+                    existingRaceScore.position = position;
+                    existingRaceScore.score = score;
+                } else {
+                    standing.raceScores.push({
+                        race: raceIdx,
+                        position: position,
+                        score: score,
+                    });
+                }
                 standing.totalScore += score;
-                standing.raceScores.push({
-                    race: raceIdx,
-                    position: position || playerScores.findIndex(p => p.playerId === playerId) + 1,
-                    score: score,
-                });
             }
         });
-
-        eventManager.calculateStandings();
     });
+
+    eventManager.calculateStandings();
 }
 
 async function saveEventToGitHub(eventName, eventData) {
@@ -339,6 +352,10 @@ class EventManager {
 
         const race = this.eventData.races[raceIndex];
         if (!race) throw new Error('Race not found');
+
+        if (race.tornRaceId === 'manual') {
+            return null;
+        }
 
         const raceResults = await getRaceResults(race.name);
         
@@ -651,6 +668,17 @@ function setupEventManagement() {
     });
 
     function generateRaceNameInputs(count) {
+        const existingNames = {};
+        const existingManualStates = {};
+        
+        document.querySelectorAll('.race-name-input').forEach((input, index) => {
+            existingNames[index] = input.value;
+        });
+        
+        document.querySelectorAll('.manual-score-checkbox').forEach(checkbox => {
+            existingManualStates[parseInt(checkbox.dataset.raceIndex)] = checkbox.checked;
+        });
+        
         raceNamesContainer.innerHTML = '';
         const manualScoresContainer = document.getElementById('manualScoresContainer');
         manualScoresContainer.innerHTML = '';
@@ -658,6 +686,9 @@ function setupEventManagement() {
         for (let i = 0; i < count; i++) {
             const group = document.createElement('div');
             group.className = 'race-name-input-group';
+            const raceName = existingNames[i] || '';
+            const isManual = existingManualStates[i] || false;
+            
             group.innerHTML = `
                 <div class="form-group">
                     <label for="raceName${i}">Race ${i + 1} Name</label>
@@ -666,6 +697,7 @@ function setupEventManagement() {
                         id="raceName${i}" 
                         class="race-name-input"
                         placeholder="e.g., KFC Grand Prix"
+                        value="${raceName}"
                         required
                     >
                 </div>
@@ -675,6 +707,7 @@ function setupEventManagement() {
                         id="manualScore${i}" 
                         class="manual-score-checkbox"
                         data-race-index="${i}"
+                        ${isManual ? 'checked' : ''}
                     >
                     <label for="manualScore${i}" style="margin:0;">Manual Scoring</label>
                 </div>
@@ -683,13 +716,13 @@ function setupEventManagement() {
             
             const scoreDiv = document.createElement('div');
             scoreDiv.id = `manualScoresContainer${i}`;
-            scoreDiv.style.display = 'none';
+            scoreDiv.style.display = isManual ? 'block' : 'none';
             scoreDiv.style.marginBottom = '16px';
             scoreDiv.style.padding = '12px';
             scoreDiv.style.background = 'rgba(0,0,0,0.2)';
             scoreDiv.style.borderRadius = '4px';
             scoreDiv.innerHTML = `
-                <h4 style="color:#d4af37;margin-top:0;font-size:14px;">Race ${i + 1}: <span id="raceName${i}Display"></span></h4>
+                <h4 style="color:#d4af37;margin-top:0;font-size:14px;">Race ${i + 1}: <span id="raceName${i}Display">${raceName}</span></h4>
                 <div id="playerScoresContainer${i}" style="display:flex;flex-direction:column;gap:8px;"></div>
                 <button type="button" class="btn btn-secondary add-player-score-btn" data-race-index="${i}" style="margin-top:8px;">+ Add Player Score</button>
             `;
@@ -864,6 +897,36 @@ function setupEventManagement() {
         
         eventManager.eventData.races.forEach((race, index) => {
             document.getElementById(`raceName${index}`).value = race.name;
+            
+            if (race.tornRaceId === 'manual') {
+                document.getElementById(`manualScore${index}`).checked = true;
+                const container = document.getElementById(`manualScoresContainer${index}`);
+                container.style.display = 'block';
+                
+                const standings = eventManager.eventData.standings.individual;
+                standings.forEach(player => {
+                    const raceScore = player.raceScores.find(rs => rs.race === index);
+                    if (raceScore) {
+                        const playerScoreRow = document.createElement('div');
+                        playerScoreRow.style.display = 'flex';
+                        playerScoreRow.style.gap = '8px';
+                        playerScoreRow.style.alignItems = 'center';
+                        playerScoreRow.innerHTML = `
+                            <input type="number" placeholder="Player ID" class="player-id-input" value="${player.id}" style="flex:1;padding:8px;border:1px solid #d4af37;background:#1a1a1a;color:#fff;border-radius:4px;">
+                            <input type="number" placeholder="Position" class="player-position-input" value="${raceScore.position}" style="flex:1;padding:8px;border:1px solid #d4af37;background:#1a1a1a;color:#fff;border-radius:4px;">
+                            <input type="number" placeholder="Score" class="player-score-input" value="${raceScore.score}" style="flex:1;padding:8px;border:1px solid #d4af37;background:#1a1a1a;color:#fff;border-radius:4px;">
+                            <button type="button" class="btn btn-danger remove-score-btn" style="padding:6px 12px;font-size:12px;">✕</button>
+                        `;
+                        document.getElementById(`playerScoresContainer${index}`).appendChild(playerScoreRow);
+                        
+                        playerScoreRow.querySelector('.remove-score-btn').addEventListener('click', () => {
+                            playerScoreRow.remove();
+                        });
+                    }
+                });
+                
+                document.getElementById('manualScoresSection').style.display = 'block';
+            }
         });
 
         if (eventManager.eventData.teams) {
