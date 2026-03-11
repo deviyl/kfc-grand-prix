@@ -737,8 +737,8 @@
     {
       "index": 3,
       "name": "KFC Grand Prix - Race 4",
-      "tornRaceId": "manual",
-      "status": "manual",
+      "tornRaceId": null,
+      "status": "pending",
       "results": []
     }
   ],
