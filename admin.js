@@ -535,14 +535,21 @@ function setupEventManagement() {
 
         document.getElementById('confirmLoad').addEventListener('click', async () => {
             const eventName = document.getElementById('eventDropdown').value;
+            const confirmBtn = document.getElementById('confirmLoad');
+            const originalText = confirmBtn.textContent;
+            
             try {
+                confirmBtn.disabled = true;
+                confirmBtn.textContent = 'Loading...';
+                
                 await fetchEventFromGitHub(eventName);
                 eventManager.loadEvent(eventName);
                 displayActiveEvent();
                 modal.remove();
             } catch (error) {
                 alert('Error loading event: ' + error.message);
-                modal.remove();
+                confirmBtn.disabled = false;
+                confirmBtn.textContent = originalText;
             }
         });
 
