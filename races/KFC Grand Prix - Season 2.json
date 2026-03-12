@@ -738,9 +738,18 @@
     {
       "index": 3,
       "name": "KFC Grand Prix - Race 4",
-      "tornRaceId": null,
-      "status": "pending",
-      "results": []
+      "tornRaceId": "manual",
+      "status": "manual",
+      "results": [
+        {
+          "driver_id": 1978647,
+          "position": 1
+        },
+        {
+          "driver_id": 3157644,
+          "position": 2
+        }
+      ]
     }
   ],
   "teams": [
@@ -897,7 +906,7 @@
       {
         "id": 1978647,
         "name": "Delldax",
-        "totalScore": 46,
+        "totalScore": 66,
         "raceScores": [
           {
             "race": 0,
@@ -913,6 +922,11 @@
             "race": 2,
             "position": 2,
             "score": 19
+          },
+          {
+            "race": 3,
+            "position": 1,
+            "score": 20
           }
         ],
         "team": "DaxWolf"
@@ -966,7 +980,7 @@
       {
         "id": 3157644,
         "name": "SirJimboSliceSr",
-        "totalScore": 42,
+        "totalScore": 61,
         "raceScores": [
           {
             "race": 0,
@@ -982,6 +996,11 @@
             "race": 2,
             "position": 6,
             "score": 15
+          },
+          {
+            "race": 3,
+            "position": 2,
+            "score": 19
           }
         ],
         "team": "Stroke & Slice"
