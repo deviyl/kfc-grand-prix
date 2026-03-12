@@ -263,6 +263,8 @@ function displayStandings(eventData) {
 
 function displayRaceResults(eventData) {
     const racesDisplay = document.getElementById('racesResultsDisplay');
+    console.log('displayRaceResults called with:', eventData?.name, 'races:', eventData?.races?.length);
+    console.log('racesDisplay element:', racesDisplay);
     racesDisplay.innerHTML = '';
 
     if (!eventData || !eventData.races || eventData.races.length === 0) {
@@ -318,6 +320,7 @@ function displayRaceResults(eventData) {
 
         racesDisplay.appendChild(card);
     });
+    console.log('displayRaceResults completed, races displayed:', eventData.races.length);
 }
 
 
