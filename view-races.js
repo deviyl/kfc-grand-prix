@@ -243,11 +243,14 @@ function displayStandings(eventData) {
                 <td class="team-members-inline">${memberNames || 'No members'}</td>`;
 
             (eventData?.races || []).forEach((_, raceIndex) => {
-                const raceTeamScore = (team.members || []).reduce((sum, member) => {
-                    const memberRaceScore = member?.raceScores?.find(rs => rs.race === raceIndex);
-                    return sum + (memberRaceScore ? memberRaceScore.score : 0);
-                }, 0);
-                teamHtml += `<td class="standings-race-score">${raceTeamScore || '—'}</td>`;
+                let raceTeamScore = 0;
+                if (team.members && team.members.length > 0) {
+                    raceTeamScore = (team.members || []).reduce((sum, member) => {
+                        const memberRaceScore = member?.raceScores?.find(rs => rs.race === raceIndex);
+                        return sum + (memberRaceScore ? memberRaceScore.score : 0);
+                    }, 0);
+                }
+                teamHtml += `<td class="standings-race-score ${raceTeamScore > 0 ? '' : 'dnf'}">${raceTeamScore > 0 ? raceTeamScore : '—'}</td>`;
             });
 
             teamHtml += `<td class="standings-score">${team.totalScore || 0}</td></tr>`;
