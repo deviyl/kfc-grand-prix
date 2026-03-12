@@ -1372,12 +1372,12 @@
     "team": [
       {
         "name": "DaxWolf",
-        "totalScore": 86,
+        "totalScore": 106,
         "members": [
           {
             "id": 1978647,
             "name": "Delldax",
-            "totalScore": 46,
+            "totalScore": 66,
             "raceScores": [
               {
                 "race": 0,
@@ -1393,6 +1393,11 @@
                 "race": 2,
                 "position": 2,
                 "score": 19
+              },
+              {
+                "race": 3,
+                "position": 1,
+                "score": 20
               }
             ],
             "team": "DaxWolf"
@@ -1424,12 +1429,12 @@
       },
       {
         "name": "Stroke & Slice",
-        "totalScore": 86,
+        "totalScore": 105,
         "members": [
           {
             "id": 2939779,
             "name": "JaydusStrokka",
-            "totalScore": 44,
+            "totalScore": 63,
             "raceScores": [
               {
                 "race": 0,
@@ -1445,6 +1450,11 @@
                 "race": 2,
                 "position": 9,
                 "score": 12
+              },
+              {
+                "race": 3,
+                "position": 2,
+                "score": 19
               }
             ],
             "team": "Stroke & Slice"
