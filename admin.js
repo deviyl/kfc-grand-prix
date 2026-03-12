@@ -145,7 +145,17 @@ function applyManualScores(manualScores) {
                 standing.totalScore += score;
             }
         });
-        
+
+        eventManager.eventData.standings.team.forEach(team => {
+            team.members.forEach(member => {
+                const individualStanding = eventManager.eventData.standings.individual.find(p => p.id === member.id);
+                if (individualStanding) {
+                    member.raceScores = JSON.parse(JSON.stringify(individualStanding.raceScores));
+                    member.totalScore = individualStanding.totalScore;
+                }
+            });
+            team.totalScore = team.members.reduce((sum, m) => sum + m.totalScore, 0);
+        });
     });
 
 }
