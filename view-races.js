@@ -306,7 +306,7 @@ function displayRaceResults(eventData) {
                                 <div class="result-position">#${result.position}</div>
                                 <div class="result-detail">
                                     <div class="result-driver">${driverName}</div>
-                                    <div class="result-time">${(result.race_time / 60).toFixed(2)}m ${result.best_lap_time.toFixed(2)}s BLT</div>
+                                    <div class="result-time">${result.race_time ? (result.race_time / 60).toFixed(2) + 'm ' : ''}${result.best_lap_time ? result.best_lap_time.toFixed(2) + 's BLT' : 'Manual Entry'}</div>
                                 </div>
                                 <div class="result-points">${points}pts</div>
                             </div>
