@@ -428,6 +428,16 @@ html, body {
     letter-spacing: 0.5px;
 }
 
+.standings-table th.sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+
+.standings-table th.sortable:hover {
+    background: rgba(212, 175, 55, 0.2);
+}
+
 .standings-table td {
     padding: 16px;
     border-bottom: 1px solid var(--border);
