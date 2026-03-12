@@ -107,11 +107,19 @@ document.getElementById('refreshBtn').addEventListener('click', async () => {
     refreshBtn.disabled = true;
     refreshBtn.textContent = 'Refreshing...';
     
+    console.log('Refresh button clicked');
+    
     try {
         const selectedEvent = document.getElementById('eventSelect').value;
+        console.log('Selected event:', selectedEvent);
         if (selectedEvent) {
+            console.log('Fetching from GitHub...');
             const eventData = await fetchEventFromGitHub(selectedEvent);
+            console.log('Event fetched, displaying...');
             displayEvent(eventData);
+            console.log('Event displayed');
+        } else {
+            console.log('No event selected');
         }
     } catch (error) {
         console.error('Error refreshing:', error);
