@@ -80,7 +80,9 @@ async function getRaceResults(raceName) {
 
 async function fetchEventFromGitHub(eventName) {
     try {
-        const rawUrl = `https://raw.githubusercontent.com/deviyl/kfc-grand-prix/main/races/${encodeURIComponent(eventName)}.json`;
+        const timestamp = Date.now();
+        const rawUrl = `https://raw.githubusercontent.com/deviyl/kfc-grand-prix/main/races/${encodeURIComponent(eventName)}.json?t=${timestamp}`;
+        console.log(`Fetching from GitHub: ${rawUrl}`);
         const response = await fetch(rawUrl);
         
         if (!response.ok) {
@@ -88,26 +90,8 @@ async function fetchEventFromGitHub(eventName) {
         }
         
         const eventData = await response.json();
-        localStorage.setItem(`event_${eventName}`, JSON.stringify(eventData));
-        
+        console.log('Fetched from GitHub - race 3 score for Delldax:', eventData.standings.individual.find(p => p.id === 1978647)?.raceScores.find(rs => rs.race === 3)?.score);
         return eventData;
-    } catch (error) {
-        console.error('Error fetching from GitHub:', error);
-        throw error;
-    }
-}
-
-async function fetchEventFromGitHub(eventName) {
-    try {
-        const timestamp = Date.now();
-        const rawUrl = `https://raw.githubusercontent.com/deviyl/kfc-grand-prix/main/races/${encodeURIComponent(eventName)}.json?t=${timestamp}`;
-        const response = await fetch(rawUrl);
-        
-        if (!response.ok) {
-            throw new Error('Event not found on GitHub');
-        }
-        
-        return await response.json();
     } catch (error) {
         console.error('Error fetching from GitHub:', error);
         throw error;
