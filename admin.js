@@ -192,11 +192,13 @@ class EventManager {
         try {
             console.log(`Loading event ${eventName}...`);
             const eventData = await fetchEventFromGitHub(eventName);
-            console.log('Event loaded:', eventData);
+            console.log('After fetchEventFromGitHub - race 3 score for Delldax:', eventData.standings.individual.find(p => p.id === 1978647)?.raceScores.find(rs => rs.race === 3)?.score);
+            console.log('Full Delldax raceScores:', eventData.standings.individual.find(p => p.id === 1978647)?.raceScores);
             
             if (eventData) {
                 this.eventData = eventData;
                 this.currentEvent = eventName;
+                console.log('After assigning to this.eventData - race 3 score for Delldax:', this.eventData.standings.individual.find(p => p.id === 1978647)?.raceScores.find(rs => rs.race === 3)?.score);
                 return this.eventData;
             }
             
@@ -1002,7 +1004,6 @@ function setupEventManagement() {
         document.getElementById('raceResultsSection').style.display = 'block';
         document.getElementById('standingsSection').style.display = 'block';
 
-        eventManager.calculateStandings();
         displayStandings();
         displayPlayers();
         displayRaces();
