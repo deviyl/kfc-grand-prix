@@ -734,55 +734,38 @@
           "time_ended": 1773252943
         }
       ]
-    },
-    {
-      "index": 3,
-      "name": "KFC Grand Prix - Race 4",
-      "tornRaceId": null,
-      "status": "pending",
-      "results": []
     }
   ],
   "teams": [
     {
-      "name": "DaxWolf",
-      "members": []
+      "name": "DaxWolf"
     },
     {
-      "name": "Devil's Crackers",
-      "members": []
+      "name": "Devil's Crackers"
     },
     {
-      "name": "J-Bit Protocol",
-      "members": []
+      "name": "J-Bit Protocol"
     },
     {
-      "name": "Caprider",
-      "members": []
+      "name": "Caprider"
     },
     {
-      "name": "Turbo Whisker",
-      "members": []
+      "name": "Turbo Whisker"
     },
     {
-      "name": "Midnight Delivery",
-      "members": []
+      "name": "Midnight Delivery"
     },
     {
-      "name": "Stroke & Slice",
-      "members": []
+      "name": "Stroke & Slice"
     },
     {
-      "name": "Litany of Teeth",
-      "members": []
+      "name": "Litany of Teeth"
     },
     {
-      "name": "Powercritters",
-      "members": []
+      "name": "Powercritters"
     },
     {
-      "name": "Purrmission Denied",
-      "members": []
+      "name": "Purrmission Denied"
     }
   ],
   "players": [
