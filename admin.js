@@ -82,7 +82,6 @@ async function fetchEventFromGitHub(eventName) {
     try {
         const timestamp = Date.now();
         const rawUrl = `https://raw.githubusercontent.com/deviyl/kfc-grand-prix/main/races/${encodeURIComponent(eventName)}.json?t=${timestamp}`;
-        console.log(`Fetching from GitHub: ${rawUrl}`);
         const response = await fetch(rawUrl);
         
         if (!response.ok) {
@@ -90,7 +89,6 @@ async function fetchEventFromGitHub(eventName) {
         }
         
         const eventData = await response.json();
-        console.log('Fetched from GitHub - race 3 score for Delldax:', eventData.standings.individual.find(p => p.id === 1978647)?.raceScores.find(rs => rs.race === 3)?.score);
         return eventData;
     } catch (error) {
         console.error('Error fetching from GitHub:', error);
@@ -101,17 +99,14 @@ async function fetchEventFromGitHub(eventName) {
 function applyManualScores(manualScores) {
     if (!eventManager.eventData) return;
 
-    console.log('Applying manual scores:', manualScores);
 
     Object.entries(manualScores).forEach(([raceIndex, playerScores]) => {
         const raceIdx = parseInt(raceIndex);
         const race = eventManager.eventData.races[raceIdx];
         if (!race) {
-            console.log(`Race ${raceIdx} not found`);
             return;
         }
 
-        console.log(`Processing race ${raceIdx}:`, playerScores);
 
         race.tornRaceId = 'manual';
         race.status = 'manual';
@@ -124,7 +119,6 @@ function applyManualScores(manualScores) {
                 oldPlayerIds.add(standing.id);
                 standing.totalScore -= existingRaceScore.score;
                 standing.raceScores = standing.raceScores.filter(rs => rs.race !== raceIdx);
-                console.log(`Removed old race ${raceIdx} from ${standing.name}`);
             }
         });
 
@@ -133,7 +127,6 @@ function applyManualScores(manualScores) {
             newPlayerIds.add(playerId);
             const player = eventManager.eventData.players.find(p => p.id === playerId);
             if (!player) {
-                console.log(`Player ${playerId} not found`);
                 return;
             }
 
@@ -150,14 +143,11 @@ function applyManualScores(manualScores) {
                     score: score,
                 });
                 standing.totalScore += score;
-                console.log(`Updated ${standing.name}: added race ${raceIdx} with ${score} points, total=${standing.totalScore}`);
             }
         });
         
-        console.log(`Race ${raceIdx} results after apply (${race.results.length} players):`, race.results);
     });
 
-    console.log('Manual scores applied - standings are final, NOT recalculating');
 }
 
 async function saveEventToGitHub(eventName, eventData) {
@@ -194,15 +184,11 @@ class EventManager {
 
     async loadEvent(eventName) {
         try {
-            console.log(`Loading event ${eventName}...`);
             const eventData = await fetchEventFromGitHub(eventName);
-            console.log('After fetchEventFromGitHub - race 3 score for Delldax:', eventData.standings.individual.find(p => p.id === 1978647)?.raceScores.find(rs => rs.race === 3)?.score);
-            console.log('Full Delldax raceScores:', eventData.standings.individual.find(p => p.id === 1978647)?.raceScores);
             
             if (eventData) {
                 this.eventData = eventData;
                 this.currentEvent = eventName;
-                console.log('After assigning to this.eventData - race 3 score for Delldax:', this.eventData.standings.individual.find(p => p.id === 1978647)?.raceScores.find(rs => rs.race === 3)?.score);
                 return this.eventData;
             }
             
@@ -870,7 +856,6 @@ function setupEventManagement() {
             manualScores: manualScores,
         };
 
-        console.log('Manual scores being saved:', manualScores);
 
         try {
             const submitBtn = eventForm.querySelector('button[type="submit"]');
@@ -889,9 +874,7 @@ function setupEventManagement() {
             
             eventFormContainer.style.display = 'none';
             
-            console.log('Saving event to GitHub...');
             await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
-            console.log('Event saved to GitHub');
             
             displayActiveEvent();
             alert('Event saved successfully!');
