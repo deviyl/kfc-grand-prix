@@ -917,29 +917,6 @@
         "team": "DaxWolf"
       },
       {
-        "id": 3157644,
-        "name": "SirJimboSliceSr",
-        "totalScore": 42,
-        "raceScores": [
-          {
-            "race": 0,
-            "position": 3,
-            "score": 18
-          },
-          {
-            "race": 1,
-            "position": 12,
-            "score": 9
-          },
-          {
-            "race": 2,
-            "position": 6,
-            "score": 15
-          }
-        ],
-        "team": "Stroke & Slice"
-      },
-      {
         "id": 3163147,
         "name": "bitek",
         "totalScore": 46,
@@ -981,6 +958,29 @@
             "race": 2,
             "position": 9,
             "score": 12
+          }
+        ],
+        "team": "Stroke & Slice"
+      },
+      {
+        "id": 3157644,
+        "name": "SirJimboSliceSr",
+        "totalScore": 42,
+        "raceScores": [
+          {
+            "race": 0,
+            "position": 3,
+            "score": 18
+          },
+          {
+            "race": 1,
+            "position": 12,
+            "score": 9
+          },
+          {
+            "race": 2,
+            "position": 6,
+            "score": 15
           }
         ],
         "team": "Stroke & Slice"
@@ -1351,70 +1351,13 @@
     ],
     "team": [
       {
-        "name": "Stroke & Slice",
-        "totalScore": 106,
-        "members": [
-          {
-            "id": 3157644,
-            "name": "SirJimboSliceSr",
-            "totalScore": 62,
-            "raceScores": [
-              {
-                "race": 0,
-                "position": 3,
-                "score": 18
-              },
-              {
-                "race": 1,
-                "position": 12,
-                "score": 9
-              },
-              {
-                "race": 2,
-                "position": 6,
-                "score": 15
-              },
-              {
-                "race": 3,
-                "position": 1,
-                "score": 20
-              }
-            ],
-            "team": "Stroke & Slice"
-          },
-          {
-            "id": 2939779,
-            "name": "JaydusStrokka",
-            "totalScore": 44,
-            "raceScores": [
-              {
-                "race": 0,
-                "position": 6,
-                "score": 15
-              },
-              {
-                "race": 1,
-                "position": 4,
-                "score": 17
-              },
-              {
-                "race": 2,
-                "position": 9,
-                "score": 12
-              }
-            ],
-            "team": "Stroke & Slice"
-          }
-        ]
-      },
-      {
         "name": "DaxWolf",
-        "totalScore": 105,
+        "totalScore": 86,
         "members": [
           {
             "id": 1978647,
             "name": "Delldax",
-            "totalScore": 61,
+            "totalScore": 46,
             "raceScores": [
               {
                 "race": 0,
@@ -1430,11 +1373,6 @@
                 "race": 2,
                 "position": 2,
                 "score": 19
-              },
-              {
-                "race": 3,
-                "position": 2,
-                "score": 15
               }
             ],
             "team": "DaxWolf"
@@ -1461,6 +1399,58 @@
               }
             ],
             "team": "DaxWolf"
+          }
+        ]
+      },
+      {
+        "name": "Stroke & Slice",
+        "totalScore": 86,
+        "members": [
+          {
+            "id": 2939779,
+            "name": "JaydusStrokka",
+            "totalScore": 44,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 6,
+                "score": 15
+              },
+              {
+                "race": 1,
+                "position": 4,
+                "score": 17
+              },
+              {
+                "race": 2,
+                "position": 9,
+                "score": 12
+              }
+            ],
+            "team": "Stroke & Slice"
+          },
+          {
+            "id": 3157644,
+            "name": "SirJimboSliceSr",
+            "totalScore": 42,
+            "raceScores": [
+              {
+                "race": 0,
+                "position": 3,
+                "score": 18
+              },
+              {
+                "race": 1,
+                "position": 12,
+                "score": 9
+              },
+              {
+                "race": 2,
+                "position": 6,
+                "score": 15
+              }
+            ],
+            "team": "Stroke & Slice"
           }
         ]
       },
