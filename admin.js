@@ -322,6 +322,17 @@ class EventManager {
             this.eventData.players.forEach(p => {
                 if (p.team === oldName) p.team = newName;
             });
+            this.eventData.standings.individual.forEach(p => {
+                if (p.team === oldName) p.team = newName;
+            });
+            this.eventData.standings.team.forEach(t => {
+                if (t.name === oldName) t.name = newName;
+                if (t.members) {
+                    t.members.forEach(m => {
+                        if (m.team === oldName) m.team = newName;
+                    });
+                }
+            });
             this.saveEvent();
         }
     }
