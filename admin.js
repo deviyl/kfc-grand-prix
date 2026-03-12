@@ -117,16 +117,20 @@ function applyManualScores(manualScores) {
         race.status = 'manual';
         race.results = [];
 
+        const oldPlayerIds = new Set();
         eventManager.eventData.standings.individual.forEach(standing => {
             const existingRaceScore = standing.raceScores.find(rs => rs.race === raceIdx);
             if (existingRaceScore) {
+                oldPlayerIds.add(standing.id);
                 standing.totalScore -= existingRaceScore.score;
                 standing.raceScores = standing.raceScores.filter(rs => rs.race !== raceIdx);
                 console.log(`Removed old race ${raceIdx} from ${standing.name}`);
             }
         });
 
+        const newPlayerIds = new Set();
         playerScores.forEach(({ playerId, score, position }) => {
+            newPlayerIds.add(playerId);
             const player = eventManager.eventData.players.find(p => p.id === playerId);
             if (!player) {
                 console.log(`Player ${playerId} not found`);
@@ -150,7 +154,7 @@ function applyManualScores(manualScores) {
             }
         });
         
-        console.log(`Race ${raceIdx} results after apply:`, race.results);
+        console.log(`Race ${raceIdx} results after apply (${race.results.length} players):`, race.results);
     });
 
     console.log('Manual scores applied - standings are final, NOT recalculating');
