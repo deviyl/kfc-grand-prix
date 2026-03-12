@@ -431,11 +431,13 @@ html, body {
 .standings-table th.sortable {
     cursor: pointer;
     user-select: none;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
+    position: relative;
 }
 
 .standings-table th.sortable:hover {
-    background: rgba(212, 175, 55, 0.2);
+    background: rgba(212, 175, 55, 0.3);
+    color: #ffeb99;
 }
 
 .standings-table td {
