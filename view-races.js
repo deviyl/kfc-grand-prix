@@ -118,14 +118,21 @@ document.getElementById('refreshBtn').addEventListener('click', async () => {
             console.log('Event fetched, displaying...');
             displayEvent(eventData);
             console.log('Event displayed');
+            refreshBtn.textContent = '✓ Updated';
+            setTimeout(() => {
+                refreshBtn.textContent = originalText;
+            }, 2000);
         } else {
             console.log('No event selected');
         }
     } catch (error) {
         console.error('Error refreshing:', error);
+        refreshBtn.textContent = '✗ Error';
+        setTimeout(() => {
+            refreshBtn.textContent = originalText;
+        }, 2000);
     } finally {
         refreshBtn.disabled = false;
-        refreshBtn.textContent = originalText;
     }
 });
 
