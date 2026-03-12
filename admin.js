@@ -850,9 +850,7 @@ function setupEventManagement() {
                     }
                 }
             });
-            if (playerScores.length > 0) {
-                manualScores[raceIndex] = playerScores;
-            }
+            manualScores[raceIndex] = playerScores;
         });
 
         const eventConfig = {
@@ -865,6 +863,8 @@ function setupEventManagement() {
             prize3rd: document.getElementById('prize3rd').value,
             manualScores: manualScores,
         };
+
+        console.log('Manual scores being saved:', manualScores);
 
         try {
             const submitBtn = eventForm.querySelector('button[type="submit"]');
