@@ -746,7 +746,7 @@
           "position": 1
         },
         {
-          "driver_id": 3157644,
+          "driver_id": 2939779,
           "position": 2
         }
       ]
@@ -957,7 +957,7 @@
       {
         "id": 2939779,
         "name": "JaydusStrokka",
-        "totalScore": 44,
+        "totalScore": 63,
         "raceScores": [
           {
             "race": 0,
@@ -973,6 +973,11 @@
             "race": 2,
             "position": 9,
             "score": 12
+          },
+          {
+            "race": 3,
+            "position": 2,
+            "score": 19
           }
         ],
         "team": "Stroke & Slice"
@@ -980,7 +985,7 @@
       {
         "id": 3157644,
         "name": "SirJimboSliceSr",
-        "totalScore": 61,
+        "totalScore": 42,
         "raceScores": [
           {
             "race": 0,
@@ -996,11 +1001,6 @@
             "race": 2,
             "position": 6,
             "score": 15
-          },
-          {
-            "race": 3,
-            "position": 2,
-            "score": 19
           }
         ],
         "team": "Stroke & Slice"
