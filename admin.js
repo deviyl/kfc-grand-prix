@@ -216,6 +216,7 @@ class EventManager {
     async createEvent(eventConfig) {
         const eventData = {
             name: eventConfig.eventName,
+            locked: false,
             createdAt: new Date().toISOString(),
             races: eventConfig.raceNames.map((name, index) => ({
                 index: index,
@@ -818,6 +819,11 @@ function setupEventManagement() {
     eventForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
+        if (eventManager.eventData?.locked) {
+            alert('This event is locked and cannot be modified.');
+            return;
+        }
+
         const raceNames = Array.from(document.querySelectorAll('.race-name-input'))
             .map(input => input.value);
 
@@ -901,6 +907,10 @@ function setupEventManagement() {
     });
 
     editEventBtn.addEventListener('click', () => {
+        if (eventManager.eventData?.locked) {
+            alert('This event is locked and cannot be edited.');
+            return;
+        }
         editingEvent = true;
         document.getElementById('eventFormTitle').textContent = 'Edit Event';
         
@@ -994,6 +1004,32 @@ function setupEventManagement() {
         }
     });
 
+    const lockEventBtn = document.getElementById('lockEventBtn');
+    lockEventBtn.addEventListener('click', async () => {
+        if (eventManager.eventData?.locked) {
+            alert('This event is already locked.');
+            return;
+        }
+
+        const confirmed = confirm('Are you sure you want to lock this event? This action is PERMANENT and CANNOT be undone. The event will be archived and no further edits will be allowed.');
+        
+        if (confirmed) {
+            try {
+                eventManager.eventData.locked = true;
+                await saveEventToGitHub(eventManager.eventData.name, eventManager.eventData);
+                alert('Event locked successfully. This event is now archived.');
+                lockEventBtn.disabled = true;
+                lockEventBtn.textContent = '🔒 Locked';
+                editEventBtn.disabled = true;
+                deleteEventBtn.disabled = true;
+                document.getElementById('savePlayersBtn').disabled = true;
+                document.getElementById('fetchResultsBtn').disabled = true;
+            } catch (error) {
+                alert('Error locking event: ' + error.message);
+            }
+        }
+    });
+
     async function displayActiveEvent() {
         if (!eventManager.eventData) return;
 
@@ -1007,6 +1043,15 @@ function setupEventManagement() {
         document.getElementById('playerManagementSection').style.display = 'block';
         document.getElementById('raceResultsSection').style.display = 'block';
         document.getElementById('standingsSection').style.display = 'block';
+        
+        if (eventManager.eventData.locked) {
+            lockEventBtn.disabled = true;
+            lockEventBtn.textContent = '🔒 Locked';
+            editEventBtn.disabled = true;
+            deleteEventBtn.disabled = true;
+            document.getElementById('savePlayersBtn').disabled = true;
+            document.getElementById('fetchResultsBtn').disabled = true;
+        }
 
         displayStandings();
         displayPlayers();
@@ -1180,6 +1225,11 @@ function setupPlayerManagement() {
     const savePlayersBtn = document.getElementById('savePlayersBtn');
 
     savePlayersBtn.addEventListener('click', async () => {
+        if (eventManager.eventData?.locked) {
+            alert('This event is locked and cannot be modified.');
+            return;
+        }
+
         try {
             savePlayersBtn.disabled = true;
             savePlayersBtn.textContent = 'Saving...';
@@ -1332,6 +1382,11 @@ function setupRaceResults() {
     fetchResultsBtn.addEventListener('click', async () => {
         if (!eventManager.eventData) {
             alert('No event loaded');
+            return;
+        }
+
+        if (eventManager.eventData?.locked) {
+            alert('This event is locked and cannot be modified.');
             return;
         }
 
