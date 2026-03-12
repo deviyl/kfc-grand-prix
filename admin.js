@@ -1300,7 +1300,7 @@ function displayRaces() {
                 </div>
             </div>
             <div class="race-results">
-                ${race.results.length ? race.results.slice(0, 10).map(result => {
+                ${race.results.length ? race.results.map(result => {
                     const player = eventManager.eventData.players.find(p => p.id === result.driver_id);
                     const playerStanding = eventManager.eventData.standings.individual.find(p => p.id === result.driver_id);
                     const raceScore = playerStanding?.raceScores?.find(rs => rs.race === index);
@@ -1326,13 +1326,13 @@ function displayStandings() {
     const standings = eventManager.eventData.standings;
 
     let html = '<table class="standings-table"><thead><tr>';
-    html += '<th>Rank</th><th>Name</th>';
+    html += '<th class="sortable" data-sort="rank">Rank</th><th class="sortable" data-sort="name">Name</th>';
     
     eventManager.eventData.races.forEach((race, index) => {
-        html += `<th>R${index + 1}</th>`;
+        html += `<th class="sortable" data-sort="race-${index}">R${index + 1}</th>`;
     });
     
-    html += '<th>Total Score</th></tr></thead><tbody>';
+    html += '<th class="sortable" data-sort="total">Total Score</th></tr></thead><tbody>';
 
     standings.individual.forEach((player, index) => {
         html += `<tr>
@@ -1367,6 +1367,35 @@ function displayStandings() {
     }
 
     standingsDisplay.innerHTML = html;
+    
+    document.querySelectorAll('th.sortable').forEach(header => {
+        header.style.cursor = 'pointer';
+        header.style.userSelect = 'none';
+        header.addEventListener('click', () => sortStandings(header.dataset.sort));
+    });
+}
+
+function sortStandings(sortBy) {
+    if (!eventManager.eventData) return;
+    
+    const standings = eventManager.eventData.standings.individual;
+    
+    if (sortBy === 'rank') {
+        standings.sort((a, b) => b.totalScore - a.totalScore);
+    } else if (sortBy === 'name') {
+        standings.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortBy === 'total') {
+        standings.sort((a, b) => b.totalScore - a.totalScore);
+    } else if (sortBy.startsWith('race-')) {
+        const raceIndex = parseInt(sortBy.split('-')[1]);
+        standings.sort((a, b) => {
+            const scoreA = a.raceScores.find(rs => rs.race === raceIndex)?.score || 0;
+            const scoreB = b.raceScores.find(rs => rs.race === raceIndex)?.score || 0;
+            return scoreB - scoreA;
+        });
+    }
+    
+    displayStandings();
 }
 
 function setupRaceResults() {
