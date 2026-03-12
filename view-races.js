@@ -107,23 +107,17 @@ document.getElementById('refreshBtn').addEventListener('click', async () => {
     refreshBtn.disabled = true;
     refreshBtn.textContent = 'Refreshing...';
     
-    console.log('Refresh button clicked');
     
     try {
         const selectedEvent = document.getElementById('eventSelect').value;
-        console.log('Selected event:', selectedEvent);
         if (selectedEvent) {
-            console.log('Fetching from GitHub...');
             const eventData = await fetchEventFromGitHub(selectedEvent);
-            console.log('Event fetched, displaying...');
             displayEvent(eventData);
-            console.log('Event displayed');
             refreshBtn.textContent = '✓ Updated';
             setTimeout(() => {
                 refreshBtn.textContent = originalText;
             }, 2000);
         } else {
-            console.log('No event selected');
         }
     } catch (error) {
         console.error('Error refreshing:', error);
@@ -266,8 +260,6 @@ function displayStandings(eventData) {
 
 function displayRaceResults(eventData) {
     const racesDisplay = document.getElementById('racesResultsDisplay');
-    console.log('displayRaceResults called with:', eventData?.name, 'races:', eventData?.races?.length);
-    console.log('racesDisplay element:', racesDisplay);
     racesDisplay.innerHTML = '';
 
     if (!eventData || !eventData.races || eventData.races.length === 0) {
@@ -323,7 +315,6 @@ function displayRaceResults(eventData) {
 
         racesDisplay.appendChild(card);
     });
-    console.log('displayRaceResults completed, races displayed:', eventData.races.length);
 }
 
 
